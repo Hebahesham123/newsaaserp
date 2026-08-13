@@ -1,36 +1,116 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Green ERP
 
-## Getting Started
+Integrated E-Commerce Operations & Fulfillment Management Platform.
 
-First, run the development server:
+Built from `docs/spec/green-erp-spec-sections-1-9.pdf` — a 439-page bilingual (AR/EN) specification covering
+orders, confirmation, inventory, fulfillment, shipping, collections, finance and BI.
+
+**Stack:** Next.js 16 (App Router, TypeScript) · Supabase (Postgres + Auth + RLS + Storage) · Tailwind CSS v4
+
+---
+
+## Status
+
+| Phase | Scope | State |
+|---|---|---|
+| 0 | Foundations & scaffold | **Shipped** |
+| 1 | Tenancy, identity & access (§1, §2) | **Shipped** |
+| 2 | Catalog & pricing (§3) | Next |
+| 3 | Orders & Confirmation Center, incl. Shopify (§4) | Channel adapter ready |
+| 4 | Warehouse, inventory & fulfillment (§5) | Planned |
+| 5 | Shipping, returns & COD collections (§6) | Planned |
+| 6 | Finance, settlements & profitability (§7) | Planned |
+| 7 | Reports & BI (§9) | Planned |
+| 8 | Marketing, affiliate & customer service (§8) | Awaiting spec section |
+
+Full breakdown: [`docs/ROADMAP.md`](docs/ROADMAP.md).
+A static preview of the shipped UI: [`docs/ui-preview.html`](docs/ui-preview.html).
+
+---
+
+## Getting started
+
+### 1. Install
+
+```bash
+npm install
+```
+
+### 2. Create a Supabase project
+
+Sign up at [supabase.com](https://supabase.com), create a project, then copy the credentials:
+
+```bash
+cp .env.example .env.local
+```
+
+Fill in from **Project Settings → API**:
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
+
+Generate the credential-encryption key:
+
+```bash
+npm run gen:key    # paste the output into CREDENTIAL_ENCRYPTION_KEY
+```
+
+### 3. Apply the database
+
+```bash
+npx supabase login
+npm run db:link       # select your project
+npm run db:push       # applies supabase/migrations in order
+```
+
+> A local stack (`npm run db:reset`) additionally needs Docker Desktop running.
+
+### 4. Run
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The **first account to sign up becomes the platform owner** (§1.7). Every subsequent account must be
+invited by an administrator — the database rejects uninvited signups.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Shopify
 
-## Learn More
+The Shopify adapter is written and complete. It is waiting on credentials, not on code.
 
-To learn more about Next.js, take a look at the following resources:
+Until a Shopify Partner app exists, every store runs on the **mock provider**: a full `ChannelAdapter`
+implementation with deterministic fixtures and a webhook simulator. The whole order pipeline is
+therefore buildable and testable now.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+When credentials arrive:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Fill `SHOPIFY_API_KEY` / `SHOPIFY_API_SECRET` in `.env.local`.
+2. Install the app on the store (OAuth), which writes an encrypted token to `store_credentials`.
+3. Set the store's `provider` column to `shopify`.
 
-## Deploy on Vercel
+No application code changes. The webhook endpoint is already live at
+`/api/webhooks/shopify/<storeId>` and rejects any request whose HMAC signature does not verify.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Commands
+
+| Command | Purpose |
+|---|---|
+| `npm run dev` | Development server |
+| `npm run build` | Production build |
+| `npm run typecheck` | TypeScript, no emit |
+| `npm run lint` | ESLint |
+| `npm run db:push` | Apply migrations to the linked project |
+| `npm run db:types` | Regenerate database types from the live schema |
+| `npm run gen:key` | Generate a credential-encryption key |
+
+---
+
+## Architecture notes
+
+See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the decisions that matter — tenant isolation,
+the four-level permission model, the audit trail, and the channel adapter design.

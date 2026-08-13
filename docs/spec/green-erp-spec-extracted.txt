@@ -1,0 +1,13169 @@
+
+===== PAGE 1 =====
+المشروعونطاق النظامعلى عامةنظرة :الولالقسم 
+Section 1: System Overview and
+Project Scope
+1.1المؤقتالمشروع اسم
+1.1 Green ERP Project
+العربية
+والـاللكترونية التجارةعمليات لدارةمتكاملة منصةFulfillment.
+English
+Integrated E-Commerce Operations and Fulfillment Management Platform.
+1.2المشروعمقدمة 
+1.2 Project Introduction
+العربية
+وقنواتالمتاجر ربطمن بداية، اللكترونيةالتجارة عملياتلدارة متكاملةمركزية منصةإنشاء إلىالمشروع يهدف
+التصصيلتإدارة إلىوصوًل ،ومتابعتهاوشصنها وتجهيزهاوتأكيدها الطلباتباستقبال مرورلا ،المختلفةالبيع 
+والتشغيليةالمالية والتقاريروالمصروفات .
+تقدمالتي الشركاتإلى بالضافة، متاجرعدة أوواصدلا إلكترونيلامتجرلا تمتلكالتي الشركاتليخدم النظامتصميم سيتم
+الـبنظام آخرينتجار لصالحوالشصن والتجهيزوالتخزين الطلباتإدارة خدماتFulfillment Centerالطرفأو 
+3الثالثPL.
+مثلاللكترونية التجارةمنصات معللربط قابللالنظام يكونأن يجبShopifyوWooCommerce،إلى بالضافة
+الـمنصات MarketplaceمثلAmazonوNoon،واجهات خللمن مستقبللأخرى منصاتإضافة إمكانيةمع 
+البرمجيةالربط APIs.
+منتلقائيلا استقبالهايتم التيالطلبات جانبإلى ،ملفاتمن استيرادهاأو يدويلاالطلبات بإضافةالنظام يسمحأن يجبكما 
+المرتبطةوالمنصات المتاجر.
+English
+===== PAGE 2 =====
+The project aims to develop a centralized and integrated platform for managing end-
+to-end e-commerce operations. The system will cover the complete order lifecycle,
+starting from connecting online stores and sales channels, receiving and confirming
+orders, managing inventory and fulfillment, shipping and delivery follow-up, and
+ending with collections, expenses, financial reconciliation, and operational reporting.
+The platform will be designed to serve businesses operating one or multiple online
+stores, as well as companies providing order management, warehousing, fulfillment,
+and shipping services to third-party merchants under a Fulfillment Center or Third-
+Party Logistics model.
+The system must support integrations with e-commerce platforms such as Shopify
+and WooCommerce, in addition to marketplaces such as Amazon and Noon. The
+architecture should also allow additional platforms to be connected in the future
+through APIs.
+The platform must support manual order creation, file-based order imports, and
+automated order synchronization from connected stores and marketplaces.
+1.3النظاممن الرئيسيالهدف 
+1.3 Main System Objective
+العربية
+بمتابعةللدارة يسمحبما ،واصدةمنصة داخلاللكترونية التجارةعمليات جميعتوصيد هوالنظام منالرئيسي الهدف
+موصدةبيانات خللمن والمسوقينوالتجار الموظفينوأداء والمصروفاتوالتصصيلت والشصنوالمخزون الطلبات
+ومصدثة.
+علىالنظام يساعدأن يجب:
+
+التشغيليةوالخطاء اليدويالعمل تقليل.
+
+
+الطلباتمعالجة فيالمستغرق الوقتتقليل .
+
+
+الطلباتوتسليم تأكيدمعدًت زيادة.
+
+
+والمرتجعاتاللغاء معدًتتقليل .
+===== PAGE 3 =====
+
+
+المخزوندقة تصسين.
+
+
+الشصنشركات اختيارتصسين .
+
+
+بدقةالنقدية التصصيلتمتابعة .
+
+
+وتاجرومتجر ومنتجطلب لكلالفعلية الربصيةقياس .
+
+
+واصدمركزي صسابخلل منمتجر أوتاجر منأكثر إدارة.
+
+
+البياناتعلى مبنيةوتسويقية وماليةتشغيلية قراراتاتخاذ علىالدارة تساعدتقارير توفير.
+
+English
+The main objective of the system is to centralize all e-commerce operations within
+one platform, enabling management to monitor orders, inventory, shipping,
+collections, expenses, employee performance, merchant performance, and affiliate
+performance using unified and continuously updated data.
+The system should help businesses:
+
+Reduce manual work and operational errors.
+
+
+Reduce order processing time.
+
+
+===== PAGE 4 =====
+Increase order confirmation and delivery rates.
+
+
+Reduce cancellations and returns.
+
+
+Improve inventory accuracy.
+
+
+Improve courier selection.
+
+
+Track cash-on-delivery collections accurately.
+
+
+Measure the actual profitability of each order, product, store, and merchant.
+
+
+Manage multiple merchants and stores from one centralized account.
+
+
+Provide operational, financial, and marketing reports that support data-driven
+decision-making.
+
+1.4النظامتشغيل نموذج
+1.4 System Operating Models
+العربية
+نشاطهالطبيعة المناسبالنموذج اختيارشركة كلتستطيع بصيث، تشغيلنموذج منأكثر النظاميدعم أنيجب .
+للشركةمملوك متجرإدارة نموذج: ووًل
+===== PAGE 5 =====
+والتأكيدالطلبات بإدارةوتقوم ،والمخزونوالمنتجات للمتجرالمالكة هيالشركة تكونعندما النموذجهذا يستخدم
+النظامخلل منوالتصصيلت والشصنوالتجهيز .
+المتاجرتعدد نموذج: ثانيلا
+المنتجاتفصل مع، واصدصساب داخلتجارية علمةأو إلكترونيمتجر منأكثر بإدارةللشركة النموذجهذا يسمح
+متجربكل الخاصةوالتقارير والمخزونوالطلبات .
+الـنموذج :ثالثلاFulfillment Center
+لصالصهمالطلبات وتنفيذآخرين تجارمنتجات بتخزينالشركة تقومعندما النموذجهذا يستخدم.
+يليبما النموذجهذا فيالنظام يسمحأن يجب:
+
+تاجرلكل مستقلصساب إنشاء.
+
+
+الواصدبالتاجر متجرمن أكثرربط .
+
+
+التجارباقي عنتاجر كلمخزون فصل.
+
+
+التخزينتكاليف اصتساب.
+
+
+البضائعاستلم تكاليفاصتساب .
+
+
+والتغليفالتجهيز تكاليفاصتساب .
+
+
+الشصنتكاليف اصتساب.
+
+
+المرتجعاتتكاليف اصتساب.
+===== PAGE 6 =====
+
+
+تاجرلكل دوريصساب كشفإصدار .
+
+
+تاجرلكل مختلفةخدمات أسعارتصديد .
+
+
+الـشركة عليهاتصصل التيالعمولة أوالربح اصتسابFulfillment.
+
+فقطالعمليات إدارةنموذج :رابعلا
+دون، التاجرلصالح العملءخدمة أوالشصن متابعةأو الطلباتتأكيد بإدارةالشركة تقومعندما النموذجهذا يستخدم
+الشركةمخازن داخلالمنتجات تخزين.
+الـنموذج :خامسلاMarketplace
+عبرمنتجاتهم ببيعيقومون الذينالتجار النموذجهذا يدعمAmazonأوNoonأيأو Marketplaceآخر.
+صالتينالنظام يدعمأن ويجب:
+
+مخازنهأو التاجرخلل منتنفيذها يتمالتي الطلبات.
+
+
+الـمخازن خللمن تنفيذهايتم التيالطلبات MarketplaceمثلFBAأوFBN.
+
+English
+The system must support multiple operating models, allowing each business to select
+the model that matches its operational structure.
+First: Company-Owned Store Model
+This model applies when the company owns the store, products, and inventory and
+manages order processing, confirmation, fulfillment, shipping, and collections through
+the system.
+Second: Multi-Store Model
+===== PAGE 7 =====
+This model allows a company to manage multiple online stores or brands under one
+account while maintaining separate products, orders, inventory, users, and reports
+for each store.
+Third: Fulfillment Center Model
+This model applies when the company stores and fulfills products on behalf of third-
+party merchants.
+Under this model, the system must support:
+
+Creating a separate account for each merchant.
+
+
+Connecting multiple stores to one merchant.
+
+
+Separating each merchant’s inventory.
+
+
+Calculating storage charges.
+
+
+Calculating inbound receiving fees.
+
+
+Calculating picking and packing fees.
+
+
+Calculating shipping fees.
+
+
+Calculating return handling fees.
+
+
+===== PAGE 8 =====
+Generating periodic merchant statements.
+
+
+Defining customized service pricing for each merchant.
+
+
+Calculating the fulfillment company’s fees, commissions, and profit.
+
+Fourth: Operations Management Model
+This model applies when the company provides order confirmation, customer service,
+or shipping follow-up services to merchants without storing the merchants’ products
+in its warehouses.
+Fifth: Marketplace Model
+This model supports merchants selling their products through marketplaces such as
+Amazon and Noon.
+The system must support:
+
+Merchant-fulfilled marketplace orders.
+
+
+Marketplace-fulfilled orders, including fulfillment models such as FBA and
+FBN.
+
+1.5النظامنطاق 
+1.5 System Scope
+العربية
+التاليةالرئيسية الوصداتإدارة المشروعنطاق يشمل:
+1.
+===== PAGE 9 =====
+والشركاتالصسابات إدارة.
+2.
+3.
+التجارإدارة .
+4.
+5.
+البيعوقنوات المتاجرإدارة .
+6.
+7.
+والصلصياتالمستخدمين إدارة.
+8.
+9.
+والمتغيراتالمنتجات إدارة.
+10.
+11.
+والمخازنالمخزون إدارة.
+12.
+13.
+الطلباتإدارة .
+14.
+15.
+الطلباتتأكيد مركز.
+16.
+17.
+والتغليفالتجهيز إدارة.
+18.
+19.
+الشصنشركات إدارة.
+20.
+21.
+الشصناتمتابعة مركز.
+===== PAGE 10 =====
+22.
+23.
+واًستبداًتالمرتجعات إدارة.
+24.
+25.
+التصصيلتإدارة .
+26.
+27.
+الماليةالصسابات إدارة.
+28.
+29.
+التسويقمصروفات إدارة.
+30.
+31.
+بالعمولةالمسوقين إدارة.
+32.
+33.
+الـإدارة Marketplace.
+34.
+35.
+العملءخدمة إدارة.
+36.
+37.
+والتذاكرالشكاوى إدارة.
+38.
+39.
+التصكمولوصات التقاريرإدارة .
+40.
+41.
+والتنبيهاتالشعارات إدارة.
+42.
+===== PAGE 11 =====
+43.
+الـإدارة Workflowsوالتمتة.
+44.
+45.
+والـالتكاملت إدارةAPIs.
+46.
+47.
+اًصطناعيالذكاء خصائصإدارة .
+48.
+49.
+النظامإعدادات إدارة.
+50.
+English
+The project scope includes the following main modules:
+1.
+Account and company management.
+2.
+3.
+Merchant management.
+4.
+5.
+Store and sales channel management.
+6.
+7.
+User and permission management.
+8.
+9.
+Product and variant management.
+10.
+11.
+===== PAGE 12 =====
+Inventory and warehouse management.
+12.
+13.
+Order management.
+14.
+15.
+Order confirmation center.
+16.
+17.
+Picking and packing management.
+18.
+19.
+Courier and shipping management.
+20.
+21.
+Shipment follow-up center.
+22.
+23.
+Return and exchange management.
+24.
+25.
+Collection management.
+26.
+27.
+Financial and accounting management.
+28.
+29.
+Marketing expense management.
+30.
+31.
+Affiliate and commission management.
+===== PAGE 13 =====
+32.
+33.
+Marketplace management.
+34.
+35.
+Customer service management.
+36.
+37.
+Complaint and ticket management.
+38.
+39.
+Reporting and dashboard management.
+40.
+41.
+Notification and alert management.
+42.
+43.
+Workflow and automation management.
+44.
+45.
+Integration and API management.
+46.
+47.
+Artificial intelligence features.
+48.
+49.
+System settings management.
+50.
+1.6الطلباتاستلم قنوات
+===== PAGE 14 =====
+1.6 Order Sources
+العربية
+التاليةالمصادر منالطلبات استقبالالنظام يستطيعأن يجب:
+
+Shopify.
+
+
+WooCommerce.
+
+
+Amazon.
+
+
+Noon.
+
+
+المخصصةالمتاجر Custom-Built Stores.
+
+
+الهاتفتطبيقات .
+
+
+الـSocial Commerce.
+
+
+الهاتفيةالطلبات .
+
+
+يدويلاإدخالها يتمالتي الطلبات.
+
+
+===== PAGE 15 =====
+ملفاتExcelوCSV.
+
+
+الربطواجهات APIs.
+
+
+البيعنقاط POS.
+
+
+والمعارضالفروع .
+
+
+أومنصات Marketplacesمستقبللإضافتها يتم.
+
+بالطلبالمرتبط المسوقأو الصملةأو القناةأو المتجرباسم اًصتفاظمع ،واضحبشكل طلبكل مصدرتسجيل يجب.
+English
+The system must receive orders from the following sources:
+
+Shopify.
+
+
+WooCommerce.
+
+
+Amazon.
+
+
+Noon.
+
+
+===== PAGE 16 =====
+Custom-built online stores.
+
+
+Mobile applications.
+
+
+Social commerce channels.
+
+
+Telephone orders.
+
+
+Manually created orders.
+
+
+Excel and CSV files.
+
+
+APIs.
+
+
+Point-of-sale systems.
+
+
+Retail branches and showrooms.
+
+
+Additional marketplaces or platforms added in the future.
+
+Each order must have a clearly recorded source, including the associated store,
+sales channel, campaign, or affiliate.
+===== PAGE 17 =====
+1.7الرئيسيينالمستخدمين ونواع
+1.7 Main User Types
+العربية
+وظيفيدور أومستخدم لكلالصلصيات تخصيصإمكانية مع، المستخدمينمن مختلفةأنواع إنشاءالنظام يدعمأن يجب.
+الساسيةالمستخدمين أنواعتشمل :
+
+النظاممالك .
+
+
+النظاممدير .
+
+
+الشركةمدير .
+
+
+التاجر.
+
+
+المتجرمدير .
+
+
+العملياتمدير .
+
+
+التأكيدفريق مدير.
+
+
+الطلباتتأكيد موظف.
+
+
+===== PAGE 18 =====
+العملءخدمة موظف.
+
+
+المخزنمدير .
+
+
+استلمموظف .
+
+
+تجهيزموظف .
+
+
+تغليفموظف .
+
+
+جردموظف .
+
+
+الشصنمدير .
+
+
+الشصناتمتابعة موظف.
+
+
+التصصيلتموظف .
+
+
+الصساباتموظف .
+
+
+التسويقمدير .
+===== PAGE 19 =====
+
+
+بالعمولةالمسوق .
+
+
+الجودةمدير .
+
+
+المراجع.
+
+
+فقطتقارير مستخدم.
+
+
+مستخدمAPIأوIntegration User.
+
+شركةكل اصتياجاتصسب إضافيةأدوار بإنشاءالنظام يسمحأن يجب.
+English
+The system must support multiple user types with configurable permissions for each
+user or role.
+The main user types include:
+
+System owner.
+
+
+System administrator.
+
+
+Company administrator.
+
+
+===== PAGE 20 =====
+Merchant.
+
+
+Store manager.
+
+
+Operations manager.
+
+
+Confirmation team leader.
+
+
+Confirmation agent.
+
+
+Customer service agent.
+
+
+Warehouse manager.
+
+
+Receiving employee.
+
+
+Picking employee.
+
+
+Packing employee.
+
+
+Inventory controller.
+===== PAGE 21 =====
+
+
+Shipping manager.
+
+
+Shipment follow-up agent.
+
+
+Collection officer.
+
+
+Accountant.
+
+
+Marketing manager.
+
+
+Affiliate marketer.
+
+
+Quality assurance officer.
+
+
+Auditor.
+
+
+Reports-only user.
+
+
+API or integration user.
+
+===== PAGE 22 =====
+The system must allow each company to create additional customized roles.
+1.8الحساباتهيكل 
+1.8 Account Structure
+العربية
+المستوياتمتعدد صساباتهيكل علىالنظام يعتمدأن يجب.
+كالتاليالمقترح الهيكليكون :
+النظام
+المنصةعلى المسجلةالشركات جميعيتضمن .
+الشركة
+الـخدمات تقدمأو النظامتستخدم التيالجهة تمثلFulfillment.
+التاجر
+التجاريةالعلمة أوالمنتجات مالكيمثل .
+المتجر
+متجرمثل ،بالتاجرالمرتبطة البيعقناة يمثلShopifyصسابأو Amazonمتجرأو Noon.
+المخزن
+الطلباتوتنفيذ المنتجاتتخزين فيهيتم الذيالفعلي الموقعيمثل .
+المستخدم
+النظاميستخدم الذيالتاجر أوالمدير أوالموظف يمثل.
+مخزونتوزيع ويمكن، متاجرعدة الواصدالتاجر يمتلكأن ويمكن، تجارعدة علىالواصدة الشركةتصتوي أنيمكن 
+مخزنمن أكثرعلى التاجر.
+English
+The platform must use a multi-level account structure.
+The proposed hierarchy is:
+System
+Contains all companies registered on the platform.
+Company
+===== PAGE 23 =====
+Represents the organization using the system or providing fulfillment services.
+Merchant
+Represents the owner of the products or brand.
+Store
+Represents a merchant sales channel, such as a Shopify store, Amazon seller
+account, or Noon store.
+Warehouse
+Represents the physical location where products are stored and orders are fulfilled.
+User
+Represents an employee, manager, merchant, or other authorized system user.
+One company may manage multiple merchants. One merchant may own multiple
+stores, and the merchant’s inventory may be distributed across multiple warehouses.
+1.9للنظامالعامة المتطلبات
+1.9 General System Requirements
+العربية
+التاليةالعامة المتطلباتالنظام يصققأن يجب:
+
+الويبمتصفح خللمن العمل.
+
+
+والموبايلوالتابلت الكمبيوترأجهزة دعم.
+
+
+المختلفةالضرائب دعم.
+
+
+المنصةنفس داخلشركة منأكثر دعم.
+
+===== PAGE 24 =====
+
+الخرىالشركات عنشركة كلبيانات فصل.
+
+
+فيالعمليات جميعتسجيل Audit Log.
+
+
+التغييراتبتاريخ اًصتفاظ.
+
+
+والبياناتوالوظيفة الشاشةمستوى علىدقيقة صلصياتتوفير .
+
+
+بهالمصرح غيرالوصول منالبيانات صماية.
+
+
+إلىالبيانات تصديرإمكانية ExcelوCSVوPDF.
+
+
+منالبيانات استيرادإمكانية ExcelوCSV.
+
+
+الشاشاتجميع فيوفلتر متقدمبصث توفير.
+
+
+النظامداخل إشعاراتتوفير .
+
+
+وواتسابالنصية والرسائلاللكتروني البريددعم .
+
+
+===== PAGE 25 =====
+دعمWebhooksوAPIs.
+
+
+والطلباتوالمتاجر التجارمن كبيرعدد لضافةالتوسع قابلية.
+
+
+البياناتواستعادة اًصتياطيللنسخ آليةوجود .
+
+
+خارجيةأنظمة معالتكامل دعم.
+
+
+مستقلبشكل شركةكل إعداداتتخصيص إمكانية.
+
+English
+The system must meet the following general requirements:
+
+Operate through a web browser.
+
+
+Support desktop, tablet, and mobile devices.
+
+
+Support different tax structures.
+
+
+Support multiple companies within the same platform.
+
+
+Maintain complete data separation between companies.
+===== PAGE 26 =====
+
+
+Record all system activities in an audit log.
+
+
+Maintain a full change history.
+
+
+Provide detailed permissions at screen, function, and data levels.
+
+
+Protect data against unauthorized access.
+
+
+Allow data export to Excel, CSV, and PDF.
+
+
+Allow data imports from Excel and CSV.
+
+
+Provide advanced search and filtering across all screens.
+
+
+Provide in-system notifications.
+
+
+Support email, SMS, and WhatsApp communication.
+
+
+Support webhooks and APIs.
+
+
+===== PAGE 27 =====
+Scale to support large numbers of merchants, stores, users, and orders.
+
+
+Provide backup and data recovery mechanisms.
+
+
+Support integration with external systems.
+
+
+Allow each company to configure its own settings independently.
+
+1.10النظاملتصميم الساسيةالمبادئ 
+1.10 Core System Design Principles
+العربية
+التاليةالمبادئ وفقالنظام تصميميجب :
+البياناتمركزية 
+واصدةمنصة خللمن متاصةوالتجارية والماليةالتشغيلية البياناتجميع تكونأن يجب.
+المرونة
+والتجارالشركات بينالتشغيل سياساتاختلف معالتكيف النظاميستطيع أنيجب .
+التخصيصقابلية 
+والـاللغاء وأسبابالطلبات صاًتتكون أنيجب Workflowsللتخصيصقابلة والشعاراتوالتقارير .
+التوسعقابلية 
+بالكاملالنظام بناءإعادة إلىالصاجة دونجديدة منصاتربط أوجديدة وصداتبإضافة النظامبنية تسمحأن يجب.
+الكاملالتتبع 
+الصساباتأو المخزونأو المنتجأو الطلبعلى تتمالتي والتعديلتالصركات جميعتسجيل يجب.
+التمتة
+الـخلل مناليدوي التدخلتقليل يجبWorkflowsاًصطناعيوالذكاء الليةوالقواعد .
+===== PAGE 28 =====
+البياناتبين الفصل
+المصددةللصلصيات وفقلاومخزن ومتجروتاجر شركةكل بياناتفصل يجب.
+التقاريردقة 
+للمراجعةوقابلة ومترابطةموصدة بياناتعلى التقاريرتعتمد أنيجب .
+English
+The system must be designed according to the following principles:
+Data Centralization
+All operational, financial, commercial, and performance data must be available
+through one centralized platform.
+Flexibility
+The system must adapt to different operating policies across companies and
+merchants.
+Customization
+Order statuses, cancellation reasons, workflows, reports, notifications, and business
+rules must be configurable.
+Scalability
+The architecture must allow new modules, platforms, couriers, and integrations to be
+added without rebuilding the entire system.
+Full Traceability
+Every action and change related to orders, products, inventory, users, and financial
+transactions must be recorded.
+Automation
+Manual intervention should be minimized using workflows, automated business rules,
+and artificial intelligence.
+Data Segregation
+Company, merchant, store, and warehouse data must be separated according to the
+applicable access permissions.
+Reporting Accuracy
+Reports must be based on unified, interconnected, and auditable data.
+1.11النظامتطبيق منالمتوقعة النتائج
+===== PAGE 29 =====
+1.11 Expected System Outcomes
+العربية
+إلىالنظام تطبيقيؤدي أنالمتوقع من:
+
+واصدةمنصة داخلالبيع قنواتجميع توصيد.
+
+
+الطلبصياة لدورةكاملة رؤيةتوفير .
+
+
+المؤكدةوغير الوهميةالطلبات تقليل.
+
+
+التسليممعدًت زيادة.
+
+
+المرتجعاتتقليل .
+
+
+التأكيدفريق كفاءةتصسين .
+
+
+المخازنإنتاجية رفع.
+
+
+الشصنشركات علىالطلبات توزيعتصسين .
+
+
+مبكرلا التشغيليةوالمشكلت التأخيراتاكتشاف .
+
+
+===== PAGE 30 =====
+التصصيلتمتابعة تصسين.
+
+
+بدقةوالربصية التكلفةاصتساب .
+
+
+ومسوقومنتج وتاجرمتجر كلأداء قياس.
+
+
+الـشركات تمكينFulfillmentالتجارمن كبيرعدد إدارةمن .
+
+
+النهائيالعميل تجربةتصسين .
+
+
+القراراتخاذ فيالدارة تساعدواضصة بياناتتوفير .
+
+English
+The expected outcomes of implementing the system include:
+
+Unifying all sales channels within one platform.
+
+
+Providing full visibility into the order lifecycle.
+
+
+Reducing fake and unconfirmed orders.
+
+
+Increasing delivery rates.
+===== PAGE 31 =====
+
+
+Reducing returns.
+
+
+Improving confirmation team efficiency.
+
+
+Increasing warehouse productivity.
+
+
+Improving courier allocation.
+
+
+Detecting operational delays and issues earlier.
+
+
+Improving collection follow-up.
+
+
+Calculating costs and profitability accurately.
+
+
+Measuring the performance of each merchant, store, product, and affiliate.
+
+
+Enabling fulfillment companies to manage a large number of merchants.
+
+
+Improving the end-customer experience.
+
+
+===== PAGE 32 =====
+Providing management with clear and actionable data.
+
+والمتاجروالتجار الشركاتإدارة :الثانيالقسم 
+والصلحياتوالمستخدمين 
+Section 2: Company, Merchant, Store,
+User, and Permission Management
+2.1القسممن الهدف
+2.1 Module Purpose
+العربية
+مرورلا ،المنصةعلى المسجلةالشركات إنشاءمن بداية، للنظاموالتجاري الداريالهيكل إدارةإلى القسمهذا يهدف
+وظيفيدور أومستخدم كلصلصيات وتصديدالمستخدمين إنشاءإلى وصوًل، البيعوقنوات والمتاجرالتجار بإضافة.
+مستخدملكل السماحمع ،المختلفةوالمتاجر والتجارالشركات بياناتبين الكاملالفصل القسمهذا يضمنأن يجب
+بهاله المسموحوالوظائف البياناتإلى فقطبالوصول .
+أنيجب والتقاريروالصسابات والمخازنوالمنتجات الطلباتجميع لن، النظامفي الساسيةالوصدات منالقسم هذاوييعد 
+مصددومستخدم ومتجروتاجر بشركةترتبط .
+English
+This module is responsible for managing the administrative and commercial structure
+of the platform, starting with company creation, merchant onboarding, store and
+sales channel setup, and ending with user creation and permission management.
+The module must ensure complete separation between companies, merchants, and
+stores while allowing each user to access only the data and functions assigned to
+them.
+This is a core platform module because all orders, products, warehouses, financial
+records, and reports must be linked to a specific company, merchant, store, and
+authorized user.
+2.2الشركاتإدارة 
+===== PAGE 33 =====
+2.2 Company Management
+2.2.1الشركةتعريف 
+2.2.1 Company Definition
+العربية
+النظاميستخدم الذيالرئيسي الكيانالشركة تمثل.
+الشركةتكون قد:
+
+أكثرأو متجرلا تمتلكشركة .
+
+
+تجاريةعلمات عدةتدير شركة.
+
+
+خدماتتقدم شركةFulfillment.
+
+
+خدماتتقدم شركةCall Centerطلباتتأكيد أو.
+
+
+متابعةأو شصنخدمات تقدمشركة .
+
+
+آخرينلتجار عملياتتدير شركة.
+
+
+فرعيةشركات عدةتدير قابضةشركة .
+
+القلعلى واصدةبشركة مرتبطةالنظام داخلالبيانات كلتكون أنيجب .
+===== PAGE 34 =====
+English
+A company represents the primary business entity using the system.
+A company may be:
+
+A business operating one or more online stores.
+
+
+A company managing multiple brands.
+
+
+A fulfillment service provider.
+
+
+A call center or order confirmation service provider.
+
+
+A shipping or delivery follow-up service provider.
+
+
+An operations management company serving third-party merchants.
+
+
+A holding company managing multiple subsidiaries.
+
+All system data must be associated with at least one company.
+2.2.2الساسيةالشركة بيانات
+2.2.2 Company Master Data
+العربية
+===== PAGE 35 =====
+شركةلكل التاليةالبيانات بتسجيلالنظام يسمحأن يجب:
+
+العربيةباللغة الشركةاسم .
+
+
+النجليزيةباللغة الشركةاسم .
+
+
+التجارياًسم .
+
+
+الشعار.
+
+
+النشاطنوع .
+
+
+الدولة.
+
+
+المنطقةأو المصافظة.
+
+
+العنوان.
+
+
+الضريبيالرقم .
+
+
+التجاريالسجل رقم.
+
+===== PAGE 36 =====
+
+اللكترونيالبريد .
+
+
+الهاتفرقم .
+
+
+اللكترونيالموقع .
+
+
+الساسيةالعملة .
+
+
+الزمنيةالمنطقة .
+
+
+اًفتراضيةاللغة .
+
+
+الضريبيالنظام .
+
+
+الصسابمسؤول .
+
+
+الشركةصالة .
+
+
+اًشتراكبدء تاريخ.
+
+
+===== PAGE 37 =====
+اًشتراكانتهاء تاريخ.
+
+
+المستخدمةالباقة .
+
+
+للمستخدمينالقصى الصد.
+
+
+للمتاجرالقصى الصد.
+
+
+الشهريةللطلبات القصىالصد .
+
+
+داخليةملصظات .
+
+
+المرفقةالقانونية المستندات.
+
+English
+The system must allow the following information to be stored for each company:
+
+Company name in Arabic.
+
+
+Company name in English.
+
+
+Trade name.
+===== PAGE 38 =====
+
+
+Company logo.
+
+
+Business type.
+
+
+Country.
+
+
+Governorate, state, or region.
+
+
+Address.
+
+
+Tax registration number.
+
+
+Commercial registration number.
+
+
+Email address.
+
+
+Phone number.
+
+
+Website.
+
+
+===== PAGE 39 =====
+Base currency.
+
+
+Time zone.
+
+
+Default language.
+
+
+Tax structure.
+
+
+Account manager.
+
+
+Company status.
+
+
+Subscription start date.
+
+
+Subscription end date.
+
+
+Subscription plan.
+
+
+Maximum number of users.
+
+
+Maximum number of stores.
+===== PAGE 40 =====
+
+
+Maximum monthly order volume.
+
+
+Internal notes.
+
+
+Attached legal documents.
+
+2.2.3الشركةحاًت 
+2.2.3 Company Statuses
+العربية
+التاليةالصاًت النظاميدعم أنيجب :
+
+مسودة.
+
+
+المراجعةتصت .
+
+
+نشطة.
+
+
+معلقة.
+
+
+مؤقتلاموقوفة .
+===== PAGE 41 =====
+
+
+اًشتراكمنتهية .
+
+
+ملغاة.
+
+
+مؤرشفة.
+
+النظاممدير صلصياتوفق إً، جديدةعمليات تنفيذمن الموقوفةأو المعلقةالشركة تتمكنأً يجب.
+English
+The system must support the following company statuses:
+
+Draft.
+
+
+Under Review.
+
+
+Active.
+
+
+Suspended.
+
+
+Temporarily Blocked.
+
+
+Subscription Expired.
+===== PAGE 42 =====
+
+
+Cancelled.
+
+
+Archived.
+
+A suspended or blocked company must not be able to create or process new
+operations unless authorized by the system administrator.
+2.2.4الشركةإعدادات 
+2.2.4 Company Settings
+العربية
+تشملمستقلة إعداداتشركة كلتمتلك أنيجب :
+
+اًفتراضيةاللغة .
+
+
+العملة.
+
+
+الضرائباصتساب طريقة.
+
+
+الطلباتإعدادات .
+
+
+المخزونإعدادات .
+
+
+===== PAGE 43 =====
+الشصنإعدادات .
+
+
+التأكيدإعدادات .
+
+
+المرتجعاتإعدادات .
+
+
+التقاريرإعدادات .
+
+
+الشعاراتإعدادات .
+
+
+المستخدمينإعدادات .
+
+
+العملساعات إعدادات.
+
+
+الجازاتأيام .
+
+
+الخدمةمستوى اتفاقياتإعدادات SLA.
+
+
+الـإعدادات Workflows.
+
+
+اًصطناعيالذكاء إعدادات.
+===== PAGE 44 =====
+
+
+التكاملتإعدادات .
+
+
+والفواتيرالطلبات أرقامتنسيق .
+
+
+والوقتالتاريخ تنسيق.
+
+
+والمخازنالفروع إعدادات.
+
+English
+Each company must have independent settings including:
+
+Default language.
+
+
+Currency.
+
+
+Tax calculation method.
+
+
+Order settings.
+
+
+Inventory settings.
+
+
+===== PAGE 45 =====
+Shipping settings.
+
+
+Confirmation settings.
+
+
+Return settings.
+
+
+Reporting settings.
+
+
+Notification settings.
+
+
+User settings.
+
+
+Working hours.
+
+
+Holidays.
+
+
+Service Level Agreement settings.
+
+
+Workflow settings.
+
+
+Artificial intelligence settings.
+===== PAGE 46 =====
+
+
+Integration settings.
+
+
+Order and invoice numbering formats.
+
+
+Date and time formats.
+
+
+Branch and warehouse settings.
+
+2.3التجارإدارة 
+2.3 Merchant Management
+2.3.1التاجرتعريف 
+2.3.1 Merchant Definition
+العربية
+النظامخلل منعملياته إدارةتتم الذيالتجاري الصسابأو التجاريةالعلمة أوالمنتجات مالكالتاجر يمثل.
+التاجريكون قد:
+
+الشركةلنفس تابعلا.
+
+
+شركةلدى عميللFulfillment.
+===== PAGE 47 =====
+
+
+علىبائعلا AmazonأوNoon.
+
+
+متجرمالك ShopifyأوWooCommerce.
+
+
+مستقلةتجارية علمة.
+
+
+موردلاأو موزعلا.
+
+
+شركةأو شخصلا.
+
+والتقاريروالصسابات المخزونفي خاصة، التجارباقي عنتاجر كلبيانات فصليتم أنيجب .
+English
+A merchant represents the owner of the products, brand, or commercial account
+whose operations are managed through the platform.
+A merchant may be:
+
+Owned by the operating company.
+
+
+A client of a fulfillment company.
+
+
+A seller on Amazon or Noon.
+
+
+===== PAGE 48 =====
+The owner of a Shopify or WooCommerce store.
+
+
+An independent brand.
+
+
+A distributor or supplier.
+
+
+An individual or a registered business.
+
+Each merchant’s data must be isolated from other merchants, especially inventory,
+financial records, orders, and reports.
+2.3.2التاجربيانات 
+2.3.2 Merchant Master Data
+العربية
+التاليةالبيانات بتسجيلالنظام يسمحأن يجب:
+
+التاجراسم .
+
+
+التجارياًسم .
+
+
+التاجرنوع .
+
+
+التابعةالشركة .
+===== PAGE 49 =====
+
+
+الصسابمسؤول .
+
+
+اللكترونيالبريد .
+
+
+الهاتفرقم .
+
+
+الدولة.
+
+
+العنوان.
+
+
+الضريبيالرقم .
+
+
+التجاريالسجل .
+
+
+العملة.
+
+
+التاجرصالة .
+
+
+التعاقدتاريخ .
+
+
+===== PAGE 50 =====
+التشغيلبدء تاريخ.
+
+
+الخدمةنوع .
+
+
+التشغيلنموذج .
+
+
+المتاجرعدد .
+
+
+المخازنعدد .
+
+
+اًئتمانيالصد .
+
+
+الدفعشروط .
+
+
+الماليةالتسوية دورة.
+
+
+العمولةنسبة .
+
+
+الـخدمات أسعارFulfillment.
+
+
+التخزينأسعار .
+===== PAGE 51 =====
+
+
+التجهيزأسعار .
+
+
+التغليفأسعار .
+
+
+المرتجعاتأسعار .
+
+
+المرفقةالمستندات .
+
+
+داخليةملصظات .
+
+
+التاجرلدى المسؤولالشخص .
+
+English
+The system must allow the following merchant data to be stored:
+
+Merchant name.
+
+
+Trade name.
+
+
+Merchant type.
+
+
+===== PAGE 52 =====
+Parent company.
+
+
+Account manager.
+
+
+Email address.
+
+
+Phone number.
+
+
+Country.
+
+
+Address.
+
+
+Tax registration number.
+
+
+Commercial registration number.
+
+
+Currency.
+
+
+Merchant status.
+
+
+Contract date.
+===== PAGE 53 =====
+
+
+Go-live date.
+
+
+Service type.
+
+
+Operating model.
+
+
+Number of stores.
+
+
+Number of warehouses.
+
+
+Credit limit.
+
+
+Payment terms.
+
+
+Financial settlement cycle.
+
+
+Commission percentage.
+
+
+Fulfillment service pricing.
+
+
+===== PAGE 54 =====
+Storage pricing.
+
+
+Picking pricing.
+
+
+Packing pricing.
+
+
+Return handling pricing.
+
+
+Attached documents.
+
+
+Internal notes.
+
+
+Merchant contact person.
+
+2.3.3للتاجرالمقدمة الخدماتونواع 
+2.3.3 Merchant Service Types
+العربية
+ومنها، تاجرلكل أكثرأو واصدةخدمة بتصديدالنظام يسمحأن يجب:
+
+الطلباتإدارة .
+
+
+===== PAGE 55 =====
+الطلباتتأكيد .
+
+
+العملءخدمة .
+
+
+تخزين.
+
+
+البضاعةاستلم .
+
+
+وتغليفتجهيز .
+
+
+شصن.
+
+
+الشصنمتابعة .
+
+
+المرتجعاتإدارة .
+
+
+التصصيلتإدارة .
+
+
+Marketplace Management.
+
+
+المنتجاتإدارة .
+===== PAGE 56 =====
+
+
+المخزونإدارة .
+
+
+بالعمولةالمسوقين إدارة.
+
+
+فقطتقارير .
+
+
+اللكترونيةللتجارة كاملةإدارة .
+
+English
+The system must allow one or more services to be assigned to each merchant,
+including:
+
+Order management.
+
+
+Order confirmation.
+
+
+Customer service.
+
+
+Warehousing.
+
+
+Goods receiving.
+
+===== PAGE 57 =====
+
+Picking and packing.
+
+
+Shipping.
+
+
+Shipment follow-up.
+
+
+Return management.
+
+
+Collection management.
+
+
+Marketplace management.
+
+
+Product management.
+
+
+Inventory management.
+
+
+Affiliate management.
+
+
+Reporting only.
+
+
+===== PAGE 58 =====
+Full e-commerce operations management.
+
+2.3.4التاجرحاًت 
+2.3.4 Merchant Statuses
+العربية
+التاليةالصاًت النظاميدعم أنيجب :
+
+مصتملعميل .
+
+
+التعاقدتصت .
+
+
+العدادتصت .
+
+
+للتشغيلجاهز .
+
+
+نشط.
+
+
+مؤقتلاموقوف .
+
+
+السدادفي متأخر.
+
+
+===== PAGE 59 =====
+معلق.
+
+
+التعاقدإنهاء تم.
+
+
+مؤرشف.
+
+English
+The system must support the following merchant statuses:
+
+Lead.
+
+
+Contracting.
+
+
+Onboarding.
+
+
+Ready for Go-Live.
+
+
+Active.
+
+
+Temporarily Suspended.
+
+
+Payment Overdue.
+===== PAGE 60 =====
+
+
+On Hold.
+
+
+Contract Terminated.
+
+
+Archived.
+
+2.3.5التاجرصفحة 
+2.3.5 Merchant Profile Page
+العربية
+تشملتبويبات علىالتاجر صفصةتصتوي أنيجب :
+
+الساسيةالبيانات .
+
+
+المرتبطةالمتاجر .
+
+
+المنتجات.
+
+
+المخزون.
+
+
+الطلبات.
+===== PAGE 61 =====
+
+
+المستخدمون.
+
+
+الشصنشركات .
+
+
+العقود.
+
+
+الخدماتأسعار .
+
+
+التصصيلت.
+
+
+الفواتير.
+
+
+المصروفات.
+
+
+المرتجعات.
+
+
+التقارير.
+
+
+المستندات.
+
+
+===== PAGE 62 =====
+النشاطسجل .
+
+
+التكاملت.
+
+
+العدادات.
+
+English
+The merchant profile page must include the following tabs:
+
+General information.
+
+
+Connected stores.
+
+
+Products.
+
+
+Inventory.
+
+
+Orders.
+
+
+Users.
+
+
+Couriers.
+===== PAGE 63 =====
+
+
+Contracts.
+
+
+Service pricing.
+
+
+Collections.
+
+
+Invoices.
+
+
+Expenses.
+
+
+Returns.
+
+
+Reports.
+
+
+Documents.
+
+
+Activity log.
+
+
+Integrations.
+
+
+===== PAGE 64 =====
+Settings.
+
+2.4البيعوقنوات المتاجرإدارة 
+2.4 Store and Sales Channel
+Management
+2.4.1المتجرتعريف 
+2.4.1 Store Definition
+العربية
+منهاالطلبات استقباليتم التيالبيع قناةالمتجر يمثل.
+المتجريكون قد:
+
+Shopify.
+
+
+WooCommerce.
+
+
+Amazon.
+
+
+Noon.
+
+
+مخصصمتجر .
+
+===== PAGE 65 =====
+
+موبايلتطبيق .
+
+
+بيعنقطة .
+
+
+فرع.
+
+
+Social Commerce.
+
+
+مرتبطغير يدويمتجر .
+
+
+بالجملةبيع قناة.
+
+
+Marketplaceآخر.
+
+متاجربعدة الواصدالتاجر ربطإمكانية مع، واصدبتاجر متجركل يرتبطأن يجب.
+English
+A store represents a sales channel from which orders are received.
+A store may be:
+
+Shopify.
+
+
+WooCommerce.
+===== PAGE 66 =====
+
+
+Amazon.
+
+
+Noon.
+
+
+A custom-built store.
+
+
+A mobile application.
+
+
+A point-of-sale location.
+
+
+A retail branch.
+
+
+A social commerce channel.
+
+
+A manually managed offline store.
+
+
+A wholesale channel.
+
+
+Another marketplace.
+
+===== PAGE 67 =====
+Each store must be linked to one merchant, while one merchant may operate
+multiple stores.
+2.4.2المتجربيانات 
+2.4.2 Store Master Data
+العربية
+بتسجيلالنظام يسمحأن يجب:
+
+المتجراسم .
+
+
+المتجركود .
+
+
+المنصةنوع .
+
+
+المتجررابط .
+
+
+التاجر.
+
+
+الشركة.
+
+
+الدولة.
+
+
+العملة.
+===== PAGE 68 =====
+
+
+اللغة.
+
+
+الزمنيةالمنطقة .
+
+
+المتجرصالة .
+
+
+الربطتاريخ .
+
+
+مزامنةآخر .
+
+
+المزامنةصالة .
+
+
+الطلباتاستقبال طريقة.
+
+
+المنتجاتمزامنة طريقة.
+
+
+المخزونمزامنة طريقة.
+
+
+السعارمزامنة طريقة.
+
+
+===== PAGE 69 =====
+الضرائبإعدادات .
+
+
+الشصنإعدادات .
+
+
+الدفعإعدادات .
+
+
+اًفتراضيالمخزن .
+
+
+اًفتراضيةالشصن شركة.
+
+
+التأكيدسياسة .
+
+
+اللغاءسياسة .
+
+
+المرتجعاتسياسة .
+
+
+المتجرمسؤول .
+
+
+الـبيانات API.
+
+
+الـبيانات Webhook.
+===== PAGE 70 =====
+
+
+ملصظات.
+
+English
+The system must allow the following store data to be recorded:
+
+Store name.
+
+
+Store code.
+
+
+Platform type.
+
+
+Store URL.
+
+
+Merchant.
+
+
+Company.
+
+
+Country.
+
+
+Currency.
+
+
+===== PAGE 71 =====
+Language.
+
+
+Time zone.
+
+
+Store status.
+
+
+Connection date.
+
+
+Last synchronization date.
+
+
+Synchronization status.
+
+
+Order import method.
+
+
+Product synchronization method.
+
+
+Inventory synchronization method.
+
+
+Price synchronization method.
+
+
+Tax settings.
+===== PAGE 72 =====
+
+
+Shipping settings.
+
+
+Payment settings.
+
+
+Default warehouse.
+
+
+Default courier.
+
+
+Confirmation policy.
+
+
+Cancellation policy.
+
+
+Return policy.
+
+
+Store manager.
+
+
+API credentials.
+
+
+Webhook information.
+
+
+===== PAGE 73 =====
+Notes.
+
+2.4.3المتجرحاًت 
+2.4.3 Store Statuses
+العربية
+النظاميدعم أنيجب :
+
+مسودة.
+
+
+مربوطغير .
+
+
+الربطجاري .
+
+
+مربوط.
+
+
+نشط.
+
+
+الربطفي خطأ.
+
+
+مؤقتلامتوقف .
+
+
+===== PAGE 74 =====
+الربطإلغاء تم.
+
+
+مؤرشف.
+
+English
+The system must support:
+
+Draft.
+
+
+Not Connected.
+
+
+Connection in Progress.
+
+
+Connected.
+
+
+Active.
+
+
+Connection Error.
+
+
+Temporarily Suspended.
+
+
+Disconnected.
+===== PAGE 75 =====
+
+
+Archived.
+
+2.4.4المتجرمزامنة 
+2.4.4 Store Synchronization
+العربية
+مزامنةالنظام يدعمأن يجب:
+
+الطلبات.
+
+
+العملء.
+
+
+المنتجات.
+
+
+المتغيرات.
+
+
+السعار.
+
+
+المخزون.
+
+
+الخصومات.
+===== PAGE 76 =====
+
+
+اللغاءعمليات .
+
+
+الدفعصاًت .
+
+
+الشصنصاًت .
+
+
+المرتجعات.
+
+
+التتبعأرقام .
+
+
+الضرائب.
+
+
+العناوينبيانات .
+
+خللمن المزامنةتعمل أنيجب :
+
+Webhooksلصظية.
+
+
+دوريةمزامنة .
+
+
+يدويةمزامنة .
+===== PAGE 77 =====
+
+
+خطأصدوث عندتلقائية مصاولةإعادة .
+
+English
+The system must synchronize:
+
+Orders.
+
+
+Customers.
+
+
+Products.
+
+
+Variants.
+
+
+Prices.
+
+
+Inventory.
+
+
+Discounts.
+
+
+Cancellations.
+
+
+===== PAGE 78 =====
+Payment statuses.
+
+
+Fulfillment statuses.
+
+
+Returns.
+
+
+Tracking numbers.
+
+
+Taxes.
+
+
+Address information.
+
+Synchronization must operate through:
+
+Real-time webhooks.
+
+
+Scheduled synchronization.
+
+
+Manual synchronization.
+
+
+Automatic retry after synchronization failures.
+
+===== PAGE 79 =====
+2.4.5المزامنةسجل 
+2.4.5 Synchronization Log
+العربية
+وتشملمزامنة عمليةكل تسجيليجب :
+
+المتجر.
+
+
+العمليةنوع .
+
+
+العمليةووقت تاريخ.
+
+
+المستلمةالسجلت عدد.
+
+
+الناجصةالسجلت عدد.
+
+
+الفاشلةالسجلت عدد.
+
+
+الخطاءتفاصيل .
+
+
+المزامنةمدة .
+
+
+===== PAGE 80 =====
+العمليةبدأ الذيالمستخدم .
+
+
+العادةمصاوًت عدد.
+
+
+العمليةصالة .
+
+English
+Each synchronization process must be logged with:
+
+Store.
+
+
+Synchronization type.
+
+
+Date and time.
+
+
+Number of received records.
+
+
+Number of successful records.
+
+
+Number of failed records.
+
+
+Error details.
+===== PAGE 81 =====
+
+
+Synchronization duration.
+
+
+User who initiated the synchronization.
+
+
+Number of retry attempts.
+
+
+Final status.
+
+2.5المستخدمينإدارة 
+2.5 User Management
+2.5.1المستخدمإنشاء 
+2.5.1 User Creation
+العربية
+بـوربطه جديدمستخدم بإنشاءالنظام يسمحأن يجب:
+
+شركة.
+
+
+تاجر.
+
+
+===== PAGE 82 =====
+متجر.
+
+
+مخزن.
+
+
+قسم.
+
+
+فريق.
+
+
+مباشرمدير .
+
+
+وظيفيدور .
+
+
+صلصياتمجموعة .
+
+بذلكتسمح صلصياتهكانت إذامخزن أومتجر منبأكثر المستخدميرتبط أنيمكن .
+English
+The system must allow a new user to be created and linked to:
+
+A company.
+
+
+A merchant.
+
+
+===== PAGE 83 =====
+A store.
+
+
+A warehouse.
+
+
+A department.
+
+
+A team.
+
+
+A direct manager.
+
+
+A job role.
+
+
+A permission group.
+
+A user may be linked to multiple stores or warehouses if authorized.
+2.5.2المستخدمبيانات 
+2.5.2 User Master Data
+العربية
+المستخدمبيانات تشمل:
+
+الكاملاًسم .
+
+===== PAGE 84 =====
+
+اللكترونيالبريد .
+
+
+الهاتفرقم .
+
+
+الموظفكود .
+
+
+الوظيفيالمسمى .
+
+
+القسم.
+
+
+الفريق.
+
+
+المباشرالمدير .
+
+
+الشركة.
+
+
+التاجر.
+
+
+بهاالمسموح المتاجر.
+
+
+===== PAGE 85 =====
+بهاالمسموح المخازن.
+
+
+اللغة.
+
+
+الزمنيةالمنطقة .
+
+
+التعيينتاريخ .
+
+
+النظاماستخدام بدايةتاريخ .
+
+
+المستخدمنوع .
+
+
+المستخدمصالة .
+
+
+المستخدمصورة .
+
+
+العملساعات .
+
+
+العملأيام .
+
+
+الداءهدف .
+===== PAGE 86 =====
+
+
+للطلباتالقصى الصد.
+
+
+الشعاراتإعدادات .
+
+
+دخولتسجيل آخر.
+
+
+الفاشلةالدخول مصاوًتعدد .
+
+
+الثنائيالتصقق طريقة.
+
+
+ملصظات.
+
+English
+User data must include:
+
+Full name.
+
+
+Email address.
+
+
+Phone number.
+
+
+===== PAGE 87 =====
+Employee code.
+
+
+Job title.
+
+
+Department.
+
+
+Team.
+
+
+Direct manager.
+
+
+Company.
+
+
+Merchant.
+
+
+Allowed stores.
+
+
+Allowed warehouses.
+
+
+Language.
+
+
+Time zone.
+===== PAGE 88 =====
+
+
+Hire date.
+
+
+System access start date.
+
+
+User type.
+
+
+User status.
+
+
+Profile picture.
+
+
+Working hours.
+
+
+Working days.
+
+
+Performance target.
+
+
+Maximum assigned order capacity.
+
+
+Notification preferences.
+
+
+===== PAGE 89 =====
+Last login.
+
+
+Failed login attempts.
+
+
+Two-factor authentication method.
+
+
+Notes.
+
+2.5.3المستخدمحاًت 
+2.5.3 User Statuses
+العربية
+
+دعوتهتمت .
+
+
+الصسابيفعل لم.
+
+
+نشط.
+
+
+إجازةفي .
+
+
+مؤقتلاموقوف .
+===== PAGE 90 =====
+
+
+مصظور.
+
+
+مستقيل.
+
+
+خدمتهإنهاء تم.
+
+
+مؤرشف.
+
+English
+
+Invited.
+
+
+Activation Pending.
+
+
+Active.
+
+
+On Leave.
+
+
+Temporarily Suspended.
+
+
+Blocked.
+===== PAGE 91 =====
+
+
+Resigned.
+
+
+Terminated.
+
+
+Archived.
+
+2.5.4والحمايةالدخول تسجيل
+2.5.4 Authentication and Security
+العربية
+النظاميدعم أنيجب :
+
+المروروكلمة اللكترونيبالبريد الدخولتسجيل .
+
+
+تفعيلهتم إذاالهاتف برقمالدخول تسجيل.
+
+
+الثنائيالتصقق .
+
+
+المروركلمة استعادة.
+
+
+إجباريلاالمرور كلمةتغيير .
+===== PAGE 92 =====
+
+
+الجلسةصلصية مدةتصديد .
+
+
+التلقائيالخروج تسجيل.
+
+
+فاشلةدخول مصاوًتبعد الصسابقفل .
+
+
+بهاالمسموح الجهزةتصديد .
+
+
+عنوانتسجيل IP.
+
+
+جديدجهاز منالدخول تسجيلعند المستخدمتنبيه .
+
+
+النشطةالجلسات إلغاء.
+
+
+الدخولمصاوًت جميعتسجيل .
+
+English
+The system must support:
+
+Email and password login.
+
+
+===== PAGE 93 =====
+Phone number login when enabled.
+
+
+Two-factor authentication.
+
+
+Password recovery.
+
+
+Mandatory password reset.
+
+
+Session expiration rules.
+
+
+Automatic logout.
+
+
+Account lockout after failed attempts.
+
+
+Authorized device restrictions.
+
+
+IP address logging.
+
+
+New device login alerts.
+
+
+Active session termination.
+===== PAGE 94 =====
+
+
+Complete login attempt history.
+
+2.6الوظيفيةالدوار 
+2.6 Role Management
+2.6.1الدورتعريف 
+2.6.1 Role Definition
+العربية
+وظيفتهعلى بناءلللمستخدم تعيينهايتم الصلصياتمن مجموعةهو الوظيفيالدور .
+النظاميسمح أنيجب :
+
+جديدةأدوار بإنشاء.
+
+
+الدواربتعديل .
+
+
+موجوددور بنسخ.
+
+
+الدورإيقاف أوبتفعيل .
+
+
+مصددتاجر أوبشركة الدوربربط .
+===== PAGE 95 =====
+
+
+مخصصةوأدوار عامةأدوار بإنشاء.
+
+
+المخزنأو المتجرصسب الدورلنفس مختلفةصلصيات بتصديد.
+
+English
+A role is a predefined set of permissions assigned to a user based on job
+responsibilities.
+The system must allow administrators to:
+
+Create new roles.
+
+
+Edit roles.
+
+
+Duplicate existing roles.
+
+
+Activate or deactivate roles.
+
+
+Link roles to a specific company or merchant.
+
+
+Create global and customized roles.
+
+
+Apply different data permissions to the same role by store or warehouse.
+===== PAGE 96 =====
+
+2.6.2اًفتراضيةالدوار 
+2.6.2 Default Roles
+العربية
+تشملافتراضية أدوارلا النظاميوفر أنيجب :
+
+Super Admin.
+
+
+System Admin.
+
+
+Company Admin.
+
+
+Merchant Admin.
+
+
+Store Manager.
+
+
+Operations Manager.
+
+
+Confirmation Team Leader.
+
+
+Confirmation Agent.
+===== PAGE 97 =====
+
+
+Customer Service Agent.
+
+
+Warehouse Manager.
+
+
+Receiving Agent.
+
+
+Picker.
+
+
+Packer.
+
+
+Inventory Controller.
+
+
+Shipping Manager.
+
+
+Follow-up Agent.
+
+
+Returns Agent.
+
+
+Accountant.
+
+
+===== PAGE 98 =====
+Collection Officer.
+
+
+Marketing Manager.
+
+
+Affiliate Manager.
+
+
+Quality Auditor.
+
+
+Reports Viewer.
+
+
+API User.
+
+English
+The system should provide default roles including:
+
+Super Admin.
+
+
+System Admin.
+
+
+Company Admin.
+
+
+Merchant Admin.
+===== PAGE 99 =====
+
+
+Store Manager.
+
+
+Operations Manager.
+
+
+Confirmation Team Leader.
+
+
+Confirmation Agent.
+
+
+Customer Service Agent.
+
+
+Warehouse Manager.
+
+
+Receiving Agent.
+
+
+Picker.
+
+
+Packer.
+
+
+Inventory Controller.
+
+
+===== PAGE 100 =====
+Shipping Manager.
+
+
+Follow-up Agent.
+
+
+Returns Agent.
+
+
+Accountant.
+
+
+Collection Officer.
+
+
+Marketing Manager.
+
+
+Affiliate Manager.
+
+
+Quality Auditor.
+
+
+Reports Viewer.
+
+
+API User.
+
+===== PAGE 101 =====
+2.7الصلحياتإدارة 
+2.7 Permission Management
+2.7.1الصلحياتمستويات 
+2.7.1 Permission Levels
+العربية
+المستوياتمتعددة بصلصياتالنظام يعملأن يجب:
+الشاشةصلحيات 
+الشاشةرؤية يستطيعالمستخدم كانإذا ماتصدد .
+الوظيفةصلحيات 
+مثل، تنفيذهاالمستخدم يستطيعالتي العملياتتصدد :
+
+إضافة.
+
+
+تعديل.
+
+
+صذف.
+
+
+اعتماد.
+
+
+إلغاء.
+
+
+تصدير.
+===== PAGE 102 =====
+
+
+استيراد.
+
+
+طباعة.
+
+
+تخصيص.
+
+
+تعيينإعادة .
+
+
+إرسال.
+
+
+تصويل.
+
+
+دمج.
+
+البياناتصلحيات 
+مثل، إليهاالوصول المستخدميستطيع التيالبيانات تصدد:
+
+بالكاملالشركة بيانات.
+
+
+مصددتاجر بيانات.
+
+
+===== PAGE 103 =====
+مصددمتجر بيانات.
+
+
+مصددمخزن بيانات.
+
+
+مصددفريق بيانات.
+
+
+فقطإليه المسندةالطلبات .
+
+
+بنفسهأنشأها التيالبيانات .
+
+
+مصددةزمنية فترةبيانات .
+
+الحقولصلحيات 
+يستطيعالمستخدم كانإذا ماتصدد :
+
+معينصقل رؤية.
+
+
+الصقلتعديل .
+
+
+الصقلإخفاء .
+
+
+الماليةالقيم رؤية.
+===== PAGE 104 =====
+
+
+الصساسةالعميل بياناترؤية .
+
+English
+The system must use multi-level permission controls:
+Screen Permissions
+Determine whether a user can access or view a screen.
+Action Permissions
+Determine which operations the user can perform, such as:
+
+Create.
+
+
+Edit.
+
+
+Delete.
+
+
+Approve.
+
+
+Cancel.
+
+
+Export.
+
+
+Import.
+===== PAGE 105 =====
+
+
+Print.
+
+
+Configure.
+
+
+Reset.
+
+
+Send.
+
+
+Transfer.
+
+
+Merge.
+
+Data Permissions
+Determine which records the user can access, such as:
+
+All company data.
+
+
+A specific merchant’s data.
+
+
+A specific store’s data.
+
+
+===== PAGE 106 =====
+A specific warehouse’s data.
+
+
+A specific team’s data.
+
+
+Only assigned orders.
+
+
+Only records created by the user.
+
+
+Records within a defined date range.
+
+Field-Level Permissions
+Determine whether the user can:
+
+View a specific field.
+
+
+Edit the field.
+
+
+Hide the field.
+
+
+View financial values.
+
+
+Access sensitive customer information.
+===== PAGE 107 =====
+
+2.7.2الحساسةالمالية الصلحيات
+2.7.2 Sensitive Financial Permissions
+العربية
+مستقلةالتالية الصلصياتتكون أنيجب :
+
+المنتجتكلفة عرض.
+
+
+البيعسعر عرض.
+
+
+الربحهامش عرض.
+
+
+التسويقمصروفات عرض.
+
+
+الشصنتكلفة عرض.
+
+
+التصصيلتعرض .
+
+
+التاجررصيد عرض.
+
+
+المسوقينعموًت عرض.
+===== PAGE 108 =====
+
+
+الماليةالقيود تعديل.
+
+
+التسوياتاعتماد .
+
+
+الفواتيرإصدار .
+
+
+الماليةالبيانات تصدير.
+
+English
+The following permissions must be controlled separately:
+
+View product cost.
+
+
+View selling price.
+
+
+View profit margin.
+
+
+View marketing expenses.
+
+
+View shipping cost.
+
+
+===== PAGE 109 =====
+View collections.
+
+
+View merchant balance.
+
+
+View affiliate commissions.
+
+
+Edit financial entries.
+
+
+Approve settlements.
+
+
+Generate invoices.
+
+
+Export financial data.
+
+2.7.3الحساسةالعملء بيانات
+2.7.3 Sensitive Customer Data
+العربية
+إظهارأو بإخفاءالنظام يسمحأن يجب:
+
+الهاتفرقم .
+
+
+===== PAGE 110 =====
+العنوان.
+
+
+اللكترونيالبريد .
+
+
+الصوتيةالتسجيلت .
+
+
+الطلباتسجل .
+
+
+الداخليةالملصظات .
+
+
+الدفعبيانات .
+
+
+العميلمخاطر تقييم.
+
+المستخدمينلبعض الهاتفرقم منجزء إخفاءيمكن .
+English
+The system must allow administrators to hide or display:
+
+Phone number.
+
+
+Address.
+
+
+===== PAGE 111 =====
+Email address.
+
+
+Call recordings.
+
+
+Order history.
+
+
+Internal notes.
+
+
+Payment data.
+
+
+Customer risk score.
+
+Partial masking of customer phone numbers should be supported.
+2.7.4المهامفصل 
+2.7.4 Segregation of Duties
+العربية
+ذلكتفرض الشركةكانت إذاالعملية واعتمادتنفيذ المستخدمنفس يستطيعً بصيث، الصساسةالمهام فصلدعم يجب.
+أمثلة:
+
+يعتمدهاآخر وموظفتسوية ينشئموظف .
+
+
+التعديليعتمد المخزنومدير المخزونيعدل موظف.
+===== PAGE 112 =====
+
+
+صالتهيعتمد الجودةوموظف مرتجعيسجل موظف.
+
+
+يعتمدهاالصسابات وموظففاتورة ينشئموظف .
+
+
+اللغاءيعتمد ومديرهأوردر إلغاءيطلب موظف.
+
+English
+The system must support segregation of duties so that the same user cannot create
+and approve a sensitive transaction when dual control is required.
+Examples include:
+
+One employee creates a settlement and another approves it.
+
+
+One employee creates a stock adjustment and the warehouse manager
+approves it.
+
+
+One employee receives a return and quality control approves its condition.
+
+
+One employee creates an invoice and an accountant approves it.
+
+
+One employee requests order cancellation and a manager approves it.
+
+===== PAGE 113 =====
+2.8والقسامالفرق 
+2.8 Team and Department
+Management
+2.8.1القسام
+2.8.1 Departments
+العربية
+مثلأقسام بإنشاءالنظام يسمحأن يجب:
+
+العمليات.
+
+
+التأكيد.
+
+
+العملءخدمة .
+
+
+المخازن.
+
+
+الشصن.
+
+
+المتابعة.
+
+
+المرتجعات.
+===== PAGE 114 =====
+
+
+الصسابات.
+
+
+التصصيلت.
+
+
+التسويق.
+
+
+الجودة.
+
+
+المعلوماتتكنولوجيا .
+
+
+الدارة.
+
+English
+The system must allow departments such as:
+
+Operations.
+
+
+Confirmation.
+
+
+Customer Service.
+
+
+===== PAGE 115 =====
+Warehouse.
+
+
+Shipping.
+
+
+Follow-up.
+
+
+Returns.
+
+
+Accounting.
+
+
+Collections.
+
+
+Marketing.
+
+
+Quality.
+
+
+Information Technology.
+
+
+Management.
+
+2.8.2الفرق
+===== PAGE 116 =====
+2.8.2 Teams
+العربية
+تصديدمع ،فرقإلى قسمكل تقسيميمكن :
+
+الفريقاسم .
+
+
+الفريققائد .
+
+
+الفريقأعضاء .
+
+
+التابعةالمتاجر .
+
+
+التابعونالتجار .
+
+
+الطلباتنوع .
+
+
+المصافظات.
+
+
+الوردية.
+
+
+اًستيعابيةللطاقة القصىالصد .
+
+
+===== PAGE 117 =====
+الفريقأهداف .
+
+
+Workflowالتوزيع.
+
+English
+Each department may be divided into teams with:
+
+Team name.
+
+
+Team leader.
+
+
+Team members.
+
+
+Assigned stores.
+
+
+Assigned merchants.
+
+
+Order types.
+
+
+Assigned regions.
+
+
+Shift.
+===== PAGE 118 =====
+
+
+Maximum workload capacity.
+
+
+Team targets.
+
+
+Assignment workflow.
+
+2.8.3العملوساعات الورديات
+2.8.3 Shifts and Working Hours
+العربية
+تشملورديات بإنشاءالنظام يسمحأن يجب:
+
+الورديةاسم .
+
+
+البدايةوقت .
+
+
+النهايةوقت .
+
+
+العملأيام .
+
+
+الراصةفترة .
+===== PAGE 119 =====
+
+
+الزمنيةالمنطقة .
+
+
+القسم.
+
+
+الفريق.
+
+
+الموظفون.
+
+
+اًستيعابيةالطاقة .
+
+
+الوردياتبين العملتسليم قواعد.
+
+English
+The system must allow work shifts to be created with:
+
+Shift name.
+
+
+Start time.
+
+
+End time.
+
+
+===== PAGE 120 =====
+Working days.
+
+
+Break period.
+
+
+Time zone.
+
+
+Department.
+
+
+Team.
+
+
+Assigned employees.
+
+
+Workload capacity.
+
+
+Shift handover rules.
+
+2.9والمراجعةالنشاط سجل
+2.9 Activity and Audit Log
+2.9.1تسجيلهايجب التيالعمليات 
+===== PAGE 121 =====
+2.9.1 Logged Activities
+العربية
+النظاميسجل أنيجب :
+
+الصساباتإنشاء .
+
+
+البياناتتعديل .
+
+
+السجلتأرشفة أوصذف .
+
+
+الصلصياتتغيير .
+
+
+فريقمن مستخدمإزالة أوإضافة .
+
+
+والخروجالدخول تسجيل.
+
+
+الفاشلةالدخول مصاوًت.
+
+
+المروركلمات تغيير.
+
+
+المتاجرفصل أوربط .
+
+
+===== PAGE 122 =====
+التكاملإعدادات تعديل.
+
+
+البياناتتصدير .
+
+
+صساسةبيانات عرض.
+
+
+الماليةالبيانات تعديل.
+
+
+المتجرأو التاجرأو الشركةصالة تغيير.
+
+English
+The system must log:
+
+Account creation.
+
+
+Data changes.
+
+
+Record deletion or archiving.
+
+
+Permission changes.
+
+
+Adding or removing users from teams.
+===== PAGE 123 =====
+
+
+Login and logout events.
+
+
+Failed login attempts.
+
+
+Password changes.
+
+
+Store connection or disconnection.
+
+
+Integration setting changes.
+
+
+Data exports.
+
+
+Access to sensitive data.
+
+
+Financial data changes.
+
+
+Company, merchant, or store status changes.
+
+2.9.2المراجعةسجل بيانات
+===== PAGE 124 =====
+2.9.2 Audit Log Fields
+العربية
+سجلكل يتضمنأن يجب:
+
+المستخدم.
+
+
+الشركة.
+
+
+التاجر.
+
+
+العمليةنوع .
+
+
+الوصدة.
+
+
+السجلرقم .
+
+
+القديمةالقيمة .
+
+
+الجديدةالقيمة .
+
+
+والوقتالتاريخ .
+
+
+===== PAGE 125 =====
+عنوانIP.
+
+
+الجهاز.
+
+
+المتصفح.
+
+
+مطلوبلاكان إنالتعديل سبب.
+
+
+اًعتمادطلب رقم.
+
+
+العمليةاعتمد الذيالمستخدم .
+
+English
+Each audit record must include:
+
+User.
+
+
+Company.
+
+
+Merchant.
+
+
+Action type.
+===== PAGE 126 =====
+
+
+Module.
+
+
+Record ID.
+
+
+Previous value.
+
+
+New value.
+
+
+Date and time.
+
+
+IP address.
+
+
+Device.
+
+
+Browser.
+
+
+Change reason when required.
+
+
+Approval request ID.
+
+
+===== PAGE 127 =====
+Approving user.
+
+2.10والتنبيهاتالشعارات 
+2.10 Notifications and Alerts
+العربية
+عندإشعارات النظاميرسل أنيجب :
+
+جديدةشركة إنشاء.
+
+
+اًشتراكانتهاء اقتراب.
+
+
+الشركةتعليق .
+
+
+جديدتاجر إضافة.
+
+
+التاجرإعداد اكتمال.
+
+
+متجرربط فشل.
+
+
+متجرمزامنة توقف.
+
+===== PAGE 128 =====
+
+الـفي متكررةأخطاء وجودAPI.
+
+
+مستخدمإضافة .
+
+
+صلصياتتغيير .
+
+
+مستخدمصساب قفل.
+
+
+مشبوهدخول تسجيل.
+
+
+المستخدمينأو للطلباتالقصى الصدتجاوز .
+
+
+منتهيةمستندات وجود.
+
+
+متجرتفعيل تأخر.
+
+خللمن الشعاراتإرسال يمكن:
+
+النظامداخل إشعار.
+
+
+إلكترونيبريد .
+===== PAGE 129 =====
+
+
+SMS.
+
+
+WhatsApp.
+
+
+Push Notification.
+
+English
+The system must generate notifications when:
+
+A new company is created.
+
+
+A subscription is close to expiration.
+
+
+A company is suspended.
+
+
+A new merchant is added.
+
+
+Merchant onboarding is completed.
+
+
+A store connection fails.
+
+
+===== PAGE 130 =====
+Store synchronization stops.
+
+
+Repeated API errors occur.
+
+
+A user is added.
+
+
+Permissions are changed.
+
+
+A user account is locked.
+
+
+Suspicious login activity is detected.
+
+
+User or order plan limits are exceeded.
+
+
+Legal documents expire.
+
+
+Store activation is delayed.
+
+Notifications may be sent through:
+
+In-system notifications.
+
+
+===== PAGE 131 =====
+Email.
+
+
+SMS.
+
+
+WhatsApp.
+
+
+Push notifications.
+
+2.11المطلوبةالتقارير 
+2.11 Required Reports
+2.11.1الشركاتتقارير 
+2.11.1 Company Reports
+العربية
+
+الشركاتعدد .
+
+
+النشطةالشركات .
+
+
+المعلقةالشركات .
+
+
+===== PAGE 132 =====
+الباقةصسب الشركات.
+
+
+الدولةصسب الشركات.
+
+
+التشغيلنموذج صسبالشركات .
+
+
+شركةلكل الشهريةالطلبات .
+
+
+الباقةصدود استهلك.
+
+
+اًنتهاءمن القريبةأو المنتهيةاًشتراكات .
+
+English
+
+Total companies.
+
+
+Active companies.
+
+
+Suspended companies.
+
+
+Companies by subscription plan.
+
+
+===== PAGE 133 =====
+Companies by country.
+
+
+Companies by operating model.
+
+
+Monthly order volume by company.
+
+
+Plan limit consumption.
+
+
+Expired and expiring subscriptions.
+
+2.11.2التجارتقارير 
+2.11.2 Merchant Reports
+العربية
+
+التجارعدد .
+
+
+النشطونالتجار .
+
+
+العدادتصت التجار.
+
+
+الخدمةنوع صسبالتجار .
+===== PAGE 134 =====
+
+
+تاجرلكل المتاجرعدد .
+
+
+تاجرلكل الطلباتعدد .
+
+
+تاجرلكل المبيعاتصجم .
+
+
+تاجركل رصيد.
+
+
+الخدماتاستخدام مستوى.
+
+
+السدادفي المتأخرونالتجار .
+
+English
+
+Total merchants.
+
+
+Active merchants.
+
+
+Merchants under onboarding.
+
+
+Merchants by service type.
+===== PAGE 135 =====
+
+
+Stores per merchant.
+
+
+Orders per merchant.
+
+
+Sales volume per merchant.
+
+
+Merchant balance.
+
+
+Service utilization.
+
+
+Merchants with overdue payments.
+
+2.11.3المتاجرتقارير 
+2.11.3 Store Reports
+العربية
+
+النشطةالمتاجر .
+
+
+المربوطةغير المتاجر.
+
+
+===== PAGE 136 =====
+أخطاءبها التيالمتاجر .
+
+
+متجرلكل مزامنةآخر .
+
+
+المستلمةالطلبات عدد.
+
+
+الفاشلةالطلبات عدد.
+
+
+المتزامنةالمنتجات عدد.
+
+
+المخزونأخطاء .
+
+
+السعارأخطاء .
+
+
+المزامنةنجاح معدل.
+
+English
+
+Active stores.
+
+
+Disconnected stores.
+
+
+===== PAGE 137 =====
+Stores with errors.
+
+
+Last synchronization by store.
+
+
+Imported order count.
+
+
+Failed order count.
+
+
+Synchronized product count.
+
+
+Inventory synchronization errors.
+
+
+Price synchronization errors.
+
+
+Synchronization success rate.
+
+2.11.4المستخدمينتقارير 
+2.11.4 User Reports
+العربية
+
+المستخدمينعدد .
+===== PAGE 138 =====
+
+
+النشطونالمستخدمون .
+
+
+المفعلينغير المستخدمون.
+
+
+القسمصسب المستخدمون.
+
+
+الدورصسب المستخدمون.
+
+
+دخولتسجيل آخر.
+
+
+الفاشلةالدخول مصاوًت.
+
+
+المتوقفونالمستخدمون .
+
+
+مصددةفترة خلليدخلوا لمالذين المستخدمون.
+
+
+الصلصياتتغييرات .
+
+English
+
+Total users.
+===== PAGE 139 =====
+
+
+Active users.
+
+
+Unactivated users.
+
+
+Users by department.
+
+
+Users by role.
+
+
+Last login.
+
+
+Failed login attempts.
+
+
+Suspended users.
+
+
+Users inactive for a defined period.
+
+
+Permission change history.
+
+2.12الرئيسيةالداء مؤشرات
+===== PAGE 140 =====
+2.12 Key Performance Indicators
+العربية
+
+النشطةالشركات عدد.
+
+
+النشطينالتجار عدد.
+
+
+المربوطةالمتاجر عدد.
+
+
+المتاجرمزامنة نجاحمعدل .
+
+
+جديدتاجر تفعيلوقت متوسط.
+
+
+متجرربط وقتمتوسط .
+
+
+النشطينالمستخدمين نسبة.
+
+
+الربطأخطاء عدد.
+
+
+بهاالمصرح غيرالدخول مصاوًتأو الصلصياتاختراق صاًتعدد .
+
+
+===== PAGE 141 =====
+تاجرأو شركةلكل الطلباتعدد .
+
+
+الباقةصدود استهلكنسبة .
+
+
+بالتجاراًصتفاظ معدل.
+
+
+اًشتراكإلغاء معدل.
+
+English
+
+Active company count.
+
+
+Active merchant count.
+
+
+Connected store count.
+
+
+Store synchronization success rate.
+
+
+Average merchant onboarding time.
+
+
+Average store connection time.
+
+
+===== PAGE 142 =====
+Active user rate.
+
+
+Integration error count.
+
+
+Unauthorized access attempt count.
+
+
+Orders per company or merchant.
+
+
+Subscription limit utilization.
+
+
+Merchant retention rate.
+
+
+Subscription churn rate.
+
+2.13العملقواعد 
+2.13 Business Rules
+العربية
+1.
+بتاجرربطه دونمتجر إنشاءيمكن ً.
+2.
+3.
+===== PAGE 143 =====
+بشركةربطه دونتاجر إنشاءيمكن ً.
+4.
+5.
+بهاله مسموحغير شركةإلى الوصولللمستخدم يمكنً .
+6.
+7.
+صلصياتهنطاق خارجمخزن أومتجر رؤيةللمستخدم يمكنً .
+8.
+9.
+النطاقنفس داخلالمتاجر أوالتجار أوالشركات أكوادتتكرر أًيجب .
+10.
+11.
+الصلصياتتغييرات جميعتسجيل يجب.
+12.
+13.
+ذلكتفعيل تمإذا إضافيلااعتمادلا الصساسةالصلصيات تتطلبأن يجب.
+14.
+15.
+التاجرإيقاف عندالمتجر مزامنةإيقاف يجب.
+16.
+17.
+الشركةتعليق عندالجديدة الطلباتتنفيذ منعيجب .
+18.
+19.
+خاصةبصلصية إًنهائيلا صذفهاوعدم المؤرشفةبالسجلت اًصتفاظيجب .
+20.
+21.
+ذلكمن بدًلأرشفته ويتم، مسجلةعمليات لهمستخدم صذفمنع يجب.
+22.
+23.
+آخرينتجار بياناتالتاجر يرىأً يجب.
+===== PAGE 144 =====
+24.
+25.
+الـمستخدم يرىأً يجبMarketplaceبصسابهمرتبط غيرمتجر بيانات.
+26.
+27.
+المستخدمصلصية مستوىوفق العملءبيانات إخفاءيجب .
+28.
+29.
+فيللتسجيل الصساسةالبيانات تصديرعمليات جميعتخضع أنيجب Audit Log.
+30.
+English
+1.
+A store cannot be created without being linked to a merchant.
+2.
+3.
+A merchant cannot be created without being linked to a company.
+4.
+5.
+A user cannot access an unauthorized company.
+6.
+7.
+A user cannot access stores or warehouses outside their permission scope.
+8.
+9.
+Company, merchant, and store codes must be unique within their applicable
+scope.
+10.
+11.
+All permission changes must be logged.
+12.
+13.
+===== PAGE 145 =====
+Sensitive permissions may require additional approval when enabled.
+14.
+15.
+Store synchronization must stop when the related merchant is suspended.
+16.
+17.
+New order processing must stop when the company is suspended.
+18.
+19.
+Archived records must be retained and not permanently deleted without
+special authorization.
+20.
+21.
+A user with recorded transactions must be archived rather than deleted.
+22.
+23.
+A merchant must never access another merchant’s data.
+24.
+25.
+A marketplace user must only access stores linked to their account.
+26.
+27.
+Customer data must be masked according to user permissions.
+28.
+29.
+All sensitive data exports must be recorded in the audit log.
+30.
+2.14المطلوبةالشاشات 
+===== PAGE 146 =====
+2.14 Required Screens
+العربية
+التاليةالشاشات تطويريجب :
+1.
+الشركاتقائمة .
+2.
+3.
+شركةوتعديل إنشاء.
+4.
+5.
+الشركةتفاصيل صفصة.
+6.
+7.
+الشركةإعدادات .
+8.
+9.
+التجارقائمة .
+10.
+11.
+تاجروتعديل إنشاء.
+12.
+13.
+التاجرتفاصيل صفصة.
+14.
+15.
+جديدتاجر إعدادOnboarding.
+16.
+17.
+المتاجرقائمة .
+===== PAGE 147 =====
+18.
+19.
+متجروربط إنشاء.
+20.
+21.
+المتجرتفاصيل صفصة.
+22.
+23.
+المزامنةسجل .
+24.
+25.
+المستخدمينقائمة .
+26.
+27.
+مستخدموتعديل إنشاء.
+28.
+29.
+المستخدمملف صفصة.
+30.
+31.
+الدوارقائمة .
+32.
+33.
+دوروتعديل إنشاء.
+34.
+35.
+الصلصياتمصفوفة .
+36.
+37.
+الفرقإدارة .
+38.
+===== PAGE 148 =====
+39.
+القسامإدارة .
+40.
+41.
+الوردياتإدارة .
+42.
+43.
+النشاطسجل .
+44.
+45.
+الدخولمصاوًت سجل.
+46.
+47.
+التنبيهاتشاشة .
+48.
+49.
+والباقاتاًشتراكات إدارةشاشة .
+50.
+English
+The following screens must be developed:
+1.
+Company list.
+2.
+3.
+Create and edit company.
+4.
+5.
+Company details.
+6.
+7.
+===== PAGE 149 =====
+Company settings.
+8.
+9.
+Merchant list.
+10.
+11.
+Create and edit merchant.
+12.
+13.
+Merchant details.
+14.
+15.
+Merchant onboarding.
+16.
+17.
+Store list.
+18.
+19.
+Create and connect store.
+20.
+21.
+Store details.
+22.
+23.
+Synchronization log.
+24.
+25.
+User list.
+26.
+27.
+Create and edit user.
+===== PAGE 150 =====
+28.
+29.
+User profile.
+30.
+31.
+Role list.
+32.
+33.
+Create and edit role.
+34.
+35.
+Permission matrix.
+36.
+37.
+Team management.
+38.
+39.
+Department management.
+40.
+41.
+Shift management.
+42.
+43.
+Activity log.
+44.
+45.
+Login attempt log.
+46.
+47.
+Notification center.
+48.
+===== PAGE 151 =====
+49.
+Subscription and plan management.
+50.
+2.15القبولمعايير 
+2.15 Acceptance Criteria
+العربية
+التيتصقق عندمقبوًل القسمهذا يعتبر:
+
+وأرشفتهاوتعديلها شركةإنشاء إمكانية.
+
+
+الشركةداخل تجارعدة إنشاءإمكانية .
+
+
+بالتاجرمتاجر عدةربط إمكانية.
+
+
+مختلفةبأدوار وربطهممستخدمين إنشاءإمكانية .
+
+
+والبياناتوالوظائف الشاشاتعلى الصلصياتتطبيق .
+
+
+بهامصرح غيربيانات إلىالوصول منع.
+
+
+فيالتغييرات جميعتسجيل Audit Log.
+===== PAGE 152 =====
+
+
+بياناتهواستقبال متجرربط نجاح.
+
+
+بوضوحالمزامنة أخطاءظهور .
+
+
+متجرأو تاجرأو شركةتعليق إمكانية.
+
+
+العملقواعد وفقالمعلق بالصسابالمرتبطة العملياتتوقف .
+
+
+والنجليزيةالعربية اللغةدعم .
+
+
+والتصديروالتصفية البصثدعم .
+
+
+الصلصياتصسب الصساسةالبيانات إخفاءنجاح .
+
+
+بهاالمستخدمين وربطوورديات فرقإنشاء إمكانية.
+
+English
+This module will be considered accepted when:
+
+A company can be created, edited, suspended, and archived.
+
+
+===== PAGE 153 =====
+Multiple merchants can be created under one company.
+
+
+Multiple stores can be linked to one merchant.
+
+
+Users can be created and assigned to different roles.
+
+
+Screen, action, data, and field permissions are enforced.
+
+
+Unauthorized data access is prevented.
+
+
+All changes are recorded in the audit log.
+
+
+A store can be successfully connected and synchronized.
+
+
+Synchronization errors are clearly displayed.
+
+
+A company, merchant, or store can be suspended.
+
+
+Related operations stop according to business rules.
+
+
+Arabic and English are supported.
+===== PAGE 154 =====
+
+
+Search, filtering, and export functions operate correctly.
+
+
+Sensitive data masking works according to permissions.
+
+
+Teams and shifts can be created and assigned to users.
+
+والمتاجروالتجار الشركاتإدارة :الثانيالقسم 
+والصلحياتوالمستخدمين 
+Section 2: Company, Merchant, Store,
+User, and Permission Management
+2.1القسممن الهدف
+2.1 Module Purpose
+العربية
+مرورلا ،المنصةعلى المسجلةالشركات إنشاءمن بداية، للنظاموالتجاري الداريالهيكل إدارةإلى القسمهذا يهدف
+وظيفيدور أومستخدم كلصلصيات وتصديدالمستخدمين إنشاءإلى وصوًل، البيعوقنوات والمتاجرالتجار بإضافة.
+مستخدملكل السماحمع ،المختلفةوالمتاجر والتجارالشركات بياناتبين الكاملالفصل القسمهذا يضمنأن يجب
+بهاله المسموحوالوظائف البياناتإلى فقطبالوصول .
+أنيجب والتقاريروالصسابات والمخازنوالمنتجات الطلباتجميع لن، النظامفي الساسيةالوصدات منالقسم هذاوييعد 
+مصددومستخدم ومتجروتاجر بشركةترتبط .
+English
+This module is responsible for managing the administrative and commercial structure
+of the platform, starting with company creation, merchant onboarding, store and
+sales channel setup, and ending with user creation and permission management.
+===== PAGE 155 =====
+The module must ensure complete separation between companies, merchants, and
+stores while allowing each user to access only the data and functions assigned to
+them.
+This is a core platform module because all orders, products, warehouses, financial
+records, and reports must be linked to a specific company, merchant, store, and
+authorized user.
+2.2الشركاتإدارة 
+2.2 Company Management
+2.2.1الشركةتعريف 
+2.2.1 Company Definition
+العربية
+النظاميستخدم الذيالرئيسي الكيانالشركة تمثل.
+الشركةتكون قد:
+
+أكثرأو متجرلا تمتلكشركة .
+
+
+تجاريةعلمات عدةتدير شركة.
+
+
+خدماتتقدم شركةFulfillment.
+
+
+خدماتتقدم شركةCall Centerطلباتتأكيد أو.
+
+
+متابعةأو شصنخدمات تقدمشركة .
+===== PAGE 156 =====
+
+
+آخرينلتجار عملياتتدير شركة.
+
+
+فرعيةشركات عدةتدير قابضةشركة .
+
+القلعلى واصدةبشركة مرتبطةالنظام داخلالبيانات كلتكون أنيجب .
+English
+A company represents the primary business entity using the system.
+A company may be:
+
+A business operating one or more online stores.
+
+
+A company managing multiple brands.
+
+
+A fulfillment service provider.
+
+
+A call center or order confirmation service provider.
+
+
+A shipping or delivery follow-up service provider.
+
+
+An operations management company serving third-party merchants.
+
+
+===== PAGE 157 =====
+A holding company managing multiple subsidiaries.
+
+All system data must be associated with at least one company.
+2.2.2الساسيةالشركة بيانات
+2.2.2 Company Master Data
+العربية
+شركةلكل التاليةالبيانات بتسجيلالنظام يسمحأن يجب:
+
+العربيةباللغة الشركةاسم .
+
+
+النجليزيةباللغة الشركةاسم .
+
+
+التجارياًسم .
+
+
+الشعار.
+
+
+النشاطنوع .
+
+
+الدولة.
+
+
+المنطقةأو المصافظة.
+
+===== PAGE 158 =====
+
+العنوان.
+
+
+الضريبيالرقم .
+
+
+التجاريالسجل رقم.
+
+
+اللكترونيالبريد .
+
+
+الهاتفرقم .
+
+
+اللكترونيالموقع .
+
+
+الساسيةالعملة .
+
+
+الزمنيةالمنطقة .
+
+
+اًفتراضيةاللغة .
+
+
+الضريبيالنظام .
+
+
+===== PAGE 159 =====
+الصسابمسؤول .
+
+
+الشركةصالة .
+
+
+اًشتراكبدء تاريخ.
+
+
+اًشتراكانتهاء تاريخ.
+
+
+المستخدمةالباقة .
+
+
+للمستخدمينالقصى الصد.
+
+
+للمتاجرالقصى الصد.
+
+
+الشهريةللطلبات القصىالصد .
+
+
+داخليةملصظات .
+
+
+المرفقةالقانونية المستندات.
+
+English
+The system must allow the following information to be stored for each company:
+===== PAGE 160 =====
+
+Company name in Arabic.
+
+
+Company name in English.
+
+
+Trade name.
+
+
+Company logo.
+
+
+Business type.
+
+
+Country.
+
+
+Governorate, state, or region.
+
+
+Address.
+
+
+Tax registration number.
+
+
+Commercial registration number.
+
+
+===== PAGE 161 =====
+Email address.
+
+
+Phone number.
+
+
+Website.
+
+
+Base currency.
+
+
+Time zone.
+
+
+Default language.
+
+
+Tax structure.
+
+
+Account manager.
+
+
+Company status.
+
+
+Subscription start date.
+
+
+Subscription end date.
+===== PAGE 162 =====
+
+
+Subscription plan.
+
+
+Maximum number of users.
+
+
+Maximum number of stores.
+
+
+Maximum monthly order volume.
+
+
+Internal notes.
+
+
+Attached legal documents.
+
+2.2.3الشركةحاًت 
+2.2.3 Company Statuses
+العربية
+التاليةالصاًت النظاميدعم أنيجب :
+
+مسودة.
+
+
+المراجعةتصت .
+===== PAGE 163 =====
+
+
+نشطة.
+
+
+معلقة.
+
+
+مؤقتلاموقوفة .
+
+
+اًشتراكمنتهية .
+
+
+ملغاة.
+
+
+مؤرشفة.
+
+النظاممدير صلصياتوفق إً، جديدةعمليات تنفيذمن الموقوفةأو المعلقةالشركة تتمكنأً يجب.
+English
+The system must support the following company statuses:
+
+Draft.
+
+
+Under Review.
+
+
+Active.
+===== PAGE 164 =====
+
+
+Suspended.
+
+
+Temporarily Blocked.
+
+
+Subscription Expired.
+
+
+Cancelled.
+
+
+Archived.
+
+A suspended or blocked company must not be able to create or process new
+operations unless authorized by the system administrator.
+2.2.4الشركةإعدادات 
+2.2.4 Company Settings
+العربية
+تشملمستقلة إعداداتشركة كلتمتلك أنيجب :
+
+اًفتراضيةاللغة .
+
+
+العملة.
+
+
+===== PAGE 165 =====
+الضرائباصتساب طريقة.
+
+
+الطلباتإعدادات .
+
+
+المخزونإعدادات .
+
+
+الشصنإعدادات .
+
+
+التأكيدإعدادات .
+
+
+المرتجعاتإعدادات .
+
+
+التقاريرإعدادات .
+
+
+الشعاراتإعدادات .
+
+
+المستخدمينإعدادات .
+
+
+العملساعات إعدادات.
+
+
+الجازاتأيام .
+===== PAGE 166 =====
+
+
+الخدمةمستوى اتفاقياتإعدادات SLA.
+
+
+الـإعدادات Workflows.
+
+
+اًصطناعيالذكاء إعدادات.
+
+
+التكاملتإعدادات .
+
+
+والفواتيرالطلبات أرقامتنسيق .
+
+
+والوقتالتاريخ تنسيق.
+
+
+والمخازنالفروع إعدادات.
+
+English
+Each company must have independent settings including:
+
+Default language.
+
+
+Currency.
+
+
+===== PAGE 167 =====
+Tax calculation method.
+
+
+Order settings.
+
+
+Inventory settings.
+
+
+Shipping settings.
+
+
+Confirmation settings.
+
+
+Return settings.
+
+
+Reporting settings.
+
+
+Notification settings.
+
+
+User settings.
+
+
+Working hours.
+
+
+Holidays.
+===== PAGE 168 =====
+
+
+Service Level Agreement settings.
+
+
+Workflow settings.
+
+
+Artificial intelligence settings.
+
+
+Integration settings.
+
+
+Order and invoice numbering formats.
+
+
+Date and time formats.
+
+
+Branch and warehouse settings.
+
+2.3التجارإدارة 
+2.3 Merchant Management
+2.3.1التاجرتعريف 
+2.3.1 Merchant Definition
+===== PAGE 169 =====
+العربية
+النظامخلل منعملياته إدارةتتم الذيالتجاري الصسابأو التجاريةالعلمة أوالمنتجات مالكالتاجر يمثل.
+التاجريكون قد:
+
+الشركةلنفس تابعلا.
+
+
+شركةلدى عميللFulfillment.
+
+
+علىبائعلا AmazonأوNoon.
+
+
+متجرمالك ShopifyأوWooCommerce.
+
+
+مستقلةتجارية علمة.
+
+
+موردلاأو موزعلا.
+
+
+شركةأو شخصلا.
+
+والتقاريروالصسابات المخزونفي خاصة، التجارباقي عنتاجر كلبيانات فصليتم أنيجب .
+English
+A merchant represents the owner of the products, brand, or commercial account
+whose operations are managed through the platform.
+A merchant may be:
+
+===== PAGE 170 =====
+Owned by the operating company.
+
+
+A client of a fulfillment company.
+
+
+A seller on Amazon or Noon.
+
+
+The owner of a Shopify or WooCommerce store.
+
+
+An independent brand.
+
+
+A distributor or supplier.
+
+
+An individual or a registered business.
+
+Each merchant’s data must be isolated from other merchants, especially inventory,
+financial records, orders, and reports.
+2.3.2التاجربيانات 
+2.3.2 Merchant Master Data
+العربية
+التاليةالبيانات بتسجيلالنظام يسمحأن يجب:
+
+التاجراسم .
+===== PAGE 171 =====
+
+
+التجارياًسم .
+
+
+التاجرنوع .
+
+
+التابعةالشركة .
+
+
+الصسابمسؤول .
+
+
+اللكترونيالبريد .
+
+
+الهاتفرقم .
+
+
+الدولة.
+
+
+العنوان.
+
+
+الضريبيالرقم .
+
+
+التجاريالسجل .
+
+
+===== PAGE 172 =====
+العملة.
+
+
+التاجرصالة .
+
+
+التعاقدتاريخ .
+
+
+التشغيلبدء تاريخ.
+
+
+الخدمةنوع .
+
+
+التشغيلنموذج .
+
+
+المتاجرعدد .
+
+
+المخازنعدد .
+
+
+اًئتمانيالصد .
+
+
+الدفعشروط .
+
+
+الماليةالتسوية دورة.
+===== PAGE 173 =====
+
+
+العمولةنسبة .
+
+
+الـخدمات أسعارFulfillment.
+
+
+التخزينأسعار .
+
+
+التجهيزأسعار .
+
+
+التغليفأسعار .
+
+
+المرتجعاتأسعار .
+
+
+المرفقةالمستندات .
+
+
+داخليةملصظات .
+
+
+التاجرلدى المسؤولالشخص .
+
+English
+The system must allow the following merchant data to be stored:
+
+===== PAGE 174 =====
+Merchant name.
+
+
+Trade name.
+
+
+Merchant type.
+
+
+Parent company.
+
+
+Account manager.
+
+
+Email address.
+
+
+Phone number.
+
+
+Country.
+
+
+Address.
+
+
+Tax registration number.
+
+
+Commercial registration number.
+===== PAGE 175 =====
+
+
+Currency.
+
+
+Merchant status.
+
+
+Contract date.
+
+
+Go-live date.
+
+
+Service type.
+
+
+Operating model.
+
+
+Number of stores.
+
+
+Number of warehouses.
+
+
+Credit limit.
+
+
+Payment terms.
+
+
+===== PAGE 176 =====
+Financial settlement cycle.
+
+
+Commission percentage.
+
+
+Fulfillment service pricing.
+
+
+Storage pricing.
+
+
+Picking pricing.
+
+
+Packing pricing.
+
+
+Return handling pricing.
+
+
+Attached documents.
+
+
+Internal notes.
+
+
+Merchant contact person.
+
+2.3.3للتاجرالمقدمة الخدماتونواع 
+===== PAGE 177 =====
+2.3.3 Merchant Service Types
+العربية
+ومنها، تاجرلكل أكثرأو واصدةخدمة بتصديدالنظام يسمحأن يجب:
+
+الطلباتإدارة .
+
+
+الطلباتتأكيد .
+
+
+العملءخدمة .
+
+
+تخزين.
+
+
+البضاعةاستلم .
+
+
+وتغليفتجهيز .
+
+
+شصن.
+
+
+الشصنمتابعة .
+
+
+المرتجعاتإدارة .
+
+
+===== PAGE 178 =====
+التصصيلتإدارة .
+
+
+Marketplace Management.
+
+
+المنتجاتإدارة .
+
+
+المخزونإدارة .
+
+
+بالعمولةالمسوقين إدارة.
+
+
+فقطتقارير .
+
+
+اللكترونيةللتجارة كاملةإدارة .
+
+English
+The system must allow one or more services to be assigned to each merchant,
+including:
+
+Order management.
+
+
+Order confirmation.
+
+
+Customer service.
+===== PAGE 179 =====
+
+
+Warehousing.
+
+
+Goods receiving.
+
+
+Picking and packing.
+
+
+Shipping.
+
+
+Shipment follow-up.
+
+
+Return management.
+
+
+Collection management.
+
+
+Marketplace management.
+
+
+Product management.
+
+
+Inventory management.
+
+
+===== PAGE 180 =====
+Affiliate management.
+
+
+Reporting only.
+
+
+Full e-commerce operations management.
+
+2.3.4التاجرحاًت 
+2.3.4 Merchant Statuses
+العربية
+التاليةالصاًت النظاميدعم أنيجب :
+
+مصتملعميل .
+
+
+التعاقدتصت .
+
+
+العدادتصت .
+
+
+للتشغيلجاهز .
+
+
+نشط.
+
+
+===== PAGE 181 =====
+مؤقتلاموقوف .
+
+
+السدادفي متأخر.
+
+
+معلق.
+
+
+التعاقدإنهاء تم.
+
+
+مؤرشف.
+
+English
+The system must support the following merchant statuses:
+
+Lead.
+
+
+Contracting.
+
+
+Onboarding.
+
+
+Ready for Go-Live.
+
+
+Active.
+===== PAGE 182 =====
+
+
+Temporarily Suspended.
+
+
+Payment Overdue.
+
+
+On Hold.
+
+
+Contract Terminated.
+
+
+Archived.
+
+2.3.5التاجرصفحة 
+2.3.5 Merchant Profile Page
+العربية
+تشملتبويبات علىالتاجر صفصةتصتوي أنيجب :
+
+الساسيةالبيانات .
+
+
+المرتبطةالمتاجر .
+
+
+المنتجات.
+===== PAGE 183 =====
+
+
+المخزون.
+
+
+الطلبات.
+
+
+المستخدمون.
+
+
+الشصنشركات .
+
+
+العقود.
+
+
+الخدماتأسعار .
+
+
+التصصيلت.
+
+
+الفواتير.
+
+
+المصروفات.
+
+
+المرتجعات.
+
+
+===== PAGE 184 =====
+التقارير.
+
+
+المستندات.
+
+
+النشاطسجل .
+
+
+التكاملت.
+
+
+العدادات.
+
+English
+The merchant profile page must include the following tabs:
+
+General information.
+
+
+Connected stores.
+
+
+Products.
+
+
+Inventory.
+
+
+Orders.
+===== PAGE 185 =====
+
+
+Users.
+
+
+Couriers.
+
+
+Contracts.
+
+
+Service pricing.
+
+
+Collections.
+
+
+Invoices.
+
+
+Expenses.
+
+
+Returns.
+
+
+Reports.
+
+
+Documents.
+
+
+===== PAGE 186 =====
+Activity log.
+
+
+Integrations.
+
+
+Settings.
+
+2.4البيعوقنوات المتاجرإدارة 
+2.4 Store and Sales Channel
+Management
+2.4.1المتجرتعريف 
+2.4.1 Store Definition
+العربية
+منهاالطلبات استقباليتم التيالبيع قناةالمتجر يمثل.
+المتجريكون قد:
+
+Shopify.
+
+
+WooCommerce.
+
+
+Amazon.
+
+===== PAGE 187 =====
+
+Noon.
+
+
+مخصصمتجر .
+
+
+موبايلتطبيق .
+
+
+بيعنقطة .
+
+
+فرع.
+
+
+Social Commerce.
+
+
+مرتبطغير يدويمتجر .
+
+
+بالجملةبيع قناة.
+
+
+Marketplaceآخر.
+
+متاجربعدة الواصدالتاجر ربطإمكانية مع، واصدبتاجر متجركل يرتبطأن يجب.
+English
+A store represents a sales channel from which orders are received.
+===== PAGE 188 =====
+A store may be:
+
+Shopify.
+
+
+WooCommerce.
+
+
+Amazon.
+
+
+Noon.
+
+
+A custom-built store.
+
+
+A mobile application.
+
+
+A point-of-sale location.
+
+
+A retail branch.
+
+
+A social commerce channel.
+
+
+A manually managed offline store.
+
+===== PAGE 189 =====
+
+A wholesale channel.
+
+
+Another marketplace.
+
+Each store must be linked to one merchant, while one merchant may operate
+multiple stores.
+2.4.2المتجربيانات 
+2.4.2 Store Master Data
+العربية
+بتسجيلالنظام يسمحأن يجب:
+
+المتجراسم .
+
+
+المتجركود .
+
+
+المنصةنوع .
+
+
+المتجررابط .
+
+
+التاجر.
+
+
+===== PAGE 190 =====
+الشركة.
+
+
+الدولة.
+
+
+العملة.
+
+
+اللغة.
+
+
+الزمنيةالمنطقة .
+
+
+المتجرصالة .
+
+
+الربطتاريخ .
+
+
+مزامنةآخر .
+
+
+المزامنةصالة .
+
+
+الطلباتاستقبال طريقة.
+
+
+المنتجاتمزامنة طريقة.
+===== PAGE 191 =====
+
+
+المخزونمزامنة طريقة.
+
+
+السعارمزامنة طريقة.
+
+
+الضرائبإعدادات .
+
+
+الشصنإعدادات .
+
+
+الدفعإعدادات .
+
+
+اًفتراضيالمخزن .
+
+
+اًفتراضيةالشصن شركة.
+
+
+التأكيدسياسة .
+
+
+اللغاءسياسة .
+
+
+المرتجعاتسياسة .
+
+
+===== PAGE 192 =====
+المتجرمسؤول .
+
+
+الـبيانات API.
+
+
+الـبيانات Webhook.
+
+
+ملصظات.
+
+English
+The system must allow the following store data to be recorded:
+
+Store name.
+
+
+Store code.
+
+
+Platform type.
+
+
+Store URL.
+
+
+Merchant.
+
+
+Company.
+===== PAGE 193 =====
+
+
+Country.
+
+
+Currency.
+
+
+Language.
+
+
+Time zone.
+
+
+Store status.
+
+
+Connection date.
+
+
+Last synchronization date.
+
+
+Synchronization status.
+
+
+Order import method.
+
+
+Product synchronization method.
+
+
+===== PAGE 194 =====
+Inventory synchronization method.
+
+
+Price synchronization method.
+
+
+Tax settings.
+
+
+Shipping settings.
+
+
+Payment settings.
+
+
+Default warehouse.
+
+
+Default courier.
+
+
+Confirmation policy.
+
+
+Cancellation policy.
+
+
+Return policy.
+
+
+Store manager.
+===== PAGE 195 =====
+
+
+API credentials.
+
+
+Webhook information.
+
+
+Notes.
+
+2.4.3المتجرحاًت 
+2.4.3 Store Statuses
+العربية
+النظاميدعم أنيجب :
+
+مسودة.
+
+
+مربوطغير .
+
+
+الربطجاري .
+
+
+مربوط.
+
+
+نشط.
+===== PAGE 196 =====
+
+
+الربطفي خطأ.
+
+
+مؤقتلامتوقف .
+
+
+الربطإلغاء تم.
+
+
+مؤرشف.
+
+English
+The system must support:
+
+Draft.
+
+
+Not Connected.
+
+
+Connection in Progress.
+
+
+Connected.
+
+
+Active.
+
+
+===== PAGE 197 =====
+Connection Error.
+
+
+Temporarily Suspended.
+
+
+Disconnected.
+
+
+Archived.
+
+2.4.4المتجرمزامنة 
+2.4.4 Store Synchronization
+العربية
+مزامنةالنظام يدعمأن يجب:
+
+الطلبات.
+
+
+العملء.
+
+
+المنتجات.
+
+
+المتغيرات.
+
+
+===== PAGE 198 =====
+السعار.
+
+
+المخزون.
+
+
+الخصومات.
+
+
+اللغاءعمليات .
+
+
+الدفعصاًت .
+
+
+الشصنصاًت .
+
+
+المرتجعات.
+
+
+التتبعأرقام .
+
+
+الضرائب.
+
+
+العناوينبيانات .
+
+خللمن المزامنةتعمل أنيجب :
+
+===== PAGE 199 =====
+Webhooksلصظية.
+
+
+دوريةمزامنة .
+
+
+يدويةمزامنة .
+
+
+خطأصدوث عندتلقائية مصاولةإعادة .
+
+English
+The system must synchronize:
+
+Orders.
+
+
+Customers.
+
+
+Products.
+
+
+Variants.
+
+
+Prices.
+
+
+Inventory.
+===== PAGE 200 =====
+
+
+Discounts.
+
+
+Cancellations.
+
+
+Payment statuses.
+
+
+Fulfillment statuses.
+
+
+Returns.
+
+
+Tracking numbers.
+
+
+Taxes.
+
+
+Address information.
+
+Synchronization must operate through:
+
+Real-time webhooks.
+
+
+Scheduled synchronization.
+===== PAGE 201 =====
+
+
+Manual synchronization.
+
+
+Automatic retry after synchronization failures.
+
+2.4.5المزامنةسجل 
+2.4.5 Synchronization Log
+العربية
+وتشملمزامنة عمليةكل تسجيليجب :
+
+المتجر.
+
+
+العمليةنوع .
+
+
+العمليةووقت تاريخ.
+
+
+المستلمةالسجلت عدد.
+
+
+الناجصةالسجلت عدد.
+
+
+الفاشلةالسجلت عدد.
+===== PAGE 202 =====
+
+
+الخطاءتفاصيل .
+
+
+المزامنةمدة .
+
+
+العمليةبدأ الذيالمستخدم .
+
+
+العادةمصاوًت عدد.
+
+
+العمليةصالة .
+
+English
+Each synchronization process must be logged with:
+
+Store.
+
+
+Synchronization type.
+
+
+Date and time.
+
+
+Number of received records.
+
+
+===== PAGE 203 =====
+Number of successful records.
+
+
+Number of failed records.
+
+
+Error details.
+
+
+Synchronization duration.
+
+
+User who initiated the synchronization.
+
+
+Number of retry attempts.
+
+
+Final status.
+
+2.5المستخدمينإدارة 
+2.5 User Management
+2.5.1المستخدمإنشاء 
+2.5.1 User Creation
+العربية
+بـوربطه جديدمستخدم بإنشاءالنظام يسمحأن يجب:
+===== PAGE 204 =====
+
+شركة.
+
+
+تاجر.
+
+
+متجر.
+
+
+مخزن.
+
+
+قسم.
+
+
+فريق.
+
+
+مباشرمدير .
+
+
+وظيفيدور .
+
+
+صلصياتمجموعة .
+
+بذلكتسمح صلصياتهكانت إذامخزن أومتجر منبأكثر المستخدميرتبط أنيمكن .
+English
+The system must allow a new user to be created and linked to:
+===== PAGE 205 =====
+
+A company.
+
+
+A merchant.
+
+
+A store.
+
+
+A warehouse.
+
+
+A department.
+
+
+A team.
+
+
+A direct manager.
+
+
+A job role.
+
+
+A permission group.
+
+A user may be linked to multiple stores or warehouses if authorized.
+2.5.2المستخدمبيانات 
+===== PAGE 206 =====
+2.5.2 User Master Data
+العربية
+المستخدمبيانات تشمل:
+
+الكاملاًسم .
+
+
+اللكترونيالبريد .
+
+
+الهاتفرقم .
+
+
+الموظفكود .
+
+
+الوظيفيالمسمى .
+
+
+القسم.
+
+
+الفريق.
+
+
+المباشرالمدير .
+
+
+الشركة.
+
+
+===== PAGE 207 =====
+التاجر.
+
+
+بهاالمسموح المتاجر.
+
+
+بهاالمسموح المخازن.
+
+
+اللغة.
+
+
+الزمنيةالمنطقة .
+
+
+التعيينتاريخ .
+
+
+النظاماستخدام بدايةتاريخ .
+
+
+المستخدمنوع .
+
+
+المستخدمصالة .
+
+
+المستخدمصورة .
+
+
+العملساعات .
+===== PAGE 208 =====
+
+
+العملأيام .
+
+
+الداءهدف .
+
+
+للطلباتالقصى الصد.
+
+
+الشعاراتإعدادات .
+
+
+دخولتسجيل آخر.
+
+
+الفاشلةالدخول مصاوًتعدد .
+
+
+الثنائيالتصقق طريقة.
+
+
+ملصظات.
+
+English
+User data must include:
+
+Full name.
+
+
+===== PAGE 209 =====
+Email address.
+
+
+Phone number.
+
+
+Employee code.
+
+
+Job title.
+
+
+Department.
+
+
+Team.
+
+
+Direct manager.
+
+
+Company.
+
+
+Merchant.
+
+
+Allowed stores.
+
+
+Allowed warehouses.
+===== PAGE 210 =====
+
+
+Language.
+
+
+Time zone.
+
+
+Hire date.
+
+
+System access start date.
+
+
+User type.
+
+
+User status.
+
+
+Profile picture.
+
+
+Working hours.
+
+
+Working days.
+
+
+Performance target.
+
+
+===== PAGE 211 =====
+Maximum assigned order capacity.
+
+
+Notification preferences.
+
+
+Last login.
+
+
+Failed login attempts.
+
+
+Two-factor authentication method.
+
+
+Notes.
+
+2.5.3المستخدمحاًت 
+2.5.3 User Statuses
+العربية
+
+دعوتهتمت .
+
+
+الصسابيفعل لم.
+
+
+نشط.
+===== PAGE 212 =====
+
+
+إجازةفي .
+
+
+مؤقتلاموقوف .
+
+
+مصظور.
+
+
+مستقيل.
+
+
+خدمتهإنهاء تم.
+
+
+مؤرشف.
+
+English
+
+Invited.
+
+
+Activation Pending.
+
+
+Active.
+
+
+On Leave.
+===== PAGE 213 =====
+
+
+Temporarily Suspended.
+
+
+Blocked.
+
+
+Resigned.
+
+
+Terminated.
+
+
+Archived.
+
+2.5.4والحمايةالدخول تسجيل
+2.5.4 Authentication and Security
+العربية
+النظاميدعم أنيجب :
+
+المروروكلمة اللكترونيبالبريد الدخولتسجيل .
+
+
+تفعيلهتم إذاالهاتف برقمالدخول تسجيل.
+
+
+الثنائيالتصقق .
+===== PAGE 214 =====
+
+
+المروركلمة استعادة.
+
+
+إجباريلاالمرور كلمةتغيير .
+
+
+الجلسةصلصية مدةتصديد .
+
+
+التلقائيالخروج تسجيل.
+
+
+فاشلةدخول مصاوًتبعد الصسابقفل .
+
+
+بهاالمسموح الجهزةتصديد .
+
+
+عنوانتسجيل IP.
+
+
+جديدجهاز منالدخول تسجيلعند المستخدمتنبيه .
+
+
+النشطةالجلسات إلغاء.
+
+
+الدخولمصاوًت جميعتسجيل .
+
+===== PAGE 215 =====
+English
+The system must support:
+
+Email and password login.
+
+
+Phone number login when enabled.
+
+
+Two-factor authentication.
+
+
+Password recovery.
+
+
+Mandatory password reset.
+
+
+Session expiration rules.
+
+
+Automatic logout.
+
+
+Account lockout after failed attempts.
+
+
+Authorized device restrictions.
+
+
+IP address logging.
+===== PAGE 216 =====
+
+
+New device login alerts.
+
+
+Active session termination.
+
+
+Complete login attempt history.
+
+2.6الوظيفيةالدوار 
+2.6 Role Management
+2.6.1الدورتعريف 
+2.6.1 Role Definition
+العربية
+وظيفتهعلى بناءلللمستخدم تعيينهايتم الصلصياتمن مجموعةهو الوظيفيالدور .
+النظاميسمح أنيجب :
+
+جديدةأدوار بإنشاء.
+
+
+الدواربتعديل .
+
+
+موجوددور بنسخ.
+===== PAGE 217 =====
+
+
+الدورإيقاف أوبتفعيل .
+
+
+مصددتاجر أوبشركة الدوربربط .
+
+
+مخصصةوأدوار عامةأدوار بإنشاء.
+
+
+المخزنأو المتجرصسب الدورلنفس مختلفةصلصيات بتصديد.
+
+English
+A role is a predefined set of permissions assigned to a user based on job
+responsibilities.
+The system must allow administrators to:
+
+Create new roles.
+
+
+Edit roles.
+
+
+Duplicate existing roles.
+
+
+Activate or deactivate roles.
+
+
+Link roles to a specific company or merchant.
+===== PAGE 218 =====
+
+
+Create global and customized roles.
+
+
+Apply different data permissions to the same role by store or warehouse.
+
+2.6.2اًفتراضيةالدوار 
+2.6.2 Default Roles
+العربية
+تشملافتراضية أدوارلا النظاميوفر أنيجب :
+
+Super Admin.
+
+
+System Admin.
+
+
+Company Admin.
+
+
+Merchant Admin.
+
+
+Store Manager.
+
+
+Operations Manager.
+===== PAGE 219 =====
+
+
+Confirmation Team Leader.
+
+
+Confirmation Agent.
+
+
+Customer Service Agent.
+
+
+Warehouse Manager.
+
+
+Receiving Agent.
+
+
+Picker.
+
+
+Packer.
+
+
+Inventory Controller.
+
+
+Shipping Manager.
+
+
+Follow-up Agent.
+
+
+===== PAGE 220 =====
+Returns Agent.
+
+
+Accountant.
+
+
+Collection Officer.
+
+
+Marketing Manager.
+
+
+Affiliate Manager.
+
+
+Quality Auditor.
+
+
+Reports Viewer.
+
+
+API User.
+
+English
+The system should provide default roles including:
+
+Super Admin.
+
+
+System Admin.
+===== PAGE 221 =====
+
+
+Company Admin.
+
+
+Merchant Admin.
+
+
+Store Manager.
+
+
+Operations Manager.
+
+
+Confirmation Team Leader.
+
+
+Confirmation Agent.
+
+
+Customer Service Agent.
+
+
+Warehouse Manager.
+
+
+Receiving Agent.
+
+
+Picker.
+
+
+===== PAGE 222 =====
+Packer.
+
+
+Inventory Controller.
+
+
+Shipping Manager.
+
+
+Follow-up Agent.
+
+
+Returns Agent.
+
+
+Accountant.
+
+
+Collection Officer.
+
+
+Marketing Manager.
+
+
+Affiliate Manager.
+
+
+Quality Auditor.
+
+
+Reports Viewer.
+===== PAGE 223 =====
+
+
+API User.
+
+2.7الصلحياتإدارة 
+2.7 Permission Management
+2.7.1الصلحياتمستويات 
+2.7.1 Permission Levels
+العربية
+المستوياتمتعددة بصلصياتالنظام يعملأن يجب:
+الشاشةصلحيات 
+الشاشةرؤية يستطيعالمستخدم كانإذا ماتصدد .
+الوظيفةصلحيات 
+مثل، تنفيذهاالمستخدم يستطيعالتي العملياتتصدد :
+
+إضافة.
+
+
+تعديل.
+
+
+صذف.
+
+
+اعتماد.
+===== PAGE 224 =====
+
+
+إلغاء.
+
+
+تصدير.
+
+
+استيراد.
+
+
+طباعة.
+
+
+تخصيص.
+
+
+تعيينإعادة .
+
+
+إرسال.
+
+
+تصويل.
+
+
+دمج.
+
+البياناتصلحيات 
+مثل، إليهاالوصول المستخدميستطيع التيالبيانات تصدد:
+
+===== PAGE 225 =====
+بالكاملالشركة بيانات.
+
+
+مصددتاجر بيانات.
+
+
+مصددمتجر بيانات.
+
+
+مصددمخزن بيانات.
+
+
+مصددفريق بيانات.
+
+
+فقطإليه المسندةالطلبات .
+
+
+بنفسهأنشأها التيالبيانات .
+
+
+مصددةزمنية فترةبيانات .
+
+الحقولصلحيات 
+يستطيعالمستخدم كانإذا ماتصدد :
+
+معينصقل رؤية.
+
+
+الصقلتعديل .
+===== PAGE 226 =====
+
+
+الصقلإخفاء .
+
+
+الماليةالقيم رؤية.
+
+
+الصساسةالعميل بياناترؤية .
+
+English
+The system must use multi-level permission controls:
+Screen Permissions
+Determine whether a user can access or view a screen.
+Action Permissions
+Determine which operations the user can perform, such as:
+
+Create.
+
+
+Edit.
+
+
+Delete.
+
+
+Approve.
+
+
+Cancel.
+===== PAGE 227 =====
+
+
+Export.
+
+
+Import.
+
+
+Print.
+
+
+Configure.
+
+
+Reset.
+
+
+Send.
+
+
+Transfer.
+
+
+Merge.
+
+Data Permissions
+Determine which records the user can access, such as:
+
+All company data.
+
+
+===== PAGE 228 =====
+A specific merchant’s data.
+
+
+A specific store’s data.
+
+
+A specific warehouse’s data.
+
+
+A specific team’s data.
+
+
+Only assigned orders.
+
+
+Only records created by the user.
+
+
+Records within a defined date range.
+
+Field-Level Permissions
+Determine whether the user can:
+
+View a specific field.
+
+
+Edit the field.
+
+
+Hide the field.
+===== PAGE 229 =====
+
+
+View financial values.
+
+
+Access sensitive customer information.
+
+2.7.2الحساسةالمالية الصلحيات
+2.7.2 Sensitive Financial Permissions
+العربية
+مستقلةالتالية الصلصياتتكون أنيجب :
+
+المنتجتكلفة عرض.
+
+
+البيعسعر عرض.
+
+
+الربحهامش عرض.
+
+
+التسويقمصروفات عرض.
+
+
+الشصنتكلفة عرض.
+
+
+التصصيلتعرض .
+===== PAGE 230 =====
+
+
+التاجررصيد عرض.
+
+
+المسوقينعموًت عرض.
+
+
+الماليةالقيود تعديل.
+
+
+التسوياتاعتماد .
+
+
+الفواتيرإصدار .
+
+
+الماليةالبيانات تصدير.
+
+English
+The following permissions must be controlled separately:
+
+View product cost.
+
+
+View selling price.
+
+
+View profit margin.
+
+
+===== PAGE 231 =====
+View marketing expenses.
+
+
+View shipping cost.
+
+
+View collections.
+
+
+View merchant balance.
+
+
+View affiliate commissions.
+
+
+Edit financial entries.
+
+
+Approve settlements.
+
+
+Generate invoices.
+
+
+Export financial data.
+
+2.7.3الحساسةالعملء بيانات
+2.7.3 Sensitive Customer Data
+العربية
+===== PAGE 232 =====
+إظهارأو بإخفاءالنظام يسمحأن يجب:
+
+الهاتفرقم .
+
+
+العنوان.
+
+
+اللكترونيالبريد .
+
+
+الصوتيةالتسجيلت .
+
+
+الطلباتسجل .
+
+
+الداخليةالملصظات .
+
+
+الدفعبيانات .
+
+
+العميلمخاطر تقييم.
+
+المستخدمينلبعض الهاتفرقم منجزء إخفاءيمكن .
+English
+The system must allow administrators to hide or display:
+
+Phone number.
+===== PAGE 233 =====
+
+
+Address.
+
+
+Email address.
+
+
+Call recordings.
+
+
+Order history.
+
+
+Internal notes.
+
+
+Payment data.
+
+
+Customer risk score.
+
+Partial masking of customer phone numbers should be supported.
+2.7.4المهامفصل 
+2.7.4 Segregation of Duties
+العربية
+ذلكتفرض الشركةكانت إذاالعملية واعتمادتنفيذ المستخدمنفس يستطيعً بصيث، الصساسةالمهام فصلدعم يجب.
+أمثلة:
+===== PAGE 234 =====
+
+يعتمدهاآخر وموظفتسوية ينشئموظف .
+
+
+التعديليعتمد المخزنومدير المخزونيعدل موظف.
+
+
+صالتهيعتمد الجودةوموظف مرتجعيسجل موظف.
+
+
+يعتمدهاالصسابات وموظففاتورة ينشئموظف .
+
+
+اللغاءيعتمد ومديرهأوردر إلغاءيطلب موظف.
+
+English
+The system must support segregation of duties so that the same user cannot create
+and approve a sensitive transaction when dual control is required.
+Examples include:
+
+One employee creates a settlement and another approves it.
+
+
+One employee creates a stock adjustment and the warehouse manager
+approves it.
+
+
+One employee receives a return and quality control approves its condition.
+
+
+One employee creates an invoice and an accountant approves it.
+===== PAGE 235 =====
+
+
+One employee requests order cancellation and a manager approves it.
+
+2.8والقسامالفرق 
+2.8 Team and Department
+Management
+2.8.1القسام
+2.8.1 Departments
+العربية
+مثلأقسام بإنشاءالنظام يسمحأن يجب:
+
+العمليات.
+
+
+التأكيد.
+
+
+العملءخدمة .
+
+
+المخازن.
+
+
+الشصن.
+===== PAGE 236 =====
+
+
+المتابعة.
+
+
+المرتجعات.
+
+
+الصسابات.
+
+
+التصصيلت.
+
+
+التسويق.
+
+
+الجودة.
+
+
+المعلوماتتكنولوجيا .
+
+
+الدارة.
+
+English
+The system must allow departments such as:
+
+Operations.
+
+
+===== PAGE 237 =====
+Confirmation.
+
+
+Customer Service.
+
+
+Warehouse.
+
+
+Shipping.
+
+
+Follow-up.
+
+
+Returns.
+
+
+Accounting.
+
+
+Collections.
+
+
+Marketing.
+
+
+Quality.
+
+
+Information Technology.
+===== PAGE 238 =====
+
+
+Management.
+
+2.8.2الفرق
+2.8.2 Teams
+العربية
+تصديدمع ،فرقإلى قسمكل تقسيميمكن :
+
+الفريقاسم .
+
+
+الفريققائد .
+
+
+الفريقأعضاء .
+
+
+التابعةالمتاجر .
+
+
+التابعونالتجار .
+
+
+الطلباتنوع .
+
+
+المصافظات.
+===== PAGE 239 =====
+
+
+الوردية.
+
+
+اًستيعابيةللطاقة القصىالصد .
+
+
+الفريقأهداف .
+
+
+Workflowالتوزيع.
+
+English
+Each department may be divided into teams with:
+
+Team name.
+
+
+Team leader.
+
+
+Team members.
+
+
+Assigned stores.
+
+
+Assigned merchants.
+
+
+===== PAGE 240 =====
+Order types.
+
+
+Assigned regions.
+
+
+Shift.
+
+
+Maximum workload capacity.
+
+
+Team targets.
+
+
+Assignment workflow.
+
+2.8.3العملوساعات الورديات
+2.8.3 Shifts and Working Hours
+العربية
+تشملورديات بإنشاءالنظام يسمحأن يجب:
+
+الورديةاسم .
+
+
+البدايةوقت .
+
+
+===== PAGE 241 =====
+النهايةوقت .
+
+
+العملأيام .
+
+
+الراصةفترة .
+
+
+الزمنيةالمنطقة .
+
+
+القسم.
+
+
+الفريق.
+
+
+الموظفون.
+
+
+اًستيعابيةالطاقة .
+
+
+الوردياتبين العملتسليم قواعد.
+
+English
+The system must allow work shifts to be created with:
+
+Shift name.
+===== PAGE 242 =====
+
+
+Start time.
+
+
+End time.
+
+
+Working days.
+
+
+Break period.
+
+
+Time zone.
+
+
+Department.
+
+
+Team.
+
+
+Assigned employees.
+
+
+Workload capacity.
+
+
+Shift handover rules.
+
+===== PAGE 243 =====
+2.9والمراجعةالنشاط سجل
+2.9 Activity and Audit Log
+2.9.1تسجيلهايجب التيالعمليات 
+2.9.1 Logged Activities
+العربية
+النظاميسجل أنيجب :
+
+الصساباتإنشاء .
+
+
+البياناتتعديل .
+
+
+السجلتأرشفة أوصذف .
+
+
+الصلصياتتغيير .
+
+
+فريقمن مستخدمإزالة أوإضافة .
+
+
+والخروجالدخول تسجيل.
+
+
+الفاشلةالدخول مصاوًت.
+
+
+===== PAGE 244 =====
+المروركلمات تغيير.
+
+
+المتاجرفصل أوربط .
+
+
+التكاملإعدادات تعديل.
+
+
+البياناتتصدير .
+
+
+صساسةبيانات عرض.
+
+
+الماليةالبيانات تعديل.
+
+
+المتجرأو التاجرأو الشركةصالة تغيير.
+
+English
+The system must log:
+
+Account creation.
+
+
+Data changes.
+
+
+Record deletion or archiving.
+===== PAGE 245 =====
+
+
+Permission changes.
+
+
+Adding or removing users from teams.
+
+
+Login and logout events.
+
+
+Failed login attempts.
+
+
+Password changes.
+
+
+Store connection or disconnection.
+
+
+Integration setting changes.
+
+
+Data exports.
+
+
+Access to sensitive data.
+
+
+Financial data changes.
+
+
+===== PAGE 246 =====
+Company, merchant, or store status changes.
+
+2.9.2المراجعةسجل بيانات
+2.9.2 Audit Log Fields
+العربية
+سجلكل يتضمنأن يجب:
+
+المستخدم.
+
+
+الشركة.
+
+
+التاجر.
+
+
+العمليةنوع .
+
+
+الوصدة.
+
+
+السجلرقم .
+
+
+القديمةالقيمة .
+
+
+===== PAGE 247 =====
+الجديدةالقيمة .
+
+
+والوقتالتاريخ .
+
+
+عنوانIP.
+
+
+الجهاز.
+
+
+المتصفح.
+
+
+مطلوبلاكان إنالتعديل سبب.
+
+
+اًعتمادطلب رقم.
+
+
+العمليةاعتمد الذيالمستخدم .
+
+English
+Each audit record must include:
+
+User.
+
+
+Company.
+===== PAGE 248 =====
+
+
+Merchant.
+
+
+Action type.
+
+
+Module.
+
+
+Record ID.
+
+
+Previous value.
+
+
+New value.
+
+
+Date and time.
+
+
+IP address.
+
+
+Device.
+
+
+Browser.
+
+
+===== PAGE 249 =====
+Change reason when required.
+
+
+Approval request ID.
+
+
+Approving user.
+
+2.10والتنبيهاتالشعارات 
+2.10 Notifications and Alerts
+العربية
+عندإشعارات النظاميرسل أنيجب :
+
+جديدةشركة إنشاء.
+
+
+اًشتراكانتهاء اقتراب.
+
+
+الشركةتعليق .
+
+
+جديدتاجر إضافة.
+
+
+التاجرإعداد اكتمال.
+
+===== PAGE 250 =====
+
+متجرربط فشل.
+
+
+متجرمزامنة توقف.
+
+
+الـفي متكررةأخطاء وجودAPI.
+
+
+مستخدمإضافة .
+
+
+صلصياتتغيير .
+
+
+مستخدمصساب قفل.
+
+
+مشبوهدخول تسجيل.
+
+
+المستخدمينأو للطلباتالقصى الصدتجاوز .
+
+
+منتهيةمستندات وجود.
+
+
+متجرتفعيل تأخر.
+
+خللمن الشعاراتإرسال يمكن:
+===== PAGE 251 =====
+
+النظامداخل إشعار.
+
+
+إلكترونيبريد .
+
+
+SMS.
+
+
+WhatsApp.
+
+
+Push Notification.
+
+English
+The system must generate notifications when:
+
+A new company is created.
+
+
+A subscription is close to expiration.
+
+
+A company is suspended.
+
+
+A new merchant is added.
+
+
+===== PAGE 252 =====
+Merchant onboarding is completed.
+
+
+A store connection fails.
+
+
+Store synchronization stops.
+
+
+Repeated API errors occur.
+
+
+A user is added.
+
+
+Permissions are changed.
+
+
+A user account is locked.
+
+
+Suspicious login activity is detected.
+
+
+User or order plan limits are exceeded.
+
+
+Legal documents expire.
+
+
+Store activation is delayed.
+===== PAGE 253 =====
+
+Notifications may be sent through:
+
+In-system notifications.
+
+
+Email.
+
+
+SMS.
+
+
+WhatsApp.
+
+
+Push notifications.
+
+2.11المطلوبةالتقارير 
+2.11 Required Reports
+2.11.1الشركاتتقارير 
+2.11.1 Company Reports
+العربية
+
+الشركاتعدد .
+
+===== PAGE 254 =====
+
+النشطةالشركات .
+
+
+المعلقةالشركات .
+
+
+الباقةصسب الشركات.
+
+
+الدولةصسب الشركات.
+
+
+التشغيلنموذج صسبالشركات .
+
+
+شركةلكل الشهريةالطلبات .
+
+
+الباقةصدود استهلك.
+
+
+اًنتهاءمن القريبةأو المنتهيةاًشتراكات .
+
+English
+
+Total companies.
+
+
+Active companies.
+===== PAGE 255 =====
+
+
+Suspended companies.
+
+
+Companies by subscription plan.
+
+
+Companies by country.
+
+
+Companies by operating model.
+
+
+Monthly order volume by company.
+
+
+Plan limit consumption.
+
+
+Expired and expiring subscriptions.
+
+2.11.2التجارتقارير 
+2.11.2 Merchant Reports
+العربية
+
+التجارعدد .
+
+
+===== PAGE 256 =====
+النشطونالتجار .
+
+
+العدادتصت التجار.
+
+
+الخدمةنوع صسبالتجار .
+
+
+تاجرلكل المتاجرعدد .
+
+
+تاجرلكل الطلباتعدد .
+
+
+تاجرلكل المبيعاتصجم .
+
+
+تاجركل رصيد.
+
+
+الخدماتاستخدام مستوى.
+
+
+السدادفي المتأخرونالتجار .
+
+English
+
+Total merchants.
+
+
+===== PAGE 257 =====
+Active merchants.
+
+
+Merchants under onboarding.
+
+
+Merchants by service type.
+
+
+Stores per merchant.
+
+
+Orders per merchant.
+
+
+Sales volume per merchant.
+
+
+Merchant balance.
+
+
+Service utilization.
+
+
+Merchants with overdue payments.
+
+2.11.3المتاجرتقارير 
+2.11.3 Store Reports
+العربية
+===== PAGE 258 =====
+
+النشطةالمتاجر .
+
+
+المربوطةغير المتاجر.
+
+
+أخطاءبها التيالمتاجر .
+
+
+متجرلكل مزامنةآخر .
+
+
+المستلمةالطلبات عدد.
+
+
+الفاشلةالطلبات عدد.
+
+
+المتزامنةالمنتجات عدد.
+
+
+المخزونأخطاء .
+
+
+السعارأخطاء .
+
+
+المزامنةنجاح معدل.
+
+English
+===== PAGE 259 =====
+
+Active stores.
+
+
+Disconnected stores.
+
+
+Stores with errors.
+
+
+Last synchronization by store.
+
+
+Imported order count.
+
+
+Failed order count.
+
+
+Synchronized product count.
+
+
+Inventory synchronization errors.
+
+
+Price synchronization errors.
+
+
+Synchronization success rate.
+
+===== PAGE 260 =====
+2.11.4المستخدمينتقارير 
+2.11.4 User Reports
+العربية
+
+المستخدمينعدد .
+
+
+النشطونالمستخدمون .
+
+
+المفعلينغير المستخدمون.
+
+
+القسمصسب المستخدمون.
+
+
+الدورصسب المستخدمون.
+
+
+دخولتسجيل آخر.
+
+
+الفاشلةالدخول مصاوًت.
+
+
+المتوقفونالمستخدمون .
+
+
+مصددةفترة خلليدخلوا لمالذين المستخدمون.
+
+===== PAGE 261 =====
+
+الصلصياتتغييرات .
+
+English
+
+Total users.
+
+
+Active users.
+
+
+Unactivated users.
+
+
+Users by department.
+
+
+Users by role.
+
+
+Last login.
+
+
+Failed login attempts.
+
+
+Suspended users.
+
+
+Users inactive for a defined period.
+===== PAGE 262 =====
+
+
+Permission change history.
+
+2.12الرئيسيةالداء مؤشرات
+2.12 Key Performance Indicators
+العربية
+
+النشطةالشركات عدد.
+
+
+النشطينالتجار عدد.
+
+
+المربوطةالمتاجر عدد.
+
+
+المتاجرمزامنة نجاحمعدل .
+
+
+جديدتاجر تفعيلوقت متوسط.
+
+
+متجرربط وقتمتوسط .
+
+
+النشطينالمستخدمين نسبة.
+===== PAGE 263 =====
+
+
+الربطأخطاء عدد.
+
+
+بهاالمصرح غيرالدخول مصاوًتأو الصلصياتاختراق صاًتعدد .
+
+
+تاجرأو شركةلكل الطلباتعدد .
+
+
+الباقةصدود استهلكنسبة .
+
+
+بالتجاراًصتفاظ معدل.
+
+
+اًشتراكإلغاء معدل.
+
+English
+
+Active company count.
+
+
+Active merchant count.
+
+
+Connected store count.
+
+
+Store synchronization success rate.
+===== PAGE 264 =====
+
+
+Average merchant onboarding time.
+
+
+Average store connection time.
+
+
+Active user rate.
+
+
+Integration error count.
+
+
+Unauthorized access attempt count.
+
+
+Orders per company or merchant.
+
+
+Subscription limit utilization.
+
+
+Merchant retention rate.
+
+
+Subscription churn rate.
+
+2.13العملقواعد 
+===== PAGE 265 =====
+2.13 Business Rules
+العربية
+1.
+بتاجرربطه دونمتجر إنشاءيمكن ً.
+2.
+3.
+بشركةربطه دونتاجر إنشاءيمكن ً.
+4.
+5.
+بهاله مسموحغير شركةإلى الوصولللمستخدم يمكنً .
+6.
+7.
+صلصياتهنطاق خارجمخزن أومتجر رؤيةللمستخدم يمكنً .
+8.
+9.
+النطاقنفس داخلالمتاجر أوالتجار أوالشركات أكوادتتكرر أًيجب .
+10.
+11.
+الصلصياتتغييرات جميعتسجيل يجب.
+12.
+13.
+ذلكتفعيل تمإذا إضافيلااعتمادلا الصساسةالصلصيات تتطلبأن يجب.
+14.
+15.
+التاجرإيقاف عندالمتجر مزامنةإيقاف يجب.
+16.
+17.
+الشركةتعليق عندالجديدة الطلباتتنفيذ منعيجب .
+18.
+19.
+===== PAGE 266 =====
+خاصةبصلصية إًنهائيلا صذفهاوعدم المؤرشفةبالسجلت اًصتفاظيجب .
+20.
+21.
+ذلكمن بدًلأرشفته ويتم، مسجلةعمليات لهمستخدم صذفمنع يجب.
+22.
+23.
+آخرينتجار بياناتالتاجر يرىأً يجب.
+24.
+25.
+الـمستخدم يرىأً يجبMarketplaceبصسابهمرتبط غيرمتجر بيانات.
+26.
+27.
+المستخدمصلصية مستوىوفق العملءبيانات إخفاءيجب .
+28.
+29.
+فيللتسجيل الصساسةالبيانات تصديرعمليات جميعتخضع أنيجب Audit Log.
+30.
+English
+1.
+A store cannot be created without being linked to a merchant.
+2.
+3.
+A merchant cannot be created without being linked to a company.
+4.
+5.
+A user cannot access an unauthorized company.
+6.
+7.
+A user cannot access stores or warehouses outside their permission scope.
+8.
+===== PAGE 267 =====
+9.
+Company, merchant, and store codes must be unique within their applicable
+scope.
+10.
+11.
+All permission changes must be logged.
+12.
+13.
+Sensitive permissions may require additional approval when enabled.
+14.
+15.
+Store synchronization must stop when the related merchant is suspended.
+16.
+17.
+New order processing must stop when the company is suspended.
+18.
+19.
+Archived records must be retained and not permanently deleted without
+special authorization.
+20.
+21.
+A user with recorded transactions must be archived rather than deleted.
+22.
+23.
+A merchant must never access another merchant’s data.
+24.
+25.
+A marketplace user must only access stores linked to their account.
+26.
+27.
+Customer data must be masked according to user permissions.
+===== PAGE 268 =====
+28.
+29.
+All sensitive data exports must be recorded in the audit log.
+30.
+2.14المطلوبةالشاشات 
+2.14 Required Screens
+العربية
+التاليةالشاشات تطويريجب :
+1.
+الشركاتقائمة .
+2.
+3.
+شركةوتعديل إنشاء.
+4.
+5.
+الشركةتفاصيل صفصة.
+6.
+7.
+الشركةإعدادات .
+8.
+9.
+التجارقائمة .
+10.
+11.
+تاجروتعديل إنشاء.
+12.
+===== PAGE 269 =====
+13.
+التاجرتفاصيل صفصة.
+14.
+15.
+جديدتاجر إعدادOnboarding.
+16.
+17.
+المتاجرقائمة .
+18.
+19.
+متجروربط إنشاء.
+20.
+21.
+المتجرتفاصيل صفصة.
+22.
+23.
+المزامنةسجل .
+24.
+25.
+المستخدمينقائمة .
+26.
+27.
+مستخدموتعديل إنشاء.
+28.
+29.
+المستخدمملف صفصة.
+30.
+31.
+الدوارقائمة .
+32.
+33.
+===== PAGE 270 =====
+دوروتعديل إنشاء.
+34.
+35.
+الصلصياتمصفوفة .
+36.
+37.
+الفرقإدارة .
+38.
+39.
+القسامإدارة .
+40.
+41.
+الوردياتإدارة .
+42.
+43.
+النشاطسجل .
+44.
+45.
+الدخولمصاوًت سجل.
+46.
+47.
+التنبيهاتشاشة .
+48.
+49.
+والباقاتاًشتراكات إدارةشاشة .
+50.
+English
+The following screens must be developed:
+1.
+Company list.
+===== PAGE 271 =====
+2.
+3.
+Create and edit company.
+4.
+5.
+Company details.
+6.
+7.
+Company settings.
+8.
+9.
+Merchant list.
+10.
+11.
+Create and edit merchant.
+12.
+13.
+Merchant details.
+14.
+15.
+Merchant onboarding.
+16.
+17.
+Store list.
+18.
+19.
+Create and connect store.
+20.
+21.
+Store details.
+22.
+===== PAGE 272 =====
+23.
+Synchronization log.
+24.
+25.
+User list.
+26.
+27.
+Create and edit user.
+28.
+29.
+User profile.
+30.
+31.
+Role list.
+32.
+33.
+Create and edit role.
+34.
+35.
+Permission matrix.
+36.
+37.
+Team management.
+38.
+39.
+Department management.
+40.
+41.
+Shift management.
+42.
+43.
+===== PAGE 273 =====
+Activity log.
+44.
+45.
+Login attempt log.
+46.
+47.
+Notification center.
+48.
+49.
+Subscription and plan management.
+50.
+2.15القبولمعايير 
+2.15 Acceptance Criteria
+العربية
+التيتصقق عندمقبوًل القسمهذا يعتبر:
+
+وأرشفتهاوتعديلها شركةإنشاء إمكانية.
+
+
+الشركةداخل تجارعدة إنشاءإمكانية .
+
+
+بالتاجرمتاجر عدةربط إمكانية.
+
+
+مختلفةبأدوار وربطهممستخدمين إنشاءإمكانية .
+===== PAGE 274 =====
+
+
+والبياناتوالوظائف الشاشاتعلى الصلصياتتطبيق .
+
+
+بهامصرح غيربيانات إلىالوصول منع.
+
+
+فيالتغييرات جميعتسجيل Audit Log.
+
+
+بياناتهواستقبال متجرربط نجاح.
+
+
+بوضوحالمزامنة أخطاءظهور .
+
+
+متجرأو تاجرأو شركةتعليق إمكانية.
+
+
+العملقواعد وفقالمعلق بالصسابالمرتبطة العملياتتوقف .
+
+
+والنجليزيةالعربية اللغةدعم .
+
+
+والتصديروالتصفية البصثدعم .
+
+
+الصلصياتصسب الصساسةالبيانات إخفاءنجاح .
+
+
+===== PAGE 275 =====
+بهاالمستخدمين وربطوورديات فرقإنشاء إمكانية.
+
+English
+This module will be considered accepted when:
+
+A company can be created, edited, suspended, and archived.
+
+
+Multiple merchants can be created under one company.
+
+
+Multiple stores can be linked to one merchant.
+
+
+Users can be created and assigned to different roles.
+
+
+Screen, action, data, and field permissions are enforced.
+
+
+Unauthorized data access is prevented.
+
+
+All changes are recorded in the audit log.
+
+
+A store can be successfully connected and synchronized.
+
+
+Synchronization errors are clearly displayed.
+===== PAGE 276 =====
+
+
+A company, merchant, or store can be suspended.
+
+
+Related operations stop according to business rules.
+
+
+Arabic and English are supported.
+
+
+Search, filtering, and export functions operate correctly.
+
+
+Sensitive data masking works according to permissions.
+
+
+Teams and shifts can be created and assigned to users.
+
+والسعاروالكتالوج المنتجاتإدارة :الثالثالقسم 
+Section 3: Product, Catalog, and Pricing
+Management
+3.1القسممن الهدف
+3.1 Module Objective
+العربية
+والمخازنوالمتاجر بالتجاروربطها المنتجاتوإدارة إنشاءإلى القسمهذا يهدف
+ووالكواد اختلفرغم النظامداخل المنتجبيانات توحيدمع ،المختلفةالبيع وقنوات
+علىالمنتجات وسماءShopifyووWooCommerceووAmazonوو
+Noon.
+===== PAGE 277 =====
+الـ، المتغيراتمتعددة المنتجات، البسيطةالمنتجات القسميدعم ونيجب Bundles،
+وومتجر منوكثر خللمن تتباعالتي والمنتجات، المجمعةالمنتجات Marketplace.
+English
+This module is responsible for creating and managing
+products and linking them to merchants, stores,
+warehouses, and sales channels.
+The system must maintain one unified product record
+even when the same product has different names, SKUs,
+or identifiers across Shopify, WooCommerce, Amazon,
+Noon, or other platforms.
+The module must support simple products, variant
+products, bundles, kits, and products sold through
+multiple stores or marketplaces.
+3.2المنتجاتوإدارة إنشاء
+3.2 Product Creation and Management
+العربية
+منتلقائيلا مزامنتهوو ،ملفمن استيراده، يدويلاالمنتج بإنشاءالنظام يسمحون يجب
+المرتبطةوالمنصات المتاجر.
+التاليةالساسية البياناتعلى المنتجيحتوي ونيجب :
+
+والنجليزيةبالعربية المنتجاسم .
+
+
+التجاريةوالعلمة التاجر.
+
+
+والفرعيالرئيسي التصنيف.
+===== PAGE 278 =====
+
+
+المنتجنوع .
+
+
+الوصف.
+
+
+SKUالداخلي.
+
+
+Barcode.
+
+
+المنتجصور .
+
+
+والبعادالوزن .
+
+
+القياسوحدة .
+
+
+المنشأبلد .
+
+
+===== PAGE 279 =====
+الحالة.
+
+
+للبيعقابل غيروو للبيعقابل المنتج.
+
+
+خدميمنتج ووللتخزين قابلالمنتج .
+
+
+المنتجضريبة .
+
+
+المنتجتكلفة .
+
+
+البيعسعر .
+
+
+للبيعالقصى والحدالدنى الحد.
+
+
+وجدتإن الصلحيةفترة .
+
+
+ووالتشغيل رقمBatchالحاجةعند .
+
+===== PAGE 280 =====
+English
+The system must allow products to be created manually,
+imported through files, or synchronized automatically
+from connected stores and marketplaces.
+The product master record should include:
+
+Arabic and English product names.
+
+
+Merchant and brand.
+
+
+Main and subcategory.
+
+
+Product type.
+
+
+Description.
+
+
+Internal SKU.
+
+
+Barcode.
+
+
+===== PAGE 281 =====
+Product images.
+
+
+Weight and dimensions.
+
+
+Unit of measure.
+
+
+Country of origin.
+
+
+Product status.
+
+
+Sellable or non-sellable status.
+
+
+Stock item or service item.
+
+
+Tax settings.
+
+
+Product cost.
+
+===== PAGE 282 =====
+
+Selling price.
+
+
+Minimum and maximum sale quantity.
+
+
+Expiry information when applicable.
+
+
+Batch or lot number when required.
+
+3.3المنتجاتونواع 
+3.3 Product Types
+العربية
+التاليةالنواع النظاميدعم ونيجب :
+
+بسيطمنتج .
+
+
+المتغيراتمتعدد منتج.
+
+
+===== PAGE 283 =====
+Bundle.
+
+
+Kit.
+
+
+عدةمن مركبمنتج SKUs.
+
+
+رقميمنتج .
+
+
+خدميمنتج .
+
+
+منتجMarketplace.
+
+
+الطلبحسب تصنيعهيتم منتج.
+
+
+لهمنتج BatchووExpiry Date.
+
+
+منتجSerial Number.
+
+===== PAGE 284 =====
+English
+The system must support:
+
+Simple products.
+
+
+Variant products.
+
+
+Bundles.
+
+
+Kits.
+
+
+Products composed of multiple SKUs.
+
+
+Digital products.
+
+
+Service products.
+
+
+Marketplace products.
+
+===== PAGE 285 =====
+
+Made-to-order products.
+
+
+Batch-controlled or expiry-controlled products.
+
+
+Serial-number-controlled products.
+
+3.4المتغيراتإدارة 
+3.4 Variant Management
+العربية
+مثلللمنتج متغيراتبإنشاء النظاميسمح ونيجب :
+
+اللون.
+
+
+المقاس.
+
+
+الخامة.
+
+
+===== PAGE 286 =====
+التصميم.
+
+
+السعة.
+
+
+الوزن.
+
+
+مخصصةخاصية وي.
+
+متغيرلكل يكونون يجب:
+
+SKUمستقل.
+
+
+Barcodeمستقل.
+
+
+مستقلسعر .
+
+
+مستقلةتكلفة .
+
+
+===== PAGE 287 =====
+مستقلمخزون .
+
+
+مستقلةصورة .
+
+
+مستقلةووبعاد وزن.
+
+
+مستقلةتفعيل حالة.
+
+English
+The system must support product variants such as:
+
+Color.
+
+
+Size.
+
+
+Material.
+
+
+Design.
+
+
+===== PAGE 288 =====
+Capacity.
+
+
+Weight.
+
+
+Any custom attribute.
+
+Each variant must have its own:
+
+SKU.
+
+
+Barcode.
+
+
+Price.
+
+
+Cost.
+
+
+Inventory.
+
+
+===== PAGE 289 =====
+Image.
+
+
+Weight and dimensions.
+
+
+Activation status.
+
+3.5القنواتبين المنتجاتوربط توحيد
+3.5 Product Mapping Across Channels
+العربية
+علىالنظام يحتويون يجبMaster Productالمنتجاتبأكواد ربطهويتم ،موحد
+وومتجر كلفي الموجودةMarketplace.
+مثال:
+
+Internal SKU.
+
+
+Shopify Variant ID.
+
+
+WooCommerce Product ID.
+
+
+===== PAGE 290 =====
+Amazon ASIN.
+
+
+Amazon Seller SKU.
+
+
+Noon SKU.
+
+
+Barcode.
+
+
+Marketplace Fulfillment SKU.
+
+المربوطةغير المنتجاتإظهار مع، يدويلاوو تلقائيلاالمنتج بربطالنظام يسمحون يجب
+المكررةوو .
+English
+The system must maintain a unified master product
+record linked to the product identifiers used by each
+sales channel.
+Examples include:
+
+Internal SKU.
+
+
+Shopify Variant ID.
+===== PAGE 291 =====
+
+
+WooCommerce Product ID.
+
+
+Amazon ASIN.
+
+
+Amazon Seller SKU.
+
+
+Noon SKU.
+
+
+Barcode.
+
+
+Marketplace fulfillment SKU.
+
+The system must support automatic and manual mapping
+and clearly identify unmapped or duplicated products.
+3.6الكتالوجإدارة 
+3.6 Catalog Management
+العربية
+===== PAGE 292 =====
+بإدارةالنظام يسمحون يجب:
+
+التجاريةالعلمات .
+
+
+التصنيفات.
+
+
+الفرعيةالتصنيفات .
+
+
+المنتجاتمجموعات .
+
+
+Collections.
+
+
+Tags.
+
+
+المنتجخصائص .
+
+
+المتغيرات.
+
+
+===== PAGE 293 =====
+القياسوحدات .
+
+
+الموردين.
+
+
+والمتوقفةالنشطة المنتجات.
+
+
+الموسميةالمنتجات .
+
+
+الجديدةالمنتجات .
+
+
+الحركةوسريعة بطيئةالمنتجات .
+
+مستقلبشكل كتالوجهإدارة منتاجر كليتمكن ونيجب .
+English
+The system must support the management of:
+
+Brands.
+
+
+Categories.
+===== PAGE 294 =====
+
+
+Subcategories.
+
+
+Product groups.
+
+
+Collections.
+
+
+Tags.
+
+
+Product attributes.
+
+
+Variants.
+
+
+Units of measure.
+
+
+Suppliers.
+
+
+===== PAGE 295 =====
+Active and inactive products.
+
+
+Seasonal products.
+
+
+New products.
+
+
+Fast-moving and slow-moving products.
+
+Each merchant must manage an independent product
+catalog.
+3.7السعارإدارة 
+3.7 Pricing Management
+العربية
+سعرنوع منوكثر النظاميدعم ونيجب :
+
+الساسيالبيع سعر.
+
+
+الخصمقبل السعروو المقارنةسعر .
+
+
+===== PAGE 296 =====
+الجملةسعر .
+
+
+بمتجرخاص سعر.
+
+
+بتاجرخاص سعر.
+
+
+بـخاص سعرMarketplace.
+
+
+دولةوو بفرعخاص سعر.
+
+
+بالمسوقينخاص سعر.
+
+
+العروضسعر .
+
+
+الـسعر Bundle.
+
+
+زمنيةبفترة محددسعر .
+
+===== PAGE 297 =====
+
+الشراءكمية حسبسعر .
+
+السعارعلى تعديلكل تاريختسجيل يجب.
+English
+The system must support multiple price types:
+
+Base selling price.
+
+
+Compare-at price.
+
+
+Wholesale price.
+
+
+Store-specific price.
+
+
+Merchant-specific price.
+
+
+Marketplace-specific price.
+
+
+===== PAGE 298 =====
+Country or branch-specific price.
+
+
+Affiliate price.
+
+
+Promotional price.
+
+
+Bundle price.
+
+
+Time-based price.
+
+
+Quantity-based price.
+
+All price changes must be recorded in a price history log.
+3.8التكاليفإدارة 
+3.8 Cost Management
+العربية
+للمنتجتكلفة عنصرمن وكثرتسجيل النظاميدعم ونيجب :
+
+الشراءتكلفة .
+===== PAGE 299 =====
+
+
+التصنيعتكلفة .
+
+
+واًستيرادالشحن تكلفة.
+
+
+الجمارك.
+
+
+التغليفتكلفة .
+
+
+التخزينتكلفة .
+
+
+التجهيزتكلفة .
+
+
+عمولةMarketplace.
+
+
+المسوقعمولة .
+
+
+===== PAGE 300 =====
+الدفعبوابة تكلفة.
+
+
+للعميلالشحن تكلفة.
+
+
+وخرىتشغيلية مصروفات.
+
+والتاجروالمتجر والمنتجالطلب ربحيةلحساب ًحقلاالتكاليف هذهاستخدام يجب.
+English
+The system must support multiple product cost
+components:
+
+Purchase cost.
+
+
+Manufacturing cost.
+
+
+Import and freight cost.
+
+
+Customs fees.
+
+
+Packaging cost.
+===== PAGE 301 =====
+
+
+Storage cost.
+
+
+Fulfillment cost.
+
+
+Marketplace commission.
+
+
+Affiliate commission.
+
+
+Payment gateway fees.
+
+
+Customer shipping cost.
+
+
+Other operational costs.
+
+These costs must be used later to calculate profitability
+by order, product, store, and merchant.
+3.9الـإدارة BundlesوالـKits
+===== PAGE 302 =====
+3.9 Bundle and Kit Management
+العربية
+منوكثر منمكون منتجبإنشاء النظاميسمح ونيجب SKU.
+نوعيندعم يجب:
+Fixed Bundle
+واحدكمنتج بيعهايتم ثابتةمنتجات مجموعة.
+Dynamic Bundle
+محددةقواعد علىبناءل المجموعةداخل المنتجاتالعميل يختار.
+الـبيع عنديجب Bundle:
+
+الـمكونات منالكميات خصمBundle.
+
+
+المكوناتكل توافرمن التأكد.
+
+
+الـتكلفة حسابBundleالمكونةالمنتجات تكلفةمن .
+
+
+متاحغير المكوناتوحد كانإذا البيعإيقاف .
+
+
+للمجموعةخاص بسعرالسماح .
+
+English
+===== PAGE 303 =====
+The system must allow a sellable product to be composed
+of multiple SKUs.
+Two main bundle types must be supported:
+Fixed Bundle
+A predefined group of products sold as one item.
+Dynamic Bundle
+A customer-selected combination based on configured
+rules.
+When a bundle is sold, the system must:
+
+Deduct inventory from each component.
+
+
+Validate the availability of all components.
+
+
+Calculate bundle cost from component costs.
+
+
+Stop sales if a required component is unavailable.
+
+
+Support a dedicated bundle price.
+
+3.10والسعارالمنتجات مزامنة
+===== PAGE 304 =====
+3.10 Product and Price Synchronization
+العربية
+مزامنةدعم يجب:
+
+المنتجات.
+
+
+المتغيرات.
+
+
+السعار.
+
+
+الصور.
+
+
+الوصف.
+
+
+المخزون.
+
+
+المنتجحالة .
+
+
+الـBarcodes.
+===== PAGE 305 =====
+
+
+التصنيفات.
+
+
+الخصومات.
+
+المزامنةتكون ونيجب :
+
+المتجرإلى النظاممن .
+
+
+النظامإلى المتجرمن .
+
+
+ذلكتفعيل تمإذا اًتجاهثنائية .
+
+المزامنةتعارض لتجنببيانات نوعلكل الرئيسيالمصدر تحديديجب .
+English
+The system must synchronize:
+
+Products.
+
+
+Variants.
+===== PAGE 306 =====
+
+
+Prices.
+
+
+Images.
+
+
+Descriptions.
+
+
+Inventory.
+
+
+Product status.
+
+
+Barcodes.
+
+
+Categories.
+
+
+Discounts.
+
+Synchronization may operate:
+===== PAGE 307 =====
+
+From the system to the store.
+
+
+From the store to the system.
+
+
+Bidirectionally when enabled.
+
+A master data source must be defined for each data type
+to prevent synchronization conflicts.
+3.11المنتجحاًت 
+3.11 Product Statuses
+العربية
+التاليةالحاًت النظاميدعم ونيجب :
+
+مسودة.
+
+
+المراجعةتحت .
+
+
+نشط.
+
+===== PAGE 308 =====
+
+نشطغير .
+
+
+متوفرغير .
+
+
+المخزونمن نفد.
+
+
+مؤقتلاموقوف .
+
+
+نهائيلامتوقف .
+
+
+مؤرشف.
+
+
+المزامنةفي خطأبه .
+
+
+بيعبقناة مربوطغير .
+
+English
+The system must support:
+===== PAGE 309 =====
+
+Draft.
+
+
+Under Review.
+
+
+Active.
+
+
+Inactive.
+
+
+Unavailable.
+
+
+Out of Stock.
+
+
+Temporarily Suspended.
+
+
+Discontinued.
+
+
+Archived.
+===== PAGE 310 =====
+
+
+Synchronization Error.
+
+
+Unmapped to Sales Channel.
+
+3.12الصلحيات
+3.12 Permissions
+العربية
+مستقلبشكل التاليةالصلحيات فيالتحكم يجب:
+
+منتجإنشاء .
+
+
+المنتجتعديل .
+
+
+المنتجورشفة ووحذف .
+
+
+السعرتعديل .
+
+
+===== PAGE 311 =====
+التكلفةعرض .
+
+
+التكلفةتعديل .
+
+
+البيعبقنوات المنتجربط .
+
+
+المنتجاتاستيراد .
+
+
+المنتجاتتصدير .
+
+
+المنتجاتاعتماد .
+
+
+المنتجحالة تغيير.
+
+
+الـإدارة Bundles.
+
+
+الـتعديل BarcodeووSKU.
+
+===== PAGE 312 =====
+English
+The following permissions must be managed separately:
+
+Create products.
+
+
+Edit products.
+
+
+Archive or delete products.
+
+
+Change prices.
+
+
+View costs.
+
+
+Edit costs.
+
+
+Map products to sales channels.
+
+
+Import products.
+
+===== PAGE 313 =====
+
+Export products.
+
+
+Approve products.
+
+
+Change product status.
+
+
+Manage bundles.
+
+
+Edit barcodes or SKUs.
+
+3.13الساسيةالعمل قواعد
+3.13 Main Business Rules
+العربية
+1.
+القلعلى واحدبتاجر منتجكل يرتبطون يجب.
+2.
+3.
+الـيكون ونيجب SKUالتاجرنطاق داخلفريدلا .
+===== PAGE 314 =====
+4.
+5.
+الـتكرار منعيجب Barcodeالعداداتمن بذلكالسماح تمإذا إً.
+6.
+7.
+نشطغير منتجبيع يمكنً .
+8.
+9.
+ذلكمن بدًلورشفته ويتم، مخزونحركات ووطلبات لهمنتج حذفيمكن ً.
+10.
+11.
+سعروجود دونمتجر علىمنتج نشريمكن ً.
+12.
+13.
+الخارجيةالقناة بمنتجالمنتج ربطقبل المخزونمزامنة يمكنً .
+14.
+15.
+والتكلفةالسعر تعديلتجميع تسجيليجب .
+16.
+17.
+الـمخزون خصميجب Bundleلهالمكونة المنتجاتمن .
+18.
+19.
+آخرتاجر منتجاتالتاجر يرىوً يجب.
+20.
+21.
+===== PAGE 315 =====
+موقوفلاالمتجر ووالتاجر كانإذا المنتجمزامنة إيقافيجب .
+22.
+23.
+التعارضلمنع والمخزونللسعار رئيسيمصدر تحديديجب .
+24.
+English
+1.
+Every product must be linked to at least one
+merchant.
+2.
+3.
+SKU must be unique within the merchant scope.
+4.
+5.
+Duplicate barcodes must be prevented unless
+allowed by configuration.
+6.
+7.
+Inactive products cannot be sold.
+8.
+9.
+Products with order or inventory history cannot be
+deleted and must be archived.
+10.
+11.
+A product cannot be published without a selling
+price.
+===== PAGE 316 =====
+12.
+13.
+Inventory cannot be synchronized before product
+mapping is completed.
+14.
+15.
+All price and cost changes must be logged.
+16.
+17.
+Bundle inventory must be deducted from its
+components.
+18.
+19.
+A merchant must not access another merchant’s
+products.
+20.
+21.
+Product synchronization must stop if the merchant
+or store is suspended.
+22.
+23.
+A master source for price and inventory must be
+defined.
+24.
+3.14المطلوبةالتقارير 
+3.14 Required Reports
+===== PAGE 317 =====
+العربية
+
+المنتجاتإجمالي .
+
+
+النشطةوغير النشطةالمنتجات .
+
+
+المربوطةغير المنتجات.
+
+
+مزامنةوخطاء بهاالتي المنتجات.
+
+
+سعربدون المنتجات.
+
+
+تكلفةبدون المنتجات.
+
+
+بدونالمنتجات Barcode.
+
+
+التاجرحسب المنتجات.
+
+
+===== PAGE 318 =====
+المتجرحسب المنتجات.
+
+
+التصنيفحسب المنتجات.
+
+
+السعارتغير تاريخ.
+
+
+منتجلكل الربحهامش .
+
+
+الـوداء Bundles.
+
+
+مبيعلاوالقل العلىالمنتجات .
+
+
+المتحركةغير المنتجات.
+
+
+علىالمتوفرة المنتجاتAmazonووNoon.
+
+
+القنواتبين السعاراختلفات .
+
+===== PAGE 319 =====
+English
+
+Total products.
+
+
+Active and inactive products.
+
+
+Unmapped products.
+
+
+Products with synchronization errors.
+
+
+Products without prices.
+
+
+Products without costs.
+
+
+Products without barcodes.
+
+
+Products by merchant.
+
+
+===== PAGE 320 =====
+Products by store.
+
+
+Products by category.
+
+
+Price change history.
+
+
+Profit margin by product.
+
+
+Bundle performance.
+
+
+Best-selling and lowest-selling products.
+
+
+Non-moving products.
+
+
+Products listed on Amazon or Noon.
+
+
+Price differences across channels.
+
+===== PAGE 321 =====
+3.15المطلوبةالشاشات 
+3.15 Required Screens
+العربية
+1.
+المنتجاتقائمة .
+2.
+3.
+منتجوتعديل إنشاء.
+4.
+5.
+المنتجتفاصيل صفحة.
+6.
+7.
+المتغيراتإدارة .
+8.
+9.
+والتصنيفاتالتجارية العلماتإدارة .
+10.
+11.
+السعارإدارة .
+12.
+13.
+التكاليفإدارة .
+14.
+===== PAGE 322 =====
+15.
+الـإدارة BundlesوالـKits.
+16.
+17.
+البيعبقنوات المنتجاتربط .
+18.
+19.
+المنتجاتوتصدير استيراد.
+20.
+21.
+المنتجاتمزامنة سجل.
+22.
+23.
+السعارتغير سجل.
+24.
+25.
+المربوطةغير المنتجاتشاشة .
+26.
+27.
+المنتجاتوخطاء شاشة.
+28.
+29.
+المنتجاتتقارير .
+30.
+English
+1.
+===== PAGE 323 =====
+Product list.
+2.
+3.
+Create and edit product.
+4.
+5.
+Product details.
+6.
+7.
+Variant management.
+8.
+9.
+Brand and category management.
+10.
+11.
+Pricing management.
+12.
+13.
+Cost management.
+14.
+15.
+Bundle and kit management.
+16.
+17.
+Sales channel product mapping.
+18.
+===== PAGE 324 =====
+19.
+Product import and export.
+20.
+21.
+Product synchronization log.
+22.
+23.
+Price history.
+24.
+25.
+Unmapped products.
+26.
+27.
+Product error screen.
+28.
+29.
+Product reports.
+30.
+الطلباتتأكيد ومركزالطلبات إدارة: الرابعالقسم 
+Section 4: Order Management &
+Confirmation Center
+4.1الهدف| Objective
+===== PAGE 325 =====
+وصولهصتى الطلبتنفيذ رصلةمنه تبدأصيث ،للنظامالرئيسي المصورهو الطلباتتأكيد ومركزالطلبات إدارةقسم يعتبر
+إلغائهأو المخزنإلى .
+التواصل، التأكيدموظفي علىتوزيعها ،صصتهامن التصقق، البيعقنوات جميعمن الطلباتاستقبال إلىالقسم هذايهدف 
+إلغائهأو التنفيذإلى الطلبتصويل بشأنالنهائي القرارواتخاذ ،العملءمع .
+تطبيقخلل من، العميلتجربة وتصسين، التسليمنجاح معدلوزيادة ،المرتجعاتنسبة تقليلفي القسمهذا يساهمكما 
+دقيقةمتابعة وآلياتواضصة تشغيلقواعد .
+4.2الطلباتإنشاء مصادر| Order Sources
+فيًستخدامه طلبكل بمصدراًصتفاظ مع، مصدرمن أكثرمن الطلباتواستقبال بإنشاءالنظام يسمحأن يجب
+والتصليلتالتقارير .
+المدعومةالمصادر :
+
+Shopify
+
+
+WooCommerce
+
+
+Amazon
+
+
+Noon
+
+
+Custom API
+
+
+Mobile Application
+
+
+POS
+===== PAGE 326 =====
+
+
+Excel / CSV Import
+
+
+Manual Order
+
+
+Social Commerce
+
+
+WhatsApp Orders (Future)
+
+
+Call Center Orders
+
+تسجيليتم أنيجب :
+
+الطلبمصدر .
+
+
+المتجراسم .
+
+
+التاجراسم .
+
+
+التسويقيةالصملة .
+
+
+)وجدإن (بالعمولة المسوق.
+===== PAGE 327 =====
+
+
+اًستلمووقت تاريخ.
+
+4.3الطلبحياة دورة| Order Lifecycle
+التاليةبالمراصل الطلبيمر :
+الطلباستقبال :الولىالمرحلة 
+
+New Order
+
+
+Imported Order
+
+
+Pending Review
+
+↓
+التحقق: الثانيةالمرحلة 
+
+Duplicate Check
+
+
+Fraud Check
+
+
+Customer History Review
+
+===== PAGE 328 =====
+↓
+التأكيد: الثالثةالمرحلة 
+
+Pending Assignment
+
+
+Assigned
+
+
+First Call
+
+
+Second Call
+
+
+Third Call
+
+
+WhatsApp Confirmation
+
+
+Callback
+
+
+Confirmed
+
+
+Cancelled
+
+↓
+===== PAGE 329 =====
+الرابعةالمرحلة 
+Ready For Warehouse
+↓
+المخازنقسم إلىتلقائيال الطلبتصويل يتم.
+4.4الطلببيانات | Order Information
+التنفيذعملية لتماماللزمة البياناتجميع علىطلب كليصتوي أنيجب .
+وساسيةبيانات 
+
+Order Number
+
+
+External Order Number
+
+
+Order Date
+
+
+Order Source
+
+
+Merchant
+
+
+Store
+
+العميلبيانات 
+
+===== PAGE 330 =====
+Customer Name
+
+
+Mobile Number
+
+
+Alternative Number
+
+
+Email
+
+
+Governorate
+
+
+City
+
+
+Address
+
+
+Google Maps Location
+
+المنتجاتبيانات 
+
+Product
+
+
+SKU
+
+
+===== PAGE 331 =====
+Variant
+
+
+Quantity
+
+
+Unit Price
+
+
+Discount
+
+
+Total
+
+الدفعبيانات 
+
+Payment Method
+
+
+Payment Status
+
+
+Shipping Fees
+
+
+COD Amount
+
+إضافيةبيانات 
+
+Notes
+===== PAGE 332 =====
+
+
+Tags
+
+
+Attachments
+
+
+Internal Notes
+
+4.5الطلبشاشة | Order Details Screen
+التأكيدموظف عليهايعمل التيالساسية الشاشةهي الطلبشاشة تعتبر.
+متعددةشاشات بينللتنقل الصاجةدون واصدةصفصة فيالمعلومات جميعتعرض أنيجب .
+منوتتكون :
+Customer Information
+Order Information
+Products
+Previous Orders
+Previous Returns
+Call History
+WhatsApp History
+Customer Timeline
+Risk Score
+Notes
+Actions
+===== PAGE 333 =====
+4.6الطلباتتوزيع | Order Assignment
+الطلباتلتوزيع طريقةمن أكثرالنظام يدعمأن يجب.
+Manual Assignment
+يقومTeam Leaderيدويالالطلبات بتوزيع.
+Round Robin
+بالتساويالطلبات بتوزيعالنظام يقوم.
+Smart Distribution
+صسببالتوزيع النظاميقوم :
+
+المصافظة
+
+
+المتجر
+
+
+التاجر
+
+
+المنتج
+
+
+اللغة
+
+
+الطلبصجم 
+
+
+العميلأولوية 
+
+===== PAGE 334 =====
+AI Assignment
+بتصليلالنظام يقوم:
+
+الصاليةالطلبات عدد.
+
+
+الموظفتأكيد معدل.
+
+
+المكالمةمدة متوسط.
+
+
+المرتجعاتنسبة .
+
+
+اللغاءنسبة .
+
+موظفأفضل يختارثم .
+4.7الطلباتتأكيد مركز| Confirmation
+Center
+يبدأالموظف علىالطلب توزيعبعد Workflowالتأكيد.
+بـالنظام يسمحأن ويجب:
+
+بالعميلاًتصال .
+
+
+العميلبيانات تعديل.
+===== PAGE 335 =====
+
+
+العنوانتعديل .
+
+
+المنتجاتتعديل .
+
+
+الكمياتتعديل .
+
+
+ملصظاتإضافة .
+
+
+إرسالWhatsApp.
+
+
+طلبLocation.
+
+
+إرسالPayment Link.
+
+
+الطلبتأكيد .
+
+
+الطلبإلغاء .
+
+
+تصديدCallback.
+
+===== PAGE 336 =====
+4.8 Customer 360°
+واصدةشاشة فيبياناته جميعتظهر أنيجب العميلمع التواصلقبل .
+تشمل:
+
+السابقةالطلبات عدد.
+
+
+المسلمةالطلبات عدد.
+
+
+المرتجعاتعدد .
+
+
+اللغاءاتعدد .
+
+
+طلبآخر .
+
+
+الطلبقيمة متوسط.
+
+
+Customer Lifetime Value.
+
+
+Blacklist Status.
+
+
+مكالمةآخر .
+
+
+===== PAGE 337 =====
+رسالةآخر WhatsApp.
+
+
+الموظفينملصظات .
+
+4.9 WhatsApp Integration
+النظاميدعم :
+
+Confirmation Templates.
+
+
+Arabic Templates.
+
+
+English Templates.
+
+
+Payment Links.
+
+
+Location Request.
+
+
+Quick Replies.
+
+
+Images.
+
+
+===== PAGE 338 =====
+Voice Notes.
+
+
+Automatic Reminder.
+
+
+Delivery Instructions.
+
+داخلالرسائل جميعتسجيل ويتمTimelineالطلب.
+4.10المكالماتإدارة | Call Management
+تسجيليتم اتصالمصاولة لكل:
+
+التاريخ.
+
+
+الوقت.
+
+
+الموظف.
+
+
+المكالمةمدة .
+
+
+المكالمةنتيجة .
+
+
+الصوتيالتسجيل .
+===== PAGE 339 =====
+
+
+الملصظات.
+
+
+اًتصالإعادة موعد.
+
+مناًتصال مصاوًتلعدد القصىالصد تصديدويجب Settings.
+4.11اللغاءوسباب | Cancellation Reasons
+بالكاملللتعديل قابلةتكون أنيجب .
+مثل:
+
+العميلرفض .
+
+
+صصيحغير رقم.
+
+
+صصيحغير عنوان.
+
+
+مكررطلب .
+
+
+متوفرغير منتج.
+
+
+السعر.
+===== PAGE 340 =====
+
+
+التوصيلوقت .
+
+
+التغطيةنطاق خارج.
+
+
+بالخطأطلب .
+
+
+آخرسبب .
+
+4.12المكررةالطلبات | Duplicate Orders
+علىاعتمادال المكررةالطلبات باكتشافالنظام يقوم:
+
+الهاتفرقم .
+
+
+العنوان.
+
+
+العميلاسم .
+
+
+المنتجاتنفس .
+
+
+اليومنفس .
+===== PAGE 341 =====
+
+الطلبصفظ قبلتصذيرال ويعرض.
+4.13 Blacklist & Fraud Detection
+علىبناءل العميلخطورة درجةبصساب النظاميقوم :
+
+المرتجعاتنسبة .
+
+
+اللغاءاتنسبة .
+
+
+الوهميةالطلبات .
+
+
+الطلباتعدد .
+
+
+Blacklisted Phone.
+
+
+Blacklisted Address.
+
+اًتصالقبل التأكيدلموظف تنبيهويظهر .
+4.14اًصطناعيالذكاء | AI Features
+النظاميقترح :
+===== PAGE 342 =====
+
+للتصالوقت أفضل.
+
+
+للتأكيدموظف أفضل.
+
+
+الطلبتأكيد اصتمالية.
+
+
+اللغاءاصتمالية .
+
+
+المرتجعاصتمالية .
+
+
+رسالةأفضل WhatsApp.
+
+
+التأكيدبعد شصنشركة أفضل.
+
+4.15العملقواعد | Business Rules
+
+التأكيدقبل للمخزنالطلب إرساليمكن ً.
+
+
+إنشائهبعد الطلبصذف يمكنً .
+
+
+===== PAGE 343 =====
+فقطالملغاة الطلباتأرشفة يتم.
+
+
+داخلتسجل التعديلتجميع Order Timeline.
+
+
+خاصةبصلصية إًللمخزن الطلبتصويل بعدالمنتجات تعديليمكن ً.
+
+
+تلقائيالالطلب إجمالياصتساب يعادالمنتجات تعديلعند .
+
+
+الطلبسجل داخلتسجل والرسائلالمكالمات جميع.
+
+
+الموظفتنبيه يتممكرر طلباكتشاف عند.
+
+
+اللغاءسبب تسجيليجب .
+
+
+خطوةكل عنالمسؤول الموظفتسجيل يجب.
+
+4.16التقارير| Reports
+منها، والداريةالتشغيلية التقاريرمن مجموعةالنظام يوفر:
+
+الطلباتإجمالي .
+
+
+===== PAGE 344 =====
+المتجرصسب الطلبات.
+
+
+التاجرصسب الطلبات.
+
+
+التأكيدمعدل .
+
+
+اللغاءمعدل .
+
+
+اللغاءأسباب .
+
+
+التأكيدموظفي أداء.
+
+
+المكالماتمدة متوسط.
+
+
+موظفلكل المكالماتعدد .
+
+
+المنتظرةالطلبات .
+
+
+الخطورةعالية الطلبات.
+
+
+المكررةالطلبات .
+===== PAGE 345 =====
+
+
+الـتقرير WhatsApp.
+
+
+الـتقرير Callback.
+
+
+تقريرSLA.
+
+
+المتاجرأداء تقرير.
+
+
+التسويقيةالصملت أداءتقرير .
+
+4.17المطلوبةالشاشات | Required Screens
+
+Orders Dashboard
+
+
+Orders List
+
+
+Order Details
+
+
+Customer 360°
+
+===== PAGE 346 =====
+
+Confirmation Screen
+
+
+Call History
+
+
+WhatsApp History
+
+
+Customer Timeline
+
+
+Assignment Screen
+
+
+Blacklist Management
+
+
+Duplicate Orders
+
+
+Fraud Detection
+
+
+Cancellation Reasons
+
+
+AI Recommendation Panel
+
+
+===== PAGE 347 =====
+Order Reports
+
+والتجهيزوالمخزون المخازنإدارة :الخامسالقسم 
+الشحنلشركات والتسليم
+Section 5: Warehouse, Inventory,
+Fulfillment & Courier Management
+5.1الهدف| Objective
+تتمالتي العملياتجميع إدارةيتولى صيث، النظامداخل التشغيليةالوصدات أهمأصد والمخزونالمخازن إدارةقسم يعد
+الشصنلشركة تسليمهوصتى الطلبتأكيد بعدالمنتج على.
+الشركاتمن نوعينليخدم القسمهذا تصميمتم :
+
+منتجاتهالدارة بهاخاصلا مخزنلاتمتلك التيالشركات .
+
+
+الـشركات Fulfillmentالمخزننفس داخلتاجر منأكثر طلباتوتنفيذ مخزونبإدارة تقومالتي .
+
+إلىالقسم هذاويهدف :
+
+لصظيةبدقة المخزونإدارة .
+
+
+التخزينأماكن تنظيم.
+
+
+الطلباتتجهيز زمنتقليل .
+===== PAGE 348 =====
+
+
+الشصنأخطاء تقليل.
+
+
+المخزنموظفي إنتاجيةتصسين .
+
+
+المخزنداخل بالكاملالمنتج دورةإدارة .
+
+
+التشغيليةالعمليات جميعأداء قياس.
+
+
+خروجهوصتى المخزندخوله منذمنتج كللصركة كاملةرؤية توفير.
+
+5.2للمخزنالعام الهيكل| Warehouse
+Structure
+تخصيصأو ،أكثرأو بشركةمخزن كلربط إمكانيةمع ،المخازنمن مصدودغير عددبإنشاء النظاميسمح أنيجب 
+الـشركات صالةفي معينلتاجر مخزنFulfillment.
+المنتجاتإلى الوصوللتسهيل واضحتنظيمي هيكلعلى يصتويأن يجبمخزن كل.
+المقترحالهيكل :
+Warehouse
+↓
+Zone
+↓
+Aisle
+↓
+===== PAGE 349 =====
+Rack
+↓
+Shelf
+↓
+Bin
+المخزنداخل موقعلكل يكونأن ويجبLocation Codeوالجردالتخزين عملياتأثناء استخدامهيمكن فريد
+والتجهيز.
+مثلخاصة مناطقإنشاء النظاميدعم أنيجب كما:
+
+اًستلممنطقة Receiving Area)
+
+
+الفصصمنطقة QC Area)
+
+
+التجهيزمنطقة Picking Area)
+
+
+التغليفمنطقة Packing Area)
+
+
+للشصناًنتظار منطقةDispatch Area)
+
+
+المرتجعاتمنطقة Returns Area)
+
+
+التالفةالمنتجات منطقةDamaged Area)
+
+===== PAGE 350 =====
+5.3المخازنونواع | Warehouse Types
+النشاططبيعة صسبللمخازن نوعمن أكثرالنظام يدعم:
+
+Main Warehouse
+
+
+Fulfillment Warehouse
+
+
+Retail Store Warehouse
+
+
+Branch Warehouse
+
+
+Marketplace Warehouse
+
+
+Returns Warehouse
+
+
+Temporary Warehouse
+
+
+Damaged Products Warehouse
+
+لهمالمسموح التجارأو والمنتجات، بهالخاصة التشغيلوسياسات ،المخزننوع تصديدالنظام مديريستطيع أنويجب 
+باستخدامه.
+===== PAGE 351 =====
+5.4المخزنداخل المنتجدورة | Warehouse
+Workflow
+التنفيذرصلة ويبدأالمخزن إلىينتقل الطلبتأكيد بعد.
+التاليةبالمراصل المخزنداخل المنتجاتتمر :
+Receiving
+↓
+Quality Check
+↓
+Put Away
+↓
+Available Inventory
+↓
+Inventory Reservation
+↓
+Picking
+↓
+Packing
+↓
+Final Quality Check
+↓
+Ready To Ship
+↓
+Courier Handover
+↓
+Shipment Created
+↓
+Completed
+===== PAGE 352 =====
+أثناءصدثت مشكلتأو ملصظاتوأي ،عنهاالمسؤول والموظف، مرصلةكل ونهايةبداية وقتتسجيل يتمأن يجب
+التنفيذ.
+5.5البضاعةاستلم | Receiving Process
+المخازنبين التصويلتأو التجارأو الموردينمن المنتجاتاستلم النظاميدعم .
+تسجيليجب ،استلمعملية إنشاءعند :
+
+التاجرأو المورد.
+
+
+)وجدإن (الشراء أمررقم .
+
+
+الفاتورةرقم .
+
+
+اًستلمووقت تاريخ.
+
+
+المسؤولالموظف .
+
+
+)وجدتإن (النقل شركة.
+
+خللمن المنتجاتبمراجعة الموظفيقوم ذلكبعد :
+
+مسحBarcodeأوQR Code.
+
+
+===== PAGE 353 =====
+المستلمةالكميات إدخال.
+
+
+الزائدةأو الناقصةالكميات تسجيل.
+
+
+التالفةالمنتجات تسجيل.
+
+
+تلفياتوجود صالةفي صورإرفاق .
+
+
+ملصظاتإضافة .
+
+المسؤولمن اًستلمعملية اعتمادبعد إًالمخزون إلىالمنتجات إضافةيتم وً.
+5.6اًستلمعند الجودةفحص | Receiving
+Quality Check
+يشملجودة فصصإجراء يجب، المنتجاتاعتماد قبل:
+
+المنتجمطابقة .
+
+
+والمقاساللون مطابقة.
+
+
+التغليفصالة .
+
+
+===== PAGE 354 =====
+المنتجسلمة .
+
+
+)وجدإن (الصلصية تاريخ.
+
+
+التشغيلرقم Batch).
+
+
+التسلسليالرقم Serial Number)يدعمهالمنتج كانإذا .
+
+إنشاءيتم ،مشكلةوجود صالةفي Quality Issueالمنتجإعادة مثل، المطلوبوالجراء الرفضسبب تصديدمع 
+ملصظةمع قبولهأو للمورد.
+5.7المنتجاتتخزين | Put Away
+المنتجلتخزين موقعأفضل بتصديدالنظام يقوم، اًستلماعتماد بعد.
+ذلكيتم أنيمكن :
+
+النظامبواسطة تلقائيلا.
+
+
+المخزنموظف بواسطةيدويلا .
+
+منها، عواملعدة علىالتلقائي اًقتراحيعتمد :
+
+المتاصةالمساصة .
+
+
+المنتجووزن صجم.
+===== PAGE 355 =====
+
+
+المنتجصركة سرعةFast / Slow Moving).
+
+
+المشابهةالمنتجات .
+
+
+التجهيزمنطقة منالموقع قرب.
+
+
+بالشركةالخاصة التخزينسياسة FIFO / FEFO / LIFO).
+
+التخزينبموقع الكميةربط معمباشرة المخزونتصديث يتم، موقعهفي المنتجوضع بعد.
+5.8المخزونإدارة | Inventory Management
+لكلSKUمنفصلبشكل التاليةبالكميات النظاميصتفظ أنيجب :
+
+Available Quantity (للبيعالمتاصة الكمية)
+
+
+Reserved Quantity (للطلباتالمصجوزة الكمية)
+
+
+Picking Quantity (التجهيزقيد الكمية)
+
+
+Packed Quantity (تغليفهاتم التيالكمية )
+
+
+===== PAGE 356 =====
+In Transit Quantity (الشصنلشركات المسلمةالكمية )
+
+
+Returned Quantity (المرتجعات)
+
+
+Damaged Quantity (التالفةالمنتجات )
+
+
+Expired Quantity (الصلصيةمنتهية المنتجات)
+
+النظامداخل تتمصركة أيبعد تلقائيلاالقيم هذهتصديث ويجب.
+5.9المخزونحجز | Inventory Reservation
+صالةإلى الطلبانتقال بمجردConfirmed،تلقائيلا المطلوبةالكمية بصجزالنظام يقوم.
+الصجزقواعد :
+
+آخرلطلب المصجوزةالكمية بيعيمكن ً.
+
+
+للمخزونالكمية وإعادةالصجز فكيتم ،الطلبإلغاء صالةفي .
+
+
+العملياتلفريق إشعارمع انتظارقائمة إلىالطلب تصويليتم ،المطلوبةالكمية تتوفرلم إذا.
+
+
+المجمعةالمنتجات صالةفي Bundles)،فقط النهائيالمنتج وليسالمكونات جميعصجز يتم.
+
+===== PAGE 357 =====
+5.10المخزونحركات | Inventory
+Transactions
+مثل، المخزونعلى تتمالتي الصركاتجميع النظاميسجل أنيجب :
+
+Receiving
+
+
+Put Away
+
+
+Reservation
+
+
+Picking
+
+
+Packing
+
+
+Shipment
+
+
+Return
+
+
+Damage
+
+
+Adjustment
+
+
+===== PAGE 358 =====
+Warehouse Transfer
+
+
+Inventory Count
+
+تسجيليتم صركةلكل :
+
+الصركةرقم .
+
+
+الصركةنوع .
+
+
+المنتج.
+
+
+الكمية.
+
+
+الموقع.
+
+
+المستخدم.
+
+
+والوقتالتاريخ .
+
+
+السبب.
+
+
+===== PAGE 359 =====
+المرجعOrder / Transfer / Return ...).
+
+ويعتبرInventory Ledgerاعتمادهابعد صركةأي بصذفيسمح وًالمخزون صركاتلجميع الرئيسيالمرجع هو.
+والتجهيزوالمخزون المخازنإدارة :الخامسالقسم 
+الشحنلشركات والتسليم
+Section 5: Warehouse, Inventory,
+Fulfillment & Courier Management
+5.11المخزنمهام إدارة| Warehouse Task
+Management
+مفهومعلى النظاميعتمد Warehouse Tasksمهمةإلى المخزنداخل خطوةكل تصويليتم بصيثTask)
+دقيقبشكل النتاجيةومتابعة الداءبقياس يسمحمما ،معينلموظف إسنادهايتم مستقلة.
+المهامأنواع :
+
+Receiving Task
+
+
+Put Away Task
+
+
+Picking Task
+
+
+Packing Task
+
+
+Quality Check Task
+===== PAGE 360 =====
+
+
+Transfer Task
+
+
+Inventory Count Task
+
+
+Courier Handover Task
+
+كلTaskعلىتصتوي أنيجب :
+
+Task Number
+
+
+Task Type
+
+
+Related Order
+
+
+Assigned Employee
+
+
+Priority
+
+
+Status
+
+
+Start Time
+===== PAGE 361 =====
+
+
+End Time
+
+
+SLA
+
+
+Completion Notes
+
+5.12الـإدارة Picking | Picking
+Management
+مهمةبإنشاء النظاميقوم ،المخزونوتوفر الطلبتأكيد بعدPickingتلقائيال.
+المخزنداخل العملياتصجم صسبللتجهيز طريقةمن أكثرالنظام يدعمأن يجب.
+Single Picking
+فقطواصد طلببتجهيز الموظفيقوم .
+الولويةذات الطلباتأو العددقليلة للطلباتمناسب .
+Batch Picking
+متشابهةمنتجات علىتصتوي كانتإذا الجولةنفس فيطلب منأكثر بتجهيزالموظف يقوم.
+المخزنداخل الصركةوقت تقليلهو الهدف.
+Wave Picking
+صسبالطلبات منكبيرة مجموعةبتجميع النظاميقوم :
+
+الشصنشركة .
+===== PAGE 362 =====
+
+
+المصافظة.
+
+
+الشصنةخروج وقت.
+
+
+المنتجاتنوع .
+
+
+الولوية.
+
+واصدةدفعة تجهيزهايتم ثم.
+Zone Picking
+المنتجاتبتجهيز موظفكل يقومبصيث ،التخزينمناطق صسبالتجهيز عمليةتقسيم يمكن، كبيرالالمخزن كانإذا 
+فقطبه الخاصةالمنطقة داخلالموجودة .
+5.13إنشاءPick List
+مهمةإنشاء بعدPickingبإنشاءالنظام يقومPick Listعلىتصتوي :
+
+Order Number
+
+
+Customer Name
+
+
+SKU
+===== PAGE 363 =====
+
+
+Product Name
+
+
+Variant
+
+
+Quantity
+
+
+Barcode
+
+
+Storage Location
+
+
+Pick Sequence
+
+الصركةوقت لتقليلالمخزن داخلمسار أقصرصسب القائمةداخل المنتجاتترتيب ويجب.
+5.14التجهيزمسار تحسين| Pick Path
+Optimization
+مرةمن أكثرالمنطقة لنفسللرجوع الموظفيضطر ًبصيث المخزنداخل للتجهيزمسار أفضلبصساب النظاميقوم .
+علىذلك يعتمد:
+
+المنتجاتمواقع .
+
+
+===== PAGE 364 =====
+الرففترتيب .
+
+
+المخزنداخل الصركةاتجاه .
+
+
+الطلبصجم .
+
+الكبيرةالمخازن فيخاصة التجهيززمن تقللالخاصية هذه.
+5.15الـإدارة Packing | Packing
+Management
+عمليةانتهاء بعدPickingالتغليفمرصلة إلىتلقائيال الطلبينتقل .
+التغليفعملية تتضمن:
+
+المنتجاتمراجعة .
+
+
+الكمياتمراجعة .
+
+
+واللوانالمقاسات مراجعة.
+
+
+التغليفمواد اختيار.
+
+
+الشصنةوزن .
+
+===== PAGE 365 =====
+
+الكرتونةأبعاد قياس.
+
+
+الفاتورةطباعة .
+
+
+طباعةShipping Label.
+
+
+للتسليمالطلب تجهيز.
+
+للطلبالمنتجات مطابقةمن التأكدبعد إًالتغليف عمليةبإغلق يسمحوً .
+5.16التغليفمواد | Packing Materials
+مثلالمستخدمة التغليفمواد بإدارةالنظام يسمحأن يجب:
+
+الكراتين.
+
+
+الكياس.
+
+
+البلستيك.
+
+
+الهوائيةالفقاعات .
+
+
+===== PAGE 366 =====
+الملصقات.
+
+
+اللصقالشريط .
+
+
+الشكركروت .
+
+
+الهدايا.
+
+للطلبالفعلية التكلفةاصتساب يتمصتى طلبلكل التغليفمواد تكلفةتسجيل ويتم.
+5.17النهائيالفحص | Final Quality Check
+تشملنهائية مراجعةتنفيذ يجبالشصن لشركةالطلب تسليمقبل :
+
+المنتجمطابقة .
+
+
+الكميةمطابقة .
+
+
+اللونمطابقة .
+
+
+المقاسمطابقة .
+
+
+المنتجسلمة .
+===== PAGE 367 =====
+
+
+التغليفسلمة .
+
+
+الفاتورةوجود .
+
+
+الملصقاتوجود .
+
+مرصلةإلى الطلبإعادة يتمخطأ وجودصالة وفيPickingأوPackingالمشكلةنوع صسب.
+5.18الشحنةتجهيز | Shipment Preparation
+بـالنظام يقومالنهائي الفصصنجاح بعد:
+
+الشصنةرقم إنشاء.
+
+
+إنشاءShipping Label.
+
+
+إنشاءBarcodeللشصنة.
+
+
+النهائيالوزن اصتساب.
+
+
+الصجميالوزن اصتساب.
+
+
+===== PAGE 368 =====
+الشصنشركة تصديد.
+
+
+إنشاءManifest.
+
+للتسليمجاهزة الشصنةتصبح ثم.
+5.19الـمنتجات إدارةBundle
+علىيصتوي الطلبكان إذاBundle،بـ النظاميقوم أنيجب :
+
+الـفك Bundleلهالمكونة المنتجاتإلى .
+
+
+المكوناتجميع توفرمن التأكد.
+
+
+إنشاءPick Listالمكوناتلكل .
+
+
+كلمن الكمياتخصم SKU.
+
+
+التجهيزانتهاء بعدالمخزون صسابإعادة .
+
+الـبتجهيز يسمحوً Bundleمتوفرغير مكوناتهأصد كانإذا .
+5.20الـإدارة Fulfillment Center
+===== PAGE 369 =====
+كمركزالنظام استخدامصالة فيFulfillment،يدعم أنيجب :
+تاجرمن وكثرمخزون إدارة
+الموقعنفس فيمخزنة المنتجاتكانت وإنصتى الخرعن تاجركل مخزونفصل يجب.
+التجارمنتجات استقبال
+عمليةإنشاء معللمخزن منتجاتهبإرسال تاجرلكل يسمحReceivingمستقلة.
+تاجركل طلباتتنفيذ 
+التجارباقي علىالتأثير دونبه الخاصةالتشغيل لسياساتوفقال تاجركل طلباتتجهيز يتم.
+الخدماترسوم احتساب
+مثلتاجر لكلمستقلة رسوماصتساب يجب:
+
+اًستلمرسوم .
+
+
+التخزينرسوم .
+
+
+رسومPicking.
+
+
+رسومPacking.
+
+
+الشصنرسوم .
+
+
+المرتجعاترسوم .
+===== PAGE 370 =====
+
+
+الضافيالتغليف رسوم.
+
+للتاجردوري صسابكشف إرسالويتم .
+5.21المخزنموظفي وداءمتابعة 
+خللمن موظفكل أداءالنظام يقيس:
+
+المنجزةالمهام عدد.
+
+
+التنفيذزمن متوسط.
+
+
+المجهزةالطلبات عدد.
+
+
+الخطاءنسبة .
+
+
+تجهيزهاتم التيالمنتجات عدد.
+
+
+بالساعةالنتاجية معدل.
+
+
+بالـاًلتزام SLA.
+
+===== PAGE 371 =====
+المهامتوزيع وتصسينالموظفين تقييمفي البياناتهذه استخدامويتم .
+5.22الشعارات| Notifications
+عندإشعارات بإرسالالنظام يقوم:
+
+للمخزنجديدة شصنةوصول .
+
+
+المخزونانخفاض .
+
+
+مهمةانتهاء Picking.
+
+
+مهمةتأخر Packing.
+
+
+الجردأثناء اختلفوجود .
+
+
+تخزينموقع امتلء.
+
+
+المخزنمساصة انتهاء.
+
+
+انتهاءSLAالمهاملصدى .
+
+
+تالفمنتج وجود.
+===== PAGE 372 =====
+
+
+للتسليمجاهز طلبوجود .
+
+5.23العملقواعد | Business Rules
+
+عمليةبدء يمكنً Pickingالمخزونصجز قبل.
+
+
+تنفيذيمكن ًPackingانتهاءقبل Picking.
+
+
+النهائيالفصص نجاحقبل الشصنلشركة الطلبتسليم يمكنً .
+
+
+المهامسجل داخلالمهام جميعتسجيل يتمTask Log).
+
+
+مهمةكل ونهايةبداية وقتتسجيل يتم.
+
+
+المديرقبل منفقط المهمةفتح إعادةيمكن .
+
+
+مرصلةكل انتهاءبعد تلقائيالالطلب صالةتصديث يتم.
+
+
+ناقصةمنتجات علىيصتوي طلبتجهيز يمكنً .
+
+===== PAGE 373 =====
+
+طلبلكل تلقائيالالتجهيز تكلفةاصتساب يتم.
+
+
+لمؤشراتتخضع المخزنمهام جميعSLAالتأخيرصالة فيتصعيدها ويمكن.
+
+5.24الداءمؤشرات | KPIs
+بقياسالنظام يقوم:
+
+Average Picking Time.
+
+
+Average Packing Time.
+
+
+Orders Processed Per Hour.
+
+
+Picking Accuracy.
+
+
+Packing Accuracy.
+
+
+Warehouse Productivity.
+
+
+Employee Productivity.
+===== PAGE 374 =====
+
+
+Orders Ready To Ship.
+
+
+Average Fulfillment Time.
+
+
+SLA Compliance.
+
+
+Fulfillment Cost Per Order.
+
+
+Warehouse Utilization Rate.
+
+والمرتجعاتوالتحصيلت المتابعة: السادسالقسم 
+Section 6: Shipment Follow-up
+Collections & Returns Management
+Objective |الهدف6.1
+أوالناجح بالتسليمسواء بالكامل،صياته دورةانتهاء وصتىالشصن لشركةتسليمه بعدالطلب متابعةإلى القسمهذا يهدف
+اللزمةالجراءات واتخاذالشصن شركاتأداء ومراقبةالشصن بشركاتالخاصة الماليةالتصصيلت متابعةمع المرتجع،
+.المرتجعاتنسبة وتقليلالتسليم عملياتلتسريع 
+للعميلالطلب وصولضمان إلىويهدف العمليات،وفريق التاجر،الشصن، شركةبين الوصلصلقة القسمهذا يعتبر
+.إغلقهاصتى التشغيليةالمشكلت جميعمتابعة معممكنة تجربةبأفضل 
+===== PAGE 375 =====
+Module Scope |القسمعمل نطاق6.2
+:القسمهذا يشمل
+
+.الشصناتجميع متابعة
+
+
+.الشصنشركات صاًتمتابعة 
+
+
+.الشصنلشركات والتعليماتالفادات إرسال
+
+
+.التسليممصاوًت متابعة
+
+
+.المتأخرةالشصنات متابعة
+
+
+.المرتجعاتمتابعة 
+
+
+.(COD)التصصيلتمتابعة 
+
+
+.الشصنشركات معالفواتير متابعة
+
+
+.بالشصنالخاصة الشكاوىإدارة 
+
+
+===== PAGE 376 =====
+.الشصنشركات أداءقياس 
+
+
+.التوصيلومناطق المصافظاتأداء قياس
+
+Shipment Workflow |الشحنةدورة 6.3
+.الدورةنهاية صتىالشصنة بمتابعةالنظام يبدأالشصن لشركةالطلب تسليمبعد 
+Ready To Ship
+↓
+Handed to Courier
+↓
+In Transit
+↓
+Out For Delivery
+↓
+Delivered
+أو
+Delivery Failed
+↓
+Second Attempt
+↓
+Third Attempt
+↓
+Returned To Warehouse (RTO)
+↓
+Return Inspection
+===== PAGE 377 =====
+↓
+Inventory Update
+↓
+Order Closed
+.الشصنشركة منالواردة التصديثاتلجميع كاملسجل صفظمع مرصلة،كل بينالطلب انتقالوقت تسجيليجب 
+Shipment Follow-up |الشحناتمتابعة 6.4
+.WebhooksأوAPIخللمن تلقائيبشكل الشصنشركة معالشصنة صالةبمزامنة النظاميقوم 
+.يدويلاالصالة بتصديثالنظام يسمحمباشر، تكاملوجود عدمصالة وفي
+:عرضيتم أنيجب 
+
+.(AWB)الشصنبوليصة رقم
+
+
+.الشصنشركة 
+
+
+.اًستلمتاريخ 
+
+
+.الخروجتاريخ 
+
+
+.تصديثآخر 
+
+
+.الصاليةالصالة 
+
+
+===== PAGE 378 =====
+.التسليممصاوًت عدد
+
+
+.(وجدإن )المندوب اسم
+
+
+.الشصنةتتبع رابط
+
+
+.الفشلأو التأخيرسبب 
+
+Courier Instructions |الفاداتإدارة 6.5
+:مثلالشصن، شركةإلى مباشرةتعليمات بإرسالالنظام يسمحأن يجب
+
+.التسليممصاولة إعادة
+
+
+.التسليمقبل العميلمع التواصل
+
+
+.الهاتفرقم تغيير
+
+
+.العنوانتعديل 
+
+
+.التسليمموعد تغيير
+
+
+===== PAGE 379 =====
+.مصددوقت فيتسليم 
+
+
+.الشصنةإلغاء 
+
+
+.الشصنةإرجاع طلب
+
+
+.الرجاععملية تسريع
+
+:معرفةمع الطلبسجل داخلالفادات جميعتسجيل يجب
+
+.أرسلهامن 
+
+
+.الرسالتاريخ 
+
+
+.التنفيذوقت 
+
+
+.الشصنشركة رد
+
+Delayed Shipment |التأخيرمتابعة 6.6
+Monitoring
+.مرصلةكل فيالطلب بقاءمدة تلقائيلاالنظام يراقبأن يجب
+:مثال
+===== PAGE 380 =====
+
+.استلمبدون ساعة24منأكثر 
+
+
+.صركةبدون ساعة48منأكثر 
+
+
+.المصافظةداخل ساعة72منأكثر 
+
+
+.تسليممصاوًت 3منأكثر 
+
+
+.تصديثبدون يومXمنأكثر 
+
+.المتابعةلفريق إشعاروإرسال Alertإنشاءيتم الصاًتهذه في
+Return Management |المرتجعاتإدارة 6.7
+.المرتجعدورة النظاميبدأ الرجاع،العميل طلبأو التسليمفشل عند
+:الدورةتشمل 
+Return Requested
+↓
+Courier Return
+↓
+Returned To Warehouse
+↓
+Quality Inspection
+↓
+===== PAGE 381 =====
+Inventory Decision
+↓
+Merchant Notification
+↓
+Financial Settlement
+↓
+Closed
+.مستقلبشكل مرصلةكل تتبعيتم أنويجب 
+Return Inspection |المرتجعفحص 6.8
+:تسجيليجب للمخزنالمرتجع وصولعند 
+
+.المنتجصالة 
+
+
+.التغليف
+
+
+.الكسسوارات
+
+
+.الكمية
+
+
+.التلفيات
+
+
+.المرتجعسبب 
+
+===== PAGE 382 =====
+
+.المنتجصور 
+
+
+.الموظفملصظات 
+
+:المناسبالجراء تصديديتم ثم
+
+.للمخزونإعادة 
+
+
+.تغليفإعادة 
+
+
+.إصلح
+
+
+.Outletكمنتجبيع 
+
+
+.المنتجإعدام 
+
+
+.للتاجرإعادة 
+
+Return Reasons |المرتجعوسباب 6.9
+.العداداتمن للتعديلقابلة السبابتكون أنيجب 
+:مثل
+===== PAGE 383 =====
+
+.اًستلمرفض العميل
+
+
+.متواجدغير العميل
+
+
+.صصيحغير العنوان
+
+
+.صصيحغير الهاتفرقم 
+
+
+.التوصيلفي تأخير
+
+
+.مطابقغير المنتج
+
+
+.تالفالمنتج 
+
+
+.مناسبغير المقاس
+
+
+.مناسبغير اللون
+
+
+.الشصنشركة منخطأ 
+
+
+===== PAGE 384 =====
+.المخزنمن خطأ
+
+
+.آخرسبب 
+
+Collections |التحصيلت6.10
+Management
+.الشصنبشركات الخاصةالتصصيلت متابعةالنظام يدعم
+:تسجيليتم شصنةلكل 
+
+.الطلبقيمة 
+
+
+.CODقيمة
+
+
+.التصصيلتاريخ 
+
+
+.التصويلتاريخ 
+
+
+.الشصنشركة 
+
+
+.التصويلرقم 
+
+
+===== PAGE 385 =====
+.التصصيلصالة 
+
+
+.اًستصقاقتاريخ 
+
+
+.رسومأو خصوماتأي 
+
+.فعليلاوالمصصصل المتوقعبين الفرقيظهر أنويجب 
+COD |التحصيلتتسوية 6.11
+Reconciliation
+:بمطابقةالنظام يقوم
+
+.الطلبات
+
+
+.التصصيلت
+
+
+.الشصنشركات كشوف
+
+
+.البنكيةالتصويلت 
+
+:اكتشافمع 
+
+.الناقصةالتصصيلت 
+===== PAGE 386 =====
+
+
+.الزائدةالتصصيلت 
+
+
+.المصصلةغير الطلبات
+
+
+.المفقودةالتصويلت 
+
+
+.الماليةالفروقات 
+
+.تصويلدورة لكلمالية تسويةبإنشاء السماحويجب 
+Courier |الشحنشركات تقييم6.12
+Performance
+:علىبناءل شصنشركة كلأداء بقياسالنظام يقوم
+
+.التسليمنسبة 
+
+
+.المرتجعنسبة 
+
+
+.التوصيلزمن متوسط
+
+
+.الرجاعزمن متوسط
+===== PAGE 387 =====
+
+
+.الشصنةتكلفة 
+
+
+.الشكاوىعدد 
+
+
+.التصصيلسرعة 
+
+
+.SLAبالـاًلتزام 
+
+.AIالـباستخدام شصنشركة أفضلاختيار فيًصقلا البياناتهذه استخدامويتم 
+Notifications |الشعارات6.13
+:عندإشعارات بإرسالالنظام يقوم
+
+.الشصنةتأخر 
+
+
+.التسليمفشل 
+
+
+.جديدمرتجع وجود
+
+
+.للمخزنالمرتجع وصول
+
+
+===== PAGE 388 =====
+.التصصيلتأخر 
+
+
+.ماليفرق وجود
+
+
+.SLAمدةانتهاء 
+
+
+.التسليمنجاح 
+
+
+.الشصنشركة منالتصصيل استلم
+
+User |المستخدمينصلحيات 6.14
+Permissions
+:التاليةالصلصيات فيالتصكم يمكن
+
+.الشصناتمتابعة 
+
+
+.الشصنةصالة تعديل
+
+
+.الشصنلشركة إفادةإرسال 
+
+
+.مصاولةإعادة طلب
+===== PAGE 389 =====
+
+
+.إرجاعطلب 
+
+
+.المرتجعاعتماد 
+
+
+.المرتجعفصص اعتماد
+
+
+.التصصيلبيانات تعديل
+
+
+.التسوياتاعتماد 
+
+
+.التصصيلكشوف تصدير
+
+Business Rules |العملقواعد 6.15
+
+.الشصنشركة منالنهائية الصالةوصول قبلالطلب إغلقيمكن ً
+
+
+.الشصنشركة منالواردة التصديثاتجميع تسجيليجب 
+
+
+.فصصهقبل المرتجعاعتماد يمكنً 
+
+===== PAGE 390 =====
+
+.الجودةفصص اجتيازقبل للمخزونالمنتج إعادةيمكن ً
+
+
+.الشصنشركة كشوفمع مطابقتهابعد إًالتصصيلت اعتماديمكن ً
+
+
+.واضحسبب معالمالية الفروقاتجميع تسجيليجب 
+
+
+.تلقائيلاتصعيدها يجبSLAالـمدة تتجاوزشصنة أي
+
+
+.الشصنشركة منجديد تصديثوصول عندتلقائيلا الطلبصالة تصديثيتم 
+
+Reports |التقارير6.16
+:أهمهاالتقارير منمجموعة النظاميوفر 
+الشحنتقارير 
+
+Delivered Orders
+
+
+In Transit Orders
+
+
+Delayed Shipments
+
+
+===== PAGE 391 =====
+Failed Deliveries
+
+
+RTO Report
+
+
+Orders by Courier
+
+
+Orders by Governorate
+
+
+Delivery Success Rate
+
+المرتجعاتتقارير 
+
+Return Rate
+
+
+Return Reasons
+
+
+Returns by Merchant
+
+
+Returns by Product
+
+
+Returns by Courier
+
+
+===== PAGE 392 =====
+Damaged Returns
+
+
+Return Processing Time
+
+التحصيلتتقارير 
+
+Pending Collections
+
+
+Collected Amount
+
+
+Outstanding COD
+
+
+Courier Settlement
+
+
+Collection Delays
+
+
+Financial Differences
+
+الداءتقارير 
+
+Courier Performance
+
+
+SLA Performance
+===== PAGE 393 =====
+
+
+Average Delivery Time
+
+
+Average Return Time
+
+
+Customer Delivery Success
+
+
+Governorate Performance
+
+Required Screens |المطلوبةالشاشات 6.17
+
+Shipment Dashboard
+
+
+Shipment Tracking
+
+
+Courier Follow-up
+
+
+Courier Instructions
+
+
+Delayed Shipments
+
+===== PAGE 394 =====
+
+Return Management
+
+
+Return Inspection
+
+
+Return Reasons
+
+
+Collections Dashboard
+
+
+COD Reconciliation
+
+
+Courier Performance Dashboard
+
+
+SLA Dashboard
+
+
+Shipment Reports
+
+
+Return Reports
+
+
+Collection Reports
+
+===== PAGE 395 =====
+والمصروفاتوالتسويات الماليةالدارة :السابعالقسم 
+Section 7: Finance, Settlements &
+Expense Management
+مثلكامل محاسبينظام وليسبالعمليات الخاصةالمالية للدارةمخصص هيكونوده ERP،بنبني مشلننا Odoo
+أوSAP Accounting،الـ فيمتخصص نظامبنبني إصناE-Commerce Operations.
+والمصروفاتوالتسويات الماليةالدارة :السابعالقسم 
+Section 7: Finance, Settlements &
+Expense Management
+7.1الهدف| Objective
+الطلبقيمة تصصيلوصتى المنتجتكلفة منبداية ،الطلببدورة المرتبطةالمالية العملياتجميع إدارةإلى القسمهذا يهدف
+للوصولوالتسويقية التشغيليةالمصروفات جميعاصتساب إلىبالضافة ،الشصنوشركات التجارمع التسوياتوإجراء 
+تاجرولكل طلبلكل الفعليةالربصية إلى.
+والخسائرالرباح لقياسالرئيسي الماليالمرجع ويعتبر، النظامأقسام جميعمن الواردةالبيانات علىالقسم هذايعتمد 
+التشغيليةوالتكاليف .
+7.2القسمعمل نطاق| Module Scope
+القسمهذا يشمل:
+
+المنتجاتتكلفة إدارة.
+
+
+الشصنتكاليف إدارة.
+
+===== PAGE 396 =====
+
+التشغيلمصروفات إدارة.
+
+
+التسويقمصروفات إدارة.
+
+
+الـرسوم إدارةFulfillment.
+
+
+التصصيلتإدارة .
+
+
+الشصنشركات معالمالية التسويات.
+
+
+التجارمع الماليةالتسويات .
+
+
+الطلباتربصية صساب.
+
+
+المنتجاتربصية صساب.
+
+
+المتاجرربصية صساب.
+
+
+الفواتيرإدارة .
+
+
+===== PAGE 397 =====
+المدفوعاتإدارة .
+
+
+الماليةالتقارير .
+
+7.3الطلبتكلفة عناصر| Order Cost
+Structure
+التاليةالعناصر علىبناءل طلبكل تكلفةاصتساب يتمأن يجب:
+المنتجتكلفة 
+
+الشراءتكلفة .
+
+
+)وجدتإن (التصنيع تكلفة.
+
+التشغيلتكلفة 
+
+Picking.
+
+
+Packing.
+
+
+التغليفمواد .
+
+
+التخزين.
+===== PAGE 398 =====
+
+الشحنتكلفة 
+
+الشصنشركة رسوم.
+
+
+الشصنإعادة رسوم.
+
+
+المرتجعاترسوم .
+
+التسويقتكلفة 
+
+Meta Ads.
+
+
+Google Ads.
+
+
+TikTok Ads.
+
+
+Affiliate Commission.
+
+
+Influencer Cost.
+
+
+Coupon Discount.
+
+===== PAGE 399 =====
+إضافيةتكاليف 
+
+الدفعبوابة .
+
+
+بنكيةمصروفات .
+
+
+العملءخدمة .
+
+
+أخرىمصروفات .
+
+تلقائيالالطلب تكلفةإجمالي اصتسابيتم أنويجب .
+7.4التسويقمصروفات | Marketing
+Expenses
+والمتاجربالصملت وربطهاالتسويقية المصروفاتجميع بتسجيلالنظام يسمح.
+تشمل:
+
+العلنمنصة .
+
+
+الصملةاسم .
+
+
+النفاقتاريخ .
+
+
+===== PAGE 400 =====
+النفاققيمة .
+
+
+العملة.
+
+
+المتجر.
+
+
+التاجر.
+
+
+)اختياري(المنتج .
+
+
+ملصظات.
+
+منتلقائيال المصروفاتبيانات استيراددعم يجبكما MetaوGoogleمستقبلل.
+7.5التحصيلت| Collections
+الشصنشركات منالقادمة التصصيلتجميع بمتابعةالنظام يقوم.
+تسجيليتم تصويللكل :
+
+الشصنشركة .
+
+
+التصويلرقم .
+
+
+===== PAGE 401 =====
+التصويلتاريخ .
+
+
+التصويلقيمة .
+
+
+الطلباتعدد .
+
+
+الشصنشركة رسوم.
+
+
+خصومات.
+
+
+ملصظات.
+
+بهالخاصة بالطلباتتصويل كلربط ويتم.
+7.6الشحنشركات معالتسوية | Courier
+Settlement
+بمقارنةالنظام يقوم:
+
+الطلباتقيمة .
+
+
+قيمةCOD.
+
+
+===== PAGE 402 =====
+الشصنرسوم .
+
+
+المرتجعاترسوم .
+
+
+المصولةالمبالغ .
+
+مراجعتهابعد التسويةاعتماد إمكانيةمع ماليةفروقات أيبإظهار ويقوم.
+7.7التجارمع التسوية| Merchant
+Settlement
+الـشركات صالةفي Fulfillment،يشمل تاجرلكل دوريصساب كشفبإصدار النظاميقوم أنيجب :
+
+الطلباتإجمالي .
+
+
+المسلمةالطلبات .
+
+
+المرتجعةالطلبات .
+
+
+المبيعاتقيمة .
+
+
+التخزينتكلفة .
+
+
+===== PAGE 403 =====
+التجهيزتكلفة .
+
+
+التغليفتكلفة .
+
+
+الشصنتكلفة .
+
+
+المرتجعاتتكلفة .
+
+
+النظامعموًت .
+
+
+المصصلةالمبالغ .
+
+
+للتاجرالمستصق صافي.
+
+تاجركل معاًتفاق صسبالشهرية أوالسبوعية أواليومية التسويةدعم ويجب.
+7.8الفواتير| Invoicing
+بـالخاصة الفواتيرإنشاء النظاميدعم :
+
+الـخدمات Fulfillment.
+
+
+التخزينرسوم .
+===== PAGE 404 =====
+
+
+الشصنرسوم .
+
+
+التجهيزرسوم .
+
+
+المرتجعاترسوم .
+
+
+إضافيةخدمات .
+
+دعميجب كما:
+
+Draft Invoice.
+
+
+Approved Invoice.
+
+
+Paid Invoice.
+
+
+Cancelled Invoice.
+
+7.9الربحيةحساب | Profitability
+مستوىمن أكثرعلى تلقائيالالربصية بصسابالنظام يقومأن يجب:
+===== PAGE 405 =====
+الطلبربحية 
+Order Profit
+المنتجربحية 
+Product Profit
+التاجرربحية 
+Merchant Profit
+المتجرربحية 
+Store Profit
+العلنيةالحملة ربحية
+Campaign Profit
+الشحنشركة ربحية
+Courier Cost Analysis
+7.10المصروفاتإدارة | Expense
+Management
+مثلتشغيلي مصروفأي بإضافةالنظام يسمح:
+
+المخزنإيجار .
+
+
+الموظفينرواتب .
+
+
+الكهرباء.
+
+
+النترنت.
+===== PAGE 406 =====
+
+
+التغليف.
+
+
+المعداتصيانة .
+
+
+الوقود.
+
+
+الداخليالشصن .
+
+
+واًشتراكاتالبرامج .
+
+
+آخرمصروف أي.
+
+الصاجةعند التاجرأو المخزنأو بالشركةوربطه مصروفكل تصنيفمع .
+7.11المستخدمينصلحيات | User
+Permissions
+التاليةالصلصيات فيالتصكم يمكن:
+
+التكاليفعرض .
+
+
+التكاليفتعديل .
+===== PAGE 407 =====
+
+
+مصروفإضافة .
+
+
+المصروفاعتماد .
+
+
+فاتورةإنشاء .
+
+
+فاتورةاعتماد .
+
+
+تسويةتنفيذ .
+
+
+التصصيلتتعديل .
+
+
+الماليةالتقارير تصدير.
+
+
+الرباحعرض .
+
+7.12العملقواعد | Business Rules
+
+خاصةبصلصية إًإغلقه بعدطلب تكلفةتعديل يمكنً .
+
+===== PAGE 408 =====
+
+البياناتمطابقة قبلتسوية أياعتماد يمكنً .
+
+
+فيالمالية التعديلتجميع تسجيليتم Audit Log.
+
+
+بتصنيفمرتبطة تكونأن يجبالمصروفات جميع.
+
+
+اعتمادهابعد فاتورةصذف يمكنً .
+
+
+تكلفةعنصر أيتعديل عندتلقائيال الربصيةاصتساب إعادةيتم .
+
+
+المعلقةالتسويات جميعإنهاء قبلالمالية الفترةإغلق يمكنً .
+
+7.13التقارير| Reports
+الربحيةتقارير 
+
+Profit Per Order
+
+
+Profit Per Product
+
+
+Profit Per Merchant
+===== PAGE 409 =====
+
+
+Profit Per Store
+
+
+Profit Per Campaign
+
+التحصيلتتقارير 
+
+Pending Collections
+
+
+COD Report
+
+
+Courier Settlement
+
+
+Outstanding Balance
+
+المصروفاتتقارير 
+
+Marketing Expenses
+
+
+Operating Expenses
+
+
+Shipping Expenses
+
+===== PAGE 410 =====
+
+Fulfillment Cost
+
+
+Expense by Category
+
+الماليةالتقارير 
+
+Revenue Report
+
+
+Cost Report
+
+
+Gross Profit
+
+
+Net Profit
+
+
+Merchant Statement
+
+
+Courier Statement
+
+7.14المطلوبةالشاشات | Required Screens
+
+===== PAGE 411 =====
+Finance Dashboard
+
+
+Collections Dashboard
+
+
+Courier Settlement
+
+
+Merchant Settlement
+
+
+Marketing Expenses
+
+
+Operating Expenses
+
+
+Invoice Management
+
+
+Profitability Dashboard
+
+
+Financial Reports
+
+
+Expense Categories
+
+
+Payment Records
+===== PAGE 412 =====
+
+
+Statement Generator
+
+7.15مستقبليةتحسينات | Future
+Enhancements
+إضافةأقترح ،متكاملةمنصة إلىوتصويله النظامقيمة لرفع:
+Financial Health Score
+علىبناءل تاجرلكل ماليمؤشر بصسابالنظام يقوم:
+
+الربصيةمعدل .
+
+
+المرتجعاتنسبة .
+
+
+التصصيلمعدل .
+
+
+التسويقمصروفات .
+
+
+المبيعاتنمو معدل.
+
+AI Profit Analyzer
+مثلإجراءات واقتراحالرباح انخفاضأسباب بتصليلاًصطناعي الذكاءيقوم :
+===== PAGE 413 =====
+
+الشصنشركة تغيير.
+
+
+المنتجاتأسعار تعديل.
+
+
+مربصةغير إعلنيةصملت إيقاف.
+
+
+المخزونتوزيع تصسين.
+
+
+التغليفتكلفة تقليل.
+
+
+المجانيللشصن الدنىالصد زيادة.
+
+التحكمولوحات التقارير: التاسعالقسم 
+Section 9: Reports & Business
+Intelligence
+9.1الهدف| Objective
+والماليةالتشغيلية العملياتلجميع وفوريةشاملة رؤيةتوفر صيث، النظامأجزاء أهممن التصكمولوصات التقاريرتعتبر 
+ومصدثةدقيقة بياناتعلى مبنيةقرارات اتخاذعلى الدارةوتساعد ،والدارية.
+الصيةالبيانات علىالتقارير جميعتعتمد أنيجب Live Data)،إلى تصديرهاإمكانية معExcelوPDF،وجدولتها 
+اللكترونيالبريد عبرالتلقائي للرسال.
+===== PAGE 414 =====
+9.2الرئيسيةالتحكم لوحة| Executive
+Dashboard
+بالشركةالخاصة الداءمؤشرات أهمعلى تصتويتصكم لوصةتظهر أنيجب الدخولتسجيل عند.
+تشمل:
+
+الطلباتإجمالي .
+
+
+الجديدةالطلبات .
+
+
+التأكيدقيد الطلبات.
+
+
+التجهيزقيد الطلبات.
+
+
+الشصنشركات معالطلبات .
+
+
+المسلمةالطلبات .
+
+
+المرتجعةالطلبات .
+
+
+التسليمنجاح معدل.
+
+
+المبيعاتإجمالي .
+===== PAGE 415 =====
+
+
+الرباحصافي .
+
+
+المعلقةالتصصيلت .
+
+
+المتاجرأفضل .
+
+
+المنتجاتأفضل .
+
+
+الشصنشركات أفضل.
+
+
+النظامتنبيهات .
+
+للضغطقابلة الرقامجميع تكونأن ويجبDrill Down)التفاصيللعرض .
+9.3التقاريرونواع | Report Categories
+إلىالتقارير تقسيميجب :
+
+Operations Reports
+
+
+Warehouse Reports
+
+
+===== PAGE 416 =====
+Confirmation Reports
+
+
+Shipping Reports
+
+
+Returns Reports
+
+
+Collections Reports
+
+
+Financial Reports
+
+
+Marketing Reports
+
+
+Affiliate Reports
+
+
+Merchant Reports
+
+
+Store Reports
+
+
+Customer Reports
+
+
+Product Reports
+===== PAGE 417 =====
+
+
+Employee Reports
+
+
+Executive Reports
+
+9.4الطلباتتقارير | Order Reports
+مثلتقارير النظاميوفر :
+
+الطلباتإجمالي .
+
+
+الصالةصسب الطلبات.
+
+
+المتجرصسب الطلبات.
+
+
+التاجرصسب الطلبات.
+
+
+المصافظةصسب الطلبات.
+
+
+الشصنشركة صسبالطلبات .
+
+
+الدفعطريقة صسبالطلبات .
+===== PAGE 418 =====
+
+
+الطلبمصدر صسبالطلبات .
+
+
+الزمنيةالفترة صسبالطلبات .
+
+
+الملغاةالطلبات .
+
+
+المعلقةالطلبات .
+
+
+القيمةعالية الطلبات.
+
+
+المكررةالطلبات .
+
+9.5التأكيدقسم تقارير| Confirmation
+Reports
+تشملأن يجب:
+
+Confirmation Rate.
+
+
+Cancellation Rate.
+
+
+===== PAGE 419 =====
+اللغاءأسباب .
+
+
+المكالماتعدد .
+
+
+المكالمةمدة متوسط.
+
+
+اًتصالمصاوًت عدد.
+
+
+تقريرCallback.
+
+
+تقريرNo Answer.
+
+
+موظفكل أداء.
+
+
+كلأداء Team Leader.
+
+
+الفريقإنتاجية .
+
+
+SLAبالتأكيدالخاص .
+
+===== PAGE 420 =====
+9.6المخازنتقارير | Warehouse Reports
+تشمل:
+
+المخزونقيمة .
+
+
+المتاصةالكميات .
+
+
+المصجوزةالكميات .
+
+
+المخزونمنخفضة المنتجات.
+
+
+الصلصيةمنتهية المنتجات.
+
+
+المخزونصركة .
+
+
+اًستلمتقرير .
+
+
+الجردتقرير .
+
+
+تقريرPicking.
+
+
+===== PAGE 421 =====
+تقريرPacking.
+
+
+المخزنإنتاجية .
+
+
+المساصاتاستغلل .
+
+
+Inventory Accuracy.
+
+9.7الشحنشركات تقارير| Courier Reports
+تشمل:
+
+الشصناتعدد .
+
+
+التسليمنسبة .
+
+
+المرتجعاتنسبة .
+
+
+التوصيلزمن متوسط.
+
+
+الرجاعزمن متوسط.
+
+
+===== PAGE 422 =====
+الشصنتكلفة .
+
+
+المرتجعاتتكلفة .
+
+
+شصنشركة كلأداء .
+
+
+مصافظةكل أداء.
+
+
+التأخيرتقرير .
+
+
+تقريرSLA.
+
+9.8المرتجعاتتقارير | Returns Reports
+تشمل:
+
+المرتجعاتنسبة .
+
+
+المرتجعاتأسباب .
+
+
+المنتجصسب المرتجعات.
+
+
+===== PAGE 423 =====
+المصافظةصسب المرتجعات.
+
+
+الشصنشركة صسبالمرتجعات .
+
+
+التاجرصسب المرتجعات.
+
+
+إرجاعالالكثر المنتجات.
+
+
+المرتجعاتتكلفة .
+
+
+المرتجعمعالجة زمن.
+
+9.9التحصيلتتقارير | Collections Reports
+تشمل:
+
+اليوميةالتصصيلت .
+
+
+الشهريةالتصصيلت .
+
+
+الشصنشركة صسبالتصصيلت .
+
+
+===== PAGE 424 =====
+المعلقةالتصصيلت .
+
+
+الماليةالفروقات .
+
+
+التسويات.
+
+
+البنكيةالتصويلت .
+
+
+تقريرCOD.
+
+
+Outstanding Collections.
+
+9.10الماليةالتقارير | Financial Reports
+تشمل:
+
+اليراداتإجمالي .
+
+
+المصروفاتإجمالي .
+
+
+الجماليالربح .
+
+
+===== PAGE 425 =====
+الربحصافي .
+
+
+Profit Per Order.
+
+
+Profit Per Product.
+
+
+Profit Per Merchant.
+
+
+Profit Per Store.
+
+
+Profit Per Campaign.
+
+
+التاجرصساب كشف.
+
+
+الشصنشركة صسابكشف .
+
+9.11المنتجاتتقارير | Product Reports
+تشمل:
+
+مبيعالالمنتجات أفضل.
+
+
+===== PAGE 426 =====
+مبيعالالمنتجات أقل.
+
+
+الراكدةالمنتجات .
+
+
+الجديدةالمنتجات .
+
+
+التصنيفصسب المنتجات.
+
+
+التجاريةالعلمة صسبالمنتجات .
+
+
+مخزونبدون المنتجات.
+
+
+ربصيةالكثر المنتجات.
+
+
+مرتجعالالعلى المنتجات.
+
+9.12العملءتقارير | Customer Reports
+تشمل:
+
+العملءعدد .
+
+
+===== PAGE 427 =====
+الجددالعملء .
+
+
+النشطونالعملء .
+
+
+المتكررونالعملء .
+
+
+شراءلالعملء أعلى.
+
+
+الطلبقيمة متوسط.
+
+
+Customer Lifetime Value (CLV).
+
+
+إلغاءلالكثر العملء.
+
+
+إرجاعالالكثر العملء.
+
+
+Blacklisted Customers.
+
+9.13والمتاجرالتجار تقارير| Merchant &
+Store Reports
+تشمل:
+===== PAGE 428 =====
+
+تاجركل مبيعات.
+
+
+تاجركل ربصية.
+
+
+تاجرلكل الطلباتعدد .
+
+
+تاجرلكل المرتجعاتنسبة .
+
+
+المتاجرأفضل .
+
+
+متجركل أداء.
+
+
+النمومعدل .
+
+
+الـخدمات استهلكFulfillment.
+
+
+الصسابكشف .
+
+
+الداءتقييم .
+
+===== PAGE 429 =====
+9.14بالعمولةالمسوقين تقارير| Affiliate
+Reports
+تشمل:
+
+الطلباتعدد .
+
+
+المبيعاتقيمة .
+
+
+العموًتإجمالي .
+
+
+المستصقةالعموًت .
+
+
+المدفوعةالعموًت .
+
+
+المسوقينأفضل .
+
+
+Conversion Rate.
+
+
+Average Order Value.
+
+
+Coupon Performance.
+
+===== PAGE 430 =====
+9.15الموظفينتقارير | Employee Reports
+تشمل:
+
+الموظفينإنتاجية .
+
+
+المنجزةالطلبات عدد.
+
+
+المهامتنفيذ زمن.
+
+
+الخطاءنسبة .
+
+
+العملساعات عدد.
+
+
+التأكيدموظفي أداء.
+
+
+المخزنموظفي أداء.
+
+
+المتابعةفريق أداء.
+
+
+الداءصسب الموظفينترتيب .
+
+===== PAGE 431 =====
+9.16المشتركةالفلتر | Global Filters
+مثل، موصدةفلتر علىالتقارير جميعتصتوي أنيجب :
+
+التاريخ.
+
+
+الشركة.
+
+
+التاجر.
+
+
+المتجر.
+
+
+المخزن.
+
+
+الشصنشركة .
+
+
+الموظف.
+
+
+المصافظة.
+
+
+المدينة.
+
+===== PAGE 432 =====
+
+المنتج.
+
+
+الفئة.
+
+
+التجاريةالعلمة .
+
+
+الدفعطريقة .
+
+
+الطلبصالة .
+
+
+الطلبمصدر .
+
+مستخدملكل المفضلةالفلتر بصفظالسماح يجبكما .
+9.17التقاريروجدولة تصدير| Export &
+Scheduled Reports
+النظاميدعم :
+
+إلىتصدير Excel.
+
+
+إلىتصدير PDF.
+
+===== PAGE 433 =====
+
+إلىتصدير CSV.
+
+
+المباشرةالطباعة .
+
+
+اللكترونيبالبريد التقريرإرسال .
+
+
+اليوميةالتقارير جدولة.
+
+
+السبوعيةالتقارير جدولة.
+
+
+الشهريةالتقارير جدولة.
+
+
+مصددينمستخدمين معالتقرير مشاركة.
+
+9.18اًصطناعيالذكاء | AI Business
+Insights
+لوصةعلى النظاميصتوي أنيجب AI Insightsمثل، تشغيليةتصسينات واقتراحالبيانات بتصليلتقوم :
+
+المبيعاتانخفاض أسباب.
+
+
+===== PAGE 434 =====
+المرتجعاتارتفاع أسباب.
+
+
+نفادهاالمتوقع المنتجات.
+
+
+الراكدةالمنتجات .
+
+
+المربصةغير التسويقيةالصملت .
+
+
+مصافظةلكل شصنشركة أفضل.
+
+
+الصملتلطلق وقتأفضل .
+
+
+الطلباتللغاء المعرضونالعملء .
+
+
+متابعةإلى يصتاجونالذين التجار.
+
+
+القادمةالفترة خللالطلبات صجمتوقع .
+
+9.19التقاريرصلحيات | Report
+Permissions
+فيبالتصكم النظاميسمح أنيجب :
+===== PAGE 435 =====
+
+التقريرعرض .
+
+
+التقريرتصدير .
+
+
+التقريرمشاركة .
+
+
+التقريرجدولة .
+
+
+الماليةالبيانات عرض.
+
+
+فقطمعين تاجربيانات عرض.
+
+
+المستخدمصلصيات صسبالرباح أوالتكاليف إخفاء.
+
+9.20العملقواعد | Business Rules
+
+فقطالمعتمدة البياناتعلى التقاريرجميع تعتمد.
+
+
+النظامإعدادات صسبأو لصظيبشكل البياناتتصديث يتم.
+
+
+===== PAGE 436 =====
+صلصياتهنطاق خارجبيانات رؤيةللمستخدم يمكنً .
+
+
+فيالتقارير تصديرعمليات جميعتسجيل يتمAudit Log.
+
+
+للضغطقابلة المؤشراتجميع تكونأن يجبDrill Down).
+
+
+الزمنيةالفترات مقارنةالتقارير تدعمأن يجب.
+
+
+مخصصةتقارير إنشاءدعم يجبCustom Reports)جديدتطوير إلىالصاجة دون.
+
+9.21المطلوبةالشاشات | Required Screens
+
+Executive Dashboard
+
+
+Operations Dashboard
+
+
+Sales Dashboard
+
+
+Warehouse Dashboard
+
+
+Courier Dashboard
+===== PAGE 437 =====
+
+
+Finance Dashboard
+
+
+Marketing Dashboard
+
+
+Merchant Dashboard
+
+
+Affiliate Dashboard
+
+
+Reports Center
+
+
+Custom Report Builder
+
+
+Scheduled Reports
+
+
+AI Insights Dashboard
+
+
+KPI Dashboard
+
+9.22الرئيسيةالداء مؤشرات| Executive KPIs
+===== PAGE 438 =====
+مثل، واصدمكان فيالداء مؤشراتأهم الدارةلوصة تعرضأن يجب:
+
+Total Orders
+
+
+Sales Revenue
+
+
+Net Profit
+
+
+Delivery Success Rate
+
+
+Return Rate
+
+
+Confirmation Rate
+
+
+Average Order Value (AOV)
+
+
+Customer Lifetime Value (CLV)
+
+
+Inventory Accuracy
+
+
+Inventory Turnover
+
+===== PAGE 439 =====
+
+Fulfillment Time
+
+
+Collection Rate
+
+
+Marketing ROI
+
+
+Top Selling Products
+
+
+Top Merchants
+
+
+Top Stores
+
+
+Top Affiliates
+
+
+Best Performing Courier
+
+
+Employee Productivity
+
+
+Overall Business Health Score
+

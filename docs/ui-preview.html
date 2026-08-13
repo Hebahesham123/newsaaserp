@@ -1,0 +1,1785 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Green ERP — Phase 1 Console</title>
+</head>
+<body>
+
+<style>
+  /* ---------------------------------------------------------------- tokens */
+  :root {
+    --paper:        #F6F7F4;
+    --surface:      #FFFFFF;
+    --surface-2:    #EFF1EC;
+    --line:         #DDE2D9;
+    --line-strong:  #C6CDC0;
+
+    --ink:          #101711;
+    --ink-2:        #4A5450;
+    --ink-3:        #79837D;
+
+    --pine:         #1F6B4A;
+    --pine-ink:     #144231;
+    --pine-wash:    #E4F0E9;
+
+    --ok:           #2E7D5B;
+    --warn:         #8A5F07;
+    --crit:         #A93521;
+    --info:         #2A5F8F;
+    --wash-ok:      #E2F0E8;
+    --wash-warn:    #F6EBD4;
+    --wash-crit:    #F7E4E0;
+    --wash-info:    #E3EDF6;
+    --wash-mute:    #E9ECE6;
+
+    --ui:   ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Segoe UI Mono", Consolas, monospace;
+
+    --r: 10px;
+    --shadow: 0 1px 2px rgba(16, 23, 17, .05), 0 4px 14px -8px rgba(16, 23, 17, .10);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #0D1310;  --surface: #141C17;  --surface-2: #1B241E;
+      --line: #26302A;   --line-strong: #35413A;
+      --ink: #E8EEE9;    --ink-2: #A3AFA8;    --ink-3: #78857D;
+      --pine: #56B98A;   --pine-ink: #9BDCBB; --pine-wash: #16291F;
+      --ok: #5DBE90;     --warn: #D8A63C;     --crit: #E2705A;  --info: #6FA8D8;
+      --wash-ok: #142A20; --wash-warn: #2C2415; --wash-crit: #2E1B17;
+      --wash-info: #16242F; --wash-mute: #1D251F;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 4px 14px -8px rgba(0,0,0,.6);
+    }
+  }
+
+  /* The viewer's explicit toggle must beat the OS preference in both directions. */
+  :root[data-theme="light"] {
+    --paper: #F6F7F4;  --surface: #FFFFFF;  --surface-2: #EFF1EC;
+    --line: #DDE2D9;   --line-strong: #C6CDC0;
+    --ink: #101711;    --ink-2: #4A5450;    --ink-3: #79837D;
+    --pine: #1F6B4A;   --pine-ink: #144231; --pine-wash: #E4F0E9;
+    --ok: #2E7D5B;     --warn: #8A5F07;     --crit: #A93521;  --info: #2A5F8F;
+    --wash-ok: #E2F0E8; --wash-warn: #F6EBD4; --wash-crit: #F7E4E0;
+    --wash-info: #E3EDF6; --wash-mute: #E9ECE6;
+    --shadow: 0 1px 2px rgba(16,23,17,.05), 0 4px 14px -8px rgba(16,23,17,.10);
+  }
+  :root[data-theme="dark"] {
+    --paper: #0D1310;  --surface: #141C17;  --surface-2: #1B241E;
+    --line: #26302A;   --line-strong: #35413A;
+    --ink: #E8EEE9;    --ink-2: #A3AFA8;    --ink-3: #78857D;
+    --pine: #56B98A;   --pine-ink: #9BDCBB; --pine-wash: #16291F;
+    --ok: #5DBE90;     --warn: #D8A63C;     --crit: #E2705A;  --info: #6FA8D8;
+    --wash-ok: #142A20; --wash-warn: #2C2415; --wash-crit: #2E1B17;
+    --wash-info: #16242F; --wash-mute: #1D251F;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 4px 14px -8px rgba(0,0,0,.6);
+  }
+
+  /* ------------------------------------------------------------------ base */
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--ui);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .tnum { font-variant-numeric: tabular-nums; }
+  .muted { color: var(--ink-3); }
+  .code { font-family: var(--mono); font-size: 11.5px; color: var(--ink-2); }
+
+  a { color: var(--pine); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  :focus-visible { outline: 2px solid var(--pine); outline-offset: 2px; border-radius: 4px; }
+
+  /* ---------------------------------------------------------------- banner */
+  .banner { background: var(--surface); border-bottom: 1px solid var(--line); padding: 18px 24px; }
+  .banner-inner {
+    max-width: 1320px; margin: 0 auto;
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px;
+  }
+  .banner h1 { margin: 0; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+  .banner p  { margin: 0; color: var(--ink-3); font-size: 13px; }
+  .spacer { flex: 1 1 auto; }
+
+  /* Structural device: each surface cites the spec clause it implements. */
+  .cite {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--ink-3); background: var(--wash-mute);
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: 1px 8px; white-space: nowrap;
+  }
+
+  /* ----------------------------------------------------------------- shell */
+  .console { max-width: 1320px; margin: 24px auto 56px; padding: 0 24px; }
+
+  .frame {
+    display: grid; grid-template-columns: 224px minmax(0, 1fr);
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--r); box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  /* ------------------------------------------------------------------ rail */
+  .rail { border-inline-end: 1px solid var(--line); padding-bottom: 20px; }
+
+  .brand { padding: 16px 18px; border-bottom: 1px solid var(--line); }
+  .brand-name { font-size: 14px; font-weight: 650; letter-spacing: -0.01em; }
+  .brand-sub  { font-size: 11px; color: var(--ink-3); margin-top: 2px; }
+
+  .rail-group { padding: 14px 10px 0; }
+  .rail-label {
+    font-size: 10px; font-weight: 650; letter-spacing: 0.09em;
+    text-transform: uppercase; color: var(--ink-3); padding: 0 8px 6px;
+  }
+  .rail-item {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    width: 100%; text-align: start;
+    padding: 6px 8px; border: 0; border-radius: 7px;
+    background: transparent; color: var(--ink-2);
+    font: inherit; font-size: 13px; cursor: pointer;
+  }
+  .rail-item:hover { background: var(--surface-2); color: var(--ink); }
+  .rail-item.is-active { background: var(--pine-wash); color: var(--pine-ink); font-weight: 600; }
+  .rail-item .n {
+    font-family: var(--mono); font-size: 11px; color: var(--ink-3);
+    font-variant-numeric: tabular-nums;
+  }
+  .rail-item.is-active .n { color: var(--pine-ink); }
+  .rail-item.is-locked { color: var(--ink-3); cursor: default; }
+  .rail-item.is-locked:hover { background: transparent; color: var(--ink-3); }
+  .rail-item.is-locked .n { font-size: 10px; letter-spacing: .04em; text-transform: uppercase; }
+
+  /* ---------------------------------------------------------------- topbar */
+  .pane { min-width: 0; display: flex; flex-direction: column; }
+
+  .topbar { display: flex; align-items: center; gap: 12px; padding: 11px 20px; border-bottom: 1px solid var(--line); }
+  .who-org  { font-size: 13px; font-weight: 600; }
+  .who-role { font-size: 11px; color: var(--ink-3); }
+
+  .toggle {
+    display: inline-flex; background: var(--surface-2);
+    border: 1px solid var(--line); border-radius: 8px; padding: 2px; gap: 2px;
+  }
+  .toggle button {
+    font: inherit; font-size: 12px; font-weight: 550;
+    color: var(--ink-2); background: transparent; border: 0;
+    cursor: pointer; padding: 4px 11px; border-radius: 6px;
+  }
+  .toggle button[aria-pressed="true"] {
+    background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.08);
+  }
+
+  /* ------------------------------------------------------------------ body */
+  .content { padding: 20px; display: flex; flex-direction: column; gap: 16px; flex: 1 1 auto; }
+
+  .crumbs { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-3); }
+  .crumbs button {
+    font: inherit; background: none; border: 0; padding: 0;
+    color: var(--pine); cursor: pointer;
+  }
+  .crumbs button:hover { text-decoration: underline; }
+
+  .page-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px 12px; }
+  .page-head h2 { margin: 0; font-size: 17px; font-weight: 620; letter-spacing: -0.015em; }
+  .page-head p  { margin: 0; font-size: 13px; color: var(--ink-3); }
+
+  /* --------------------------------------------------------------- kpi row */
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(168px, 1fr)); gap: 12px; }
+  .kpi {
+    position: relative; background: var(--surface);
+    border: 1px solid var(--line); border-radius: var(--r);
+    padding: 13px 15px; overflow: hidden;
+    text-align: start; font: inherit; color: inherit; cursor: pointer;
+  }
+  .kpi:hover { border-color: var(--line-strong); }
+  /* Severity stripe: state readable before the number is parsed. */
+  .kpi::before {
+    content: ""; position: absolute; inset-block: 0; inset-inline-start: 0;
+    width: 3px; background: var(--line-strong);
+  }
+  .kpi[data-state="ok"]::before   { background: var(--ok); }
+  .kpi[data-state="warn"]::before { background: var(--warn); }
+  .kpi[data-state="crit"]::before { background: var(--crit); }
+
+  .kpi-label { font-size: 10px; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+  .kpi-value { font-size: 27px; font-weight: 640; letter-spacing: -0.025em; font-variant-numeric: tabular-nums; margin-top: 5px; line-height: 1.1; }
+  .kpi-note  { font-size: 11px; color: var(--ink-3); margin-top: 3px; }
+
+  /* ----------------------------------------------------------------- cards */
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+  .card-head { display: flex; align-items: center; gap: 10px; padding: 11px 15px; border-bottom: 1px solid var(--line); }
+  .card-head h3 { margin: 0; font-size: 13px; font-weight: 620; }
+
+  .split { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 16px; }
+  .split-even { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+  .detail-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+
+  /* ---------------------------------------------------------------- tables */
+  .scroll { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th {
+    text-align: start; font-size: 10px; font-weight: 650;
+    letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-3);
+    background: var(--surface-2); padding: 7px 14px;
+    border-bottom: 1px solid var(--line); white-space: nowrap;
+  }
+  td { padding: 9px 14px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  tbody tr:last-child td { border-bottom: 0; }
+  .num { text-align: end; font-variant-numeric: tabular-nums; }
+
+  tr.row-link { cursor: pointer; }
+  tr.row-link:hover td { background: var(--surface-2); }
+
+  .empty { padding: 46px 16px; text-align: center; color: var(--ink-3); font-size: 13px; }
+
+  /* ----------------------------------------------------------------- pills */
+  .pill { display: inline-block; font-size: 11px; font-weight: 560; padding: 1.5px 8px; border-radius: 999px; white-space: nowrap; }
+  .pill-ok    { background: var(--wash-ok);   color: var(--ok); }
+  .pill-warn  { background: var(--wash-warn); color: var(--warn); }
+  .pill-crit  { background: var(--wash-crit); color: var(--crit); }
+  .pill-info  { background: var(--wash-info); color: var(--info); }
+  .pill-mute  { background: var(--wash-mute); color: var(--ink-2); }
+  .pill-brand { background: var(--pine-wash); color: var(--pine-ink); }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+
+  /* ----------------------------------------------------------------- notice */
+  .notice { border-radius: var(--r); padding: 11px 14px; font-size: 12.5px; line-height: 1.55; }
+  .notice-info  { background: var(--wash-info); color: var(--info); }
+  .notice-warn  { background: var(--wash-warn); color: var(--warn); }
+  .notice-crit  { background: var(--wash-crit); color: var(--crit); }
+  .notice b { font-weight: 650; }
+
+  /* ------------------------------------------------------------- definition */
+  dl.details { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 0 28px; }
+  dl.details > div { border-bottom: 1px solid var(--line); padding: 8px 0; }
+  dl.details dt { font-size: 11px; color: var(--ink-3); }
+  dl.details dd { margin: 2px 0 0; font-size: 13px; }
+
+  /* ---------------------------------------------------------------- matrix */
+  table.matrix { font-size: 12.5px; }
+  table.matrix th.perm, table.matrix td.perm {
+    position: sticky; inset-inline-start: 0; z-index: 2;
+    background: var(--surface); min-width: 258px;
+  }
+  table.matrix th.perm { background: var(--surface-2); z-index: 3; }
+  table.matrix tr:hover td.perm { background: var(--surface-2); }
+  table.matrix th.role {
+    text-align: center; font-size: 10px; padding: 7px 6px;
+    max-width: 94px; white-space: normal; line-height: 1.25;
+  }
+  table.matrix td.cell { text-align: center; padding: 7px 6px; }
+
+  .module-row td {
+    background: var(--pine-wash); color: var(--pine-ink);
+    font-size: 10px; font-weight: 700; letter-spacing: 0.09em;
+    text-transform: uppercase; padding: 4px 14px;
+  }
+  .perm-label { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .perm-code  { font-family: var(--mono); font-size: 10.5px; color: var(--ink-3); display: block; margin-top: 1px; }
+
+  .mark { font-size: 13px; line-height: 1; }
+  .mark-yes  { color: var(--ok);   font-weight: 700; }
+  .mark-sens { color: var(--warn); font-weight: 700; }
+  .mark-no   { color: var(--line-strong); }
+
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 6px 16px;
+    padding: 9px 15px; border-top: 1px solid var(--line);
+    font-size: 11px; color: var(--ink-3);
+  }
+
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px 15px; border-bottom: 1px solid var(--line); }
+  .toolbar input {
+    font: inherit; font-size: 13px; color: var(--ink);
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 8px; padding: 5px 10px; max-width: 260px; width: 100%;
+  }
+  .toolbar input::placeholder { color: var(--ink-3); }
+
+  /* ----------------------------------------------------------- phase ledger */
+  .phase {
+    display: grid; grid-template-columns: 30px minmax(0, 1fr) auto;
+    align-items: center; gap: 12px;
+    padding: 9px 15px; border-bottom: 1px solid var(--line);
+  }
+  .phase:last-child { border-bottom: 0; }
+  .phase-n { font-family: var(--mono); font-size: 12px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+  .phase-name { font-size: 13px; }
+  .phase.is-done .phase-name { font-weight: 600; }
+  .phase-spec { font-family: var(--mono); font-size: 10.5px; color: var(--ink-3); margin-top: 1px; }
+
+  /* ------------------------------------------------------------------- foot */
+  .foot {
+    max-width: 1320px; margin: 0 auto; padding: 20px 24px 0;
+    font-size: 12px; color: var(--ink-3);
+    display: flex; flex-wrap: wrap; gap: 6px 18px;
+  }
+
+  /* -------------------------------------------------------------- responsive */
+  @media (max-width: 980px) {
+    .frame { grid-template-columns: minmax(0, 1fr); }
+    .rail { border-inline-end: 0; border-bottom: 1px solid var(--line); }
+    .split, .split-even, .detail-grid { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .console { padding: 0 12px; margin-top: 14px; }
+    .banner { padding: 14px 16px; }
+    .content { padding: 14px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+  .theme-btn {
+    position: fixed; inset-block-start: 12px; inset-inline-end: 12px; z-index: 50;
+    font: inherit; font-size: 12px; font-weight: 550;
+    color: var(--ink-2); background: var(--surface);
+    border: 1px solid var(--line); border-radius: 8px;
+    padding: 5px 11px; cursor: pointer;
+    box-shadow: var(--shadow);
+  }
+  .theme-btn:hover { color: var(--ink); }
+</style>
+
+
+<button type="button" class="theme-btn" id="theme-btn">Theme</button>
+
+<div class="banner">
+  <div class="banner-inner">
+    <h1>Green ERP — Phase 1 console</h1>
+    <span class="cite">§1 · §2</span>
+    <span class="spacer"></span>
+    <p id="banner-note">Clickable preview · every screen shipped in Phase 1</p>
+  </div>
+</div>
+
+<div class="console">
+  <div class="frame" id="frame" dir="ltr" lang="en">
+    <nav class="rail" id="rail" aria-label="Sections"></nav>
+
+    <div class="pane">
+      <div class="topbar">
+        <div>
+          <div class="who-org"  id="who-org">Delta Fulfillment Co.</div>
+          <div class="who-role" id="who-role">Operations Manager · Cairo</div>
+        </div>
+        <span class="spacer"></span>
+        <div class="toggle" role="group" aria-label="Language and direction">
+          <button type="button" id="btn-en" aria-pressed="true">EN</button>
+          <button type="button" id="btn-ar" aria-pressed="false">العربية</button>
+        </div>
+      </div>
+
+      <div class="content" id="content"></div>
+    </div>
+  </div>
+</div>
+
+<div class="foot">
+  <span id="foot-note">Preview only — no live data. The running app renders these screens from Supabase under row-level security.</span>
+  <span class="cite">§1.9</span>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ====================================================================== *
+   * i18n                                                                    *
+   * ====================================================================== */
+
+  var LANG = 'en';
+
+  var T = {
+    en: {
+      brand: 'Green ERP', brandSub: 'E-Commerce Operations & Fulfillment',
+      org: 'Delta Fulfillment Co.', role: 'Operations Manager · Cairo',
+      bannerNote: 'Clickable preview · every screen shipped in Phase 1',
+      footNote: 'Preview only — no live data. The running app renders these screens from Supabase under row-level security.',
+
+      gAdmin: 'Administration', gAccess: 'Access control', gOrg: 'Organisation',
+      gMon: 'Monitoring', gLater: 'Later phases',
+
+      dashboard: 'Dashboard', companies: 'Companies', merchants: 'Merchants',
+      stores: 'Stores', warehouses: 'Warehouses', users: 'Users', roles: 'Roles',
+      matrix: 'Permission matrix', departments: 'Departments', teams: 'Teams',
+      shifts: 'Shifts', syncLog: 'Synchronization log', activityLog: 'Activity log',
+      approvals: 'Approvals',
+      orders: 'Orders', inventory: 'Inventory', collections: 'Collections', finance: 'Finance',
+
+      search: 'Search…', noResults: 'No records found',
+      code: 'Code', name: 'Name', status: 'Status', country: 'Country',
+      currency: 'Currency', email: 'Email', phone: 'Phone', details: 'Details',
+      created: 'Created', all: 'All', yes: 'Yes', no: 'No', back: 'Back',
+      shared: 'shared', masked: 'masked', hidden: 'hidden', sensitive: 'sensitive',
+      dualControl: 'dual control', granted: 'granted', grantedSens: 'granted, sensitive',
+
+      subDashboard: 'Counts reflect only what your role may access',
+      subCompanies: 'Primary business entities on the platform',
+      subMerchants: 'Product and brand owners whose operations run on the platform',
+      subStores: 'Sales channels that feed orders into the platform',
+      subWarehouses: 'Physical locations where stock is held and orders fulfilled',
+      subUsers: 'People and integrations with access to this company',
+      subRoles: 'Permission sets assigned to users by job responsibility',
+      subMatrix: 'Screen, action, data and field permissions per role',
+      subDepartments: 'Operational departments within the company',
+      subTeams: 'Teams route work in Phase 3 order assignment — by store, merchant, region and shift',
+      subShifts: 'Working hours, breaks and handover rules',
+      subSync: 'Every synchronization run, with counts and errors',
+      subAudit: 'Every change, permission grant and sensitive access',
+      subApprovals: 'Dual-control requests awaiting a second pair of eyes',
+
+      kMerchants: 'Merchants', kStores: 'Connected stores', kSyncFail: 'Sync failures 24h', kApprovals: 'Pending approvals',
+      kMerchantsNote: '4 active · 2 onboarding',
+      kStoresNote: '7 mock · 2 awaiting credentials',
+      kSyncFailNote: 'All on one store',
+      kApprovalsNote: 'Dual control required',
+
+      colMerchant: 'Merchant', colPlatform: 'Platform', colProvider: 'Provider',
+      colLastSync: 'Last sync', colModel: 'Operating model', colPlan: 'Plan',
+      colSubEnds: 'Subscription ends', colStores: 'Stores', colSettlement: 'Settlement',
+      colGoLive: 'Go-live', colRoles: 'Roles', colJobTitle: 'Job title',
+      colLastLogin: 'Last login', colPerms: 'Permissions', colUsers: 'Users',
+      colManager: 'Manager', colTeams: 'Teams', colLeader: 'Leader',
+      colMembers: 'Members', colRegions: 'Regions', colHours: 'Hours',
+      colDays: 'Days', colCapacity: 'Capacity', colDepartment: 'Department',
+      colEntity: 'Entity', colTrigger: 'Trigger', colIn: 'Received',
+      colOk: 'Succeeded', colFail: 'Failed', colDuration: 'Duration',
+      colStore: 'Store', colUser: 'User', colAction: 'Action', colModule: 'Module',
+      colChanged: 'Changed fields', colIp: 'IP address', colWhen: 'When',
+      colType: 'Type', colRequestedBy: 'Requested by', colReason: 'Reason',
+      colWarehouse: 'Warehouse', colPermission: 'Permission',
+
+      permission: 'Permission', module: 'Module',
+      tabStores: 'Connected stores', tabUsers: 'Users', tabSync: 'Recent synchronization',
+      tabPerms: 'Permissions in this role', tabScopes: 'Data scopes', tabFields: 'Field policies',
+      webhookTitle: 'Webhook endpoint',
+      webhookBody: 'Register this URL in the channel once credentials exist. Requests are rejected unless the HMAC signature verifies.',
+      mockTitle: 'Mock provider — no credentials required',
+      mockBody: 'This store runs on the mock provider. Orders, products and inventory are simulated so the pipeline can be tested before live credentials exist.',
+      auditNote: 'Written by database triggers — no code path can skip it.',
+      syncNote: 'A store whose merchant is suspended stops syncing automatically.',
+      sodNote: 'Accountant is deliberately denied settlement approval — the maker cannot be the checker.',
+      matrixNote: 'Sensitive permissions are marked. Granting one is itself recorded in the audit log, and some require a second approver before they take effect.',
+      warehouseNote: 'Phase 1 registers warehouses so stores can be assigned a default. Zones, aisles, bins, tasks and the inventory ledger arrive in Phase 4.',
+      approvalNote: 'The database refuses to let the same user create and approve a request. Phases 4-6 raise requests here for stock adjustments, return dispositions, settlements and invoices.',
+      lockedTitle: 'Not built yet',
+      lockedBody: 'This module ships in a later phase. The tenancy, permission and audit foundations it depends on are already in place.',
+
+      phases: 'Delivery phases',
+      shipped: 'Shipped', next: 'Next', planned: 'Planned',
+      adapterReady: 'Adapter ready', awaitingSpec: 'Awaiting spec',
+      quickLinks: 'Jump to'
+    },
+
+    ar: {
+      brand: 'جرين إي آر بي', brandSub: 'إدارة عمليات التجارة الإلكترونية والتنفيذ',
+      org: 'شركة دلتا للتنفيذ', role: 'مدير العمليات · القاهرة',
+      bannerNote: 'معاينة تفاعلية · كل شاشات المرحلة الأولى',
+      footNote: 'معاينة فقط — لا توجد بيانات حية. التطبيق الفعلي يعرض هذه الشاشات من Supabase تحت حماية أمان الصفوف.',
+
+      gAdmin: 'الإدارة', gAccess: 'الصلاحيات', gOrg: 'الهيكل التنظيمي',
+      gMon: 'المتابعة', gLater: 'المراحل القادمة',
+
+      dashboard: 'لوحة التحكم', companies: 'الشركات', merchants: 'التجار',
+      stores: 'المتاجر', warehouses: 'المخازن', users: 'المستخدمون', roles: 'الأدوار',
+      matrix: 'مصفوفة الصلاحيات', departments: 'الأقسام', teams: 'الفرق',
+      shifts: 'الورديات', syncLog: 'سجل المزامنة', activityLog: 'سجل النشاط',
+      approvals: 'طلبات الاعتماد',
+      orders: 'الطلبات', inventory: 'المخزون', collections: 'التحصيلات', finance: 'الإدارة المالية',
+
+      search: 'بحث…', noResults: 'لا توجد سجلات',
+      code: 'الكود', name: 'الاسم', status: 'الحالة', country: 'الدولة',
+      currency: 'العملة', email: 'البريد الإلكتروني', phone: 'رقم الهاتف', details: 'التفاصيل',
+      created: 'تاريخ الإنشاء', all: 'الكل', yes: 'نعم', no: 'لا', back: 'رجوع',
+      shared: 'مشترك', masked: 'مُقنّع', hidden: 'مخفي', sensitive: 'حساسة',
+      dualControl: 'اعتماد مزدوج', granted: 'ممنوحة', grantedSens: 'ممنوحة وحساسة',
+
+      subDashboard: 'الأرقام تعكس ما تسمح به صلاحياتك فقط',
+      subCompanies: 'الكيانات الرئيسية المسجلة على المنصة',
+      subMerchants: 'مالكو المنتجات والعلامات التجارية الذين تُدار عملياتهم عبر المنصة',
+      subStores: 'قنوات البيع التي تصل منها الطلبات إلى المنصة',
+      subWarehouses: 'المواقع الفعلية التي يُخزَّن فيها المنتج وتُنفَّذ منها الطلبات',
+      subUsers: 'الموظفون والتكاملات الذين لديهم صلاحية الوصول إلى هذه الشركة',
+      subRoles: 'مجموعات الصلاحيات المخصصة للمستخدمين حسب الوظيفة',
+      subMatrix: 'صلاحيات الشاشة والوظيفة والبيانات والحقول لكل دور',
+      subDepartments: 'الأقسام التشغيلية داخل الشركة',
+      subTeams: 'الفرق توزّع العمل في توزيع الطلبات بالمرحلة الثالثة — حسب المتجر والتاجر والمحافظة والوردية',
+      subShifts: 'ساعات العمل وفترات الراحة وقواعد تسليم العمل',
+      subSync: 'كل عملية مزامنة مع الأعداد والأخطاء',
+      subAudit: 'كل تعديل ومنح صلاحية ووصول لبيانات حساسة',
+      subApprovals: 'طلبات الاعتماد المزدوج بانتظار مراجعة ثانية',
+
+      kMerchants: 'التجار', kStores: 'المتاجر المربوطة', kSyncFail: 'أخطاء المزامنة ٢٤ ساعة', kApprovals: 'اعتمادات معلقة',
+      kMerchantsNote: '٤ نشط · ٢ تحت الإعداد',
+      kStoresNote: '٧ محاكاة · ٢ بانتظار بيانات الربط',
+      kSyncFailNote: 'جميعها على متجر واحد',
+      kApprovalsNote: 'تتطلب اعتمادًا مزدوجًا',
+
+      colMerchant: 'التاجر', colPlatform: 'المنصة', colProvider: 'مزوّد الربط',
+      colLastSync: 'آخر مزامنة', colModel: 'نموذج التشغيل', colPlan: 'الباقة',
+      colSubEnds: 'انتهاء الاشتراك', colStores: 'المتاجر', colSettlement: 'دورة التسوية',
+      colGoLive: 'بدء التشغيل', colRoles: 'الأدوار', colJobTitle: 'المسمى الوظيفي',
+      colLastLogin: 'آخر دخول', colPerms: 'الصلاحيات', colUsers: 'المستخدمون',
+      colManager: 'المدير', colTeams: 'الفرق', colLeader: 'قائد الفريق',
+      colMembers: 'الأعضاء', colRegions: 'المحافظات', colHours: 'الساعات',
+      colDays: 'الأيام', colCapacity: 'الطاقة', colDepartment: 'القسم',
+      colEntity: 'نوع البيانات', colTrigger: 'مصدر التشغيل', colIn: 'المستلمة',
+      colOk: 'الناجحة', colFail: 'الفاشلة', colDuration: 'المدة',
+      colStore: 'المتجر', colUser: 'المستخدم', colAction: 'العملية', colModule: 'الوحدة',
+      colChanged: 'الحقول المعدلة', colIp: 'عنوان IP', colWhen: 'التاريخ والوقت',
+      colType: 'النوع', colRequestedBy: 'مقدّم الطلب', colReason: 'السبب',
+      colWarehouse: 'المخزن', colPermission: 'الصلاحية',
+
+      permission: 'الصلاحية', module: 'الوحدة',
+      tabStores: 'المتاجر المربوطة', tabUsers: 'المستخدمون', tabSync: 'آخر عمليات المزامنة',
+      tabPerms: 'صلاحيات هذا الدور', tabScopes: 'نطاقات البيانات', tabFields: 'سياسات الحقول',
+      webhookTitle: 'رابط الـ Webhook',
+      webhookBody: 'سجّل هذا الرابط في المنصة بعد توفر بيانات الربط. أي طلب لا يجتاز التحقق من التوقيع يُرفض.',
+      mockTitle: 'مزوّد المحاكاة — لا يحتاج بيانات ربط',
+      mockBody: 'هذا المتجر يعمل بمزوّد المحاكاة. الطلبات والمنتجات والمخزون بيانات تجريبية حتى يمكن اختبار الدورة بالكامل قبل توفر بيانات الربط الحقيقية.',
+      auditNote: 'يُكتب عبر مشغّلات قاعدة البيانات — لا يمكن لأي مسار تجاوزه.',
+      syncNote: 'المتجر الذي يتوقف تاجره تتوقف مزامنته تلقائيًا.',
+      sodNote: 'موظف الحسابات محروم عمدًا من اعتماد التسويات — منشئ العملية لا يعتمدها.',
+      matrixNote: 'الصلاحيات الحساسة مميزة. منح أي منها يُسجَّل في سجل النشاط، وبعضها يتطلب معتمِدًا ثانيًا قبل التفعيل.',
+      warehouseNote: 'المرحلة الأولى تسجّل المخازن ليمكن تعيين مخزن افتراضي لكل متجر. المناطق والممرات والأرفف والمهام وسجل المخزون تأتي في المرحلة الرابعة.',
+      approvalNote: 'قاعدة البيانات ترفض أن ينشئ المستخدم الطلب ويعتمده بنفسه. المراحل من الرابعة إلى السادسة ترفع هنا طلبات تسويات المخزون والمرتجعات والتسويات والفواتير.',
+      lockedTitle: 'لم تُبنَ بعد',
+      lockedBody: 'هذه الوحدة تأتي في مرحلة لاحقة. أساسات الكيانات والصلاحيات وسجل النشاط التي تعتمد عليها جاهزة بالفعل.',
+
+      phases: 'مراحل التنفيذ',
+      shipped: 'مكتملة', next: 'التالية', planned: 'مخططة',
+      adapterReady: 'المحوّل جاهز', awaitingSpec: 'بانتظار المستند',
+      quickLinks: 'انتقل إلى'
+    }
+  };
+
+  function t(key) { return T[LANG][key] !== undefined ? T[LANG][key] : key; }
+  function L(pair) { return pair && pair[LANG] !== undefined ? pair[LANG] : pair; }
+
+  /* Status labels — the spec's five status enums, translated. */
+  var STATUS = {
+    active:                { en: 'Active', ar: 'نشط', tone: 'ok' },
+    draft:                 { en: 'Draft', ar: 'مسودة', tone: 'mute' },
+    under_review:          { en: 'Under review', ar: 'تحت المراجعة', tone: 'info' },
+    suspended:             { en: 'Suspended', ar: 'معلق', tone: 'warn' },
+    archived:              { en: 'Archived', ar: 'مؤرشف', tone: 'mute' },
+    lead:                  { en: 'Lead', ar: 'عميل محتمل', tone: 'mute' },
+    contracting:           { en: 'Contracting', ar: 'تحت التعاقد', tone: 'info' },
+    onboarding:            { en: 'Onboarding', ar: 'تحت الإعداد', tone: 'info' },
+    ready_for_go_live:     { en: 'Ready for go-live', ar: 'جاهز للتشغيل', tone: 'ok' },
+    temporarily_suspended: { en: 'Temporarily suspended', ar: 'موقوف مؤقتًا', tone: 'warn' },
+    payment_overdue:       { en: 'Payment overdue', ar: 'متأخر في السداد', tone: 'warn' },
+    on_hold:               { en: 'On hold', ar: 'معلق', tone: 'warn' },
+    not_connected:         { en: 'Not connected', ar: 'غير مربوط', tone: 'mute' },
+    connection_in_progress:{ en: 'Connecting', ar: 'جارٍ الربط', tone: 'info' },
+    connected:             { en: 'Connected', ar: 'مربوط', tone: 'ok' },
+    connection_error:      { en: 'Connection error', ar: 'خطأ في الربط', tone: 'crit' },
+    disconnected:          { en: 'Disconnected', ar: 'تم إلغاء الربط', tone: 'crit' },
+    invited:               { en: 'Invited', ar: 'تمت دعوته', tone: 'mute' },
+    on_leave:              { en: 'On leave', ar: 'في إجازة', tone: 'info' },
+    success:               { en: 'Success', ar: 'ناجحة', tone: 'ok' },
+    partial:               { en: 'Partial', ar: 'جزئية', tone: 'warn' },
+    failed:                { en: 'Failed', ar: 'فاشلة', tone: 'crit' },
+    running:               { en: 'Running', ar: 'جارية', tone: 'info' },
+    pending:               { en: 'Pending', ar: 'قيد الانتظار', tone: 'warn' },
+    approved:              { en: 'Approved', ar: 'معتمد', tone: 'ok' }
+  };
+
+  var MODELS = {
+    own_store:          { en: 'Company-owned store', ar: 'متجر مملوك للشركة' },
+    multi_store:        { en: 'Multi-store', ar: 'تعدد المتاجر' },
+    fulfillment_center: { en: 'Fulfillment centre', ar: 'مركز تنفيذ الطلبات' },
+    operations_only:    { en: 'Operations only', ar: 'إدارة العمليات فقط' },
+    marketplace:        { en: 'Marketplace', ar: 'منصات البيع' }
+  };
+
+  var PLATFORMS = {
+    shopify:         { en: 'Shopify', ar: 'Shopify' },
+    woocommerce:     { en: 'WooCommerce', ar: 'WooCommerce' },
+    amazon:          { en: 'Amazon', ar: 'Amazon' },
+    noon:            { en: 'Noon', ar: 'Noon' },
+    pos:             { en: 'Point of sale', ar: 'نقطة بيع' },
+    social_commerce: { en: 'Social commerce', ar: 'التجارة عبر السوشيال' }
+  };
+
+  /* ====================================================================== *
+   * Data — internally consistent: merchants own stores, users hold roles.   *
+   * ====================================================================== */
+
+  var DB = {};
+
+  DB.company = {
+    id: 'c1', code: 'DLT',
+    nameEn: 'Delta Fulfillment Co.', nameAr: 'شركة دلتا للتنفيذ',
+    tradeName: 'Delta 3PL', model: 'fulfillment_center', status: 'active',
+    currency: 'EGP', country: 'Egypt', region: 'Cairo',
+    email: 'ops@deltafulfillment.eg', phone: '+20 2 2735 1180',
+    tax: '100-482-913', cr: 'CR-88214',
+    plan: 'Growth', subEnd: '31 Mar 2027',
+    maxUsers: 50, maxStores: 25, maxOrders: 120000
+  };
+
+  DB.merchants = [
+    { id: 'm1', code: 'NILE', name: { en: 'Nile Threads', ar: 'نايل ثريدز' }, trade: 'Nile Apparel LLC', status: 'active', model: 'multi_store', settlement: { en: 'Weekly', ar: 'أسبوعي' }, commission: 8, goLive: '12 Feb 2026', contract: '02 Feb 2026', country: 'Egypt', email: 'ops@nilethreads.eg', phone: '+20 100 220 4417', contact: 'Rania Fouad', services: ['warehousing', 'picking_packing', 'shipping', 'order_confirmation'] },
+    { id: 'm2', code: 'CAIC', name: { en: 'Cairo Cosmetics', ar: 'كايرو كوزمetics' }, trade: 'CC Beauty', status: 'active', model: 'own_store', settlement: { en: 'Monthly', ar: 'شهري' }, commission: 12, goLive: '03 Mar 2026', contract: '20 Feb 2026', country: 'Egypt', email: 'hello@cairocosmetics.eg', phone: '+20 111 884 2093', contact: 'Yasmin Adel', services: ['warehousing', 'picking_packing', 'shipping'] },
+    { id: 'm3', code: 'ALEX', name: { en: 'Alex Sportswear', ar: 'ألِكس سبورتسوير' }, trade: 'Alexandria Sports', status: 'active', model: 'multi_store', settlement: { en: 'Weekly', ar: 'أسبوعي' }, commission: 10, goLive: '18 Apr 2026', contract: '05 Apr 2026', country: 'Egypt', email: 'team@alexsports.eg', phone: '+20 122 771 5560', contact: 'Hazem Lotfy', services: ['warehousing', 'picking_packing', 'shipping', 'return_management'] },
+    { id: 'm4', code: 'DLTH', name: { en: 'Delta Home', ar: 'دلتا هوم' }, trade: 'Delta Home Goods', status: 'payment_overdue', model: 'own_store', settlement: { en: 'Monthly', ar: 'شهري' }, commission: 9, goLive: '01 Jun 2026', contract: '15 May 2026', country: 'Egypt', email: 'accounts@deltahome.eg', phone: '+20 106 330 8812', contact: 'Sherif Kamal', services: ['warehousing', 'shipping'] },
+    { id: 'm5', code: 'LUXE', name: { en: 'Luxe Bags', ar: 'لوكس باجز' }, trade: 'Luxe Leather', status: 'onboarding', model: 'own_store', settlement: { en: 'Weekly', ar: 'أسبوعي' }, commission: 15, goLive: '—', contract: '22 Jul 2026', country: 'Egypt', email: 'info@luxebags.eg', phone: '+20 128 445 9021', contact: 'Malak Zayed', services: ['warehousing', 'picking_packing'] },
+    { id: 'm6', code: 'GRNS', name: { en: 'Green Snacks', ar: 'جرين سناكس' }, trade: 'Green Foods', status: 'ready_for_go_live', model: 'marketplace', settlement: { en: 'Monthly', ar: 'شهري' }, commission: 7, goLive: '15 Aug 2026', contract: '30 Jun 2026', country: 'Egypt', email: 'ops@greensnacks.eg', phone: '+20 115 662 3374', contact: 'Bassem Nour', services: ['marketplace_management', 'warehousing', 'shipping'] }
+  ];
+
+  DB.stores = [
+    { id: 's1', code: 'NILE-SHOP', name: 'Nile Threads — Online', merchant: 'm1', platform: 'shopify', status: 'active', provider: 'mock', lastSync: '11 Aug 2026, 09:42', syncEnabled: true, url: 'https://nile-threads.myshopify.com', currency: 'EGP', warehouse: 'w1' },
+    { id: 's2', code: 'CAIC-SHOP', name: 'Cairo Cosmetics — Store', merchant: 'm2', platform: 'shopify', status: 'active', provider: 'mock', lastSync: '11 Aug 2026, 09:38', syncEnabled: true, url: 'https://cairo-cosmetics.myshopify.com', currency: 'EGP', warehouse: 'w1' },
+    { id: 's3', code: 'ALEX-WOO', name: 'Alex Sportswear — Web', merchant: 'm3', platform: 'woocommerce', status: 'active', provider: 'mock', lastSync: '11 Aug 2026, 08:55', syncEnabled: true, url: 'https://shop.alexsports.eg', currency: 'EGP', warehouse: 'w2' },
+    { id: 's4', code: 'DLTH-SHOP', name: 'Delta Home — Online', merchant: 'm4', platform: 'shopify', status: 'connection_error', provider: 'mock', lastSync: '10 Aug 2026, 23:10', syncEnabled: true, url: 'https://delta-home.myshopify.com', currency: 'EGP', warehouse: 'w1' },
+    { id: 's5', code: 'NILE-AMZ', name: 'Nile Threads — Amazon EG', merchant: 'm1', platform: 'amazon', status: 'connected', provider: 'mock', lastSync: '11 Aug 2026, 07:20', syncEnabled: true, url: 'https://sellercentral.amazon.eg', currency: 'EGP', warehouse: 'w1' },
+    { id: 's6', code: 'ALEX-POS', name: 'Alex Sportswear — Smouha branch', merchant: 'm3', platform: 'pos', status: 'active', provider: 'mock', lastSync: '11 Aug 2026, 06:00', syncEnabled: false, url: '—', currency: 'EGP', warehouse: 'w2' },
+    { id: 's7', code: 'LUXE-SHOP', name: 'Luxe Bags — Online', merchant: 'm5', platform: 'shopify', status: 'not_connected', provider: 'mock', lastSync: '—', syncEnabled: false, url: 'https://luxe-bags.myshopify.com', currency: 'EGP', warehouse: 'w1' },
+    { id: 's8', code: 'GRNS-NOON', name: 'Green Snacks — Noon', merchant: 'm6', platform: 'noon', status: 'connection_in_progress', provider: 'mock', lastSync: '—', syncEnabled: true, url: 'https://noon.partners/greensnacks', currency: 'EGP', warehouse: 'w1' },
+    { id: 's9', code: 'GRNS-IG', name: 'Green Snacks — Instagram', merchant: 'm6', platform: 'social_commerce', status: 'active', provider: 'mock', lastSync: '11 Aug 2026, 05:30', syncEnabled: false, url: '—', currency: 'EGP', warehouse: 'w1' }
+  ];
+
+  DB.warehouses = [
+    { id: 'w1', code: 'W-CAI', name: { en: 'Cairo Main', ar: 'القاهرة الرئيسي' }, type: 'fulfillment', merchant: null, country: 'Egypt', region: 'Cairo', active: true },
+    { id: 'w2', code: 'W-ALX', name: { en: 'Alexandria Branch', ar: 'فرع الإسكندرية' }, type: 'branch', merchant: 'm3', country: 'Egypt', region: 'Alexandria', active: true },
+    { id: 'w3', code: 'W-RET', name: { en: 'Returns Hub', ar: 'مركز المرتجعات' }, type: 'returns', merchant: null, country: 'Egypt', region: 'Cairo', active: true }
+  ];
+
+  DB.roles = [
+    { id: 'r-ca',  code: 'company_admin',            name: { en: 'Company Admin', ar: 'مدير الشركة' }, perms: 58, users: 2 },
+    { id: 'r-om',  code: 'operations_manager',       name: { en: 'Operations Manager', ar: 'مدير العمليات' }, perms: 27, users: 2 },
+    { id: 'r-ma',  code: 'merchant_admin',           name: { en: 'Merchant Admin', ar: 'مدير التاجر' }, perms: 12, users: 6 },
+    { id: 'r-sm',  code: 'store_manager',            name: { en: 'Store Manager', ar: 'مدير المتجر' }, perms: 11, users: 3 },
+    { id: 'r-ctl', code: 'confirmation_team_leader', name: { en: 'Confirmation Team Leader', ar: 'مدير فريق التأكيد' }, perms: 15, users: 1 },
+    { id: 'r-ca2', code: 'confirmation_agent',       name: { en: 'Confirmation Agent', ar: 'موظف تأكيد الطلبات' }, perms: 6, users: 5 },
+    { id: 'r-cs',  code: 'customer_service_agent',   name: { en: 'Customer Service Agent', ar: 'موظف خدمة العملاء' }, perms: 7, users: 2 },
+    { id: 'r-wm',  code: 'warehouse_manager',        name: { en: 'Warehouse Manager', ar: 'مدير المخزن' }, perms: 14, users: 1 },
+    { id: 'r-rec', code: 'receiving_agent',          name: { en: 'Receiving Agent', ar: 'موظف استلام' }, perms: 2, users: 1 },
+    { id: 'r-pick',code: 'picker',                   name: { en: 'Picker', ar: 'موظف تجهيز' }, perms: 1, users: 3 },
+    { id: 'r-pack',code: 'packer',                   name: { en: 'Packer', ar: 'موظف تغليف' }, perms: 1, users: 2 },
+    { id: 'r-inv', code: 'inventory_controller',     name: { en: 'Inventory Controller', ar: 'موظف جرد' }, perms: 5, users: 1 },
+    { id: 'r-ship',code: 'shipping_manager',         name: { en: 'Shipping Manager', ar: 'مدير الشحن' }, perms: 7, users: 1 },
+    { id: 'r-fu',  code: 'followup_agent',           name: { en: 'Follow-up Agent', ar: 'موظف متابعة الشحنات' }, perms: 4, users: 2 },
+    { id: 'r-ret', code: 'returns_agent',            name: { en: 'Returns Agent', ar: 'موظف المرتجعات' }, perms: 5, users: 1 },
+    { id: 'r-acc', code: 'accountant',               name: { en: 'Accountant', ar: 'موظف الحسابات' }, perms: 16, users: 1 },
+    { id: 'r-col', code: 'collection_officer',       name: { en: 'Collection Officer', ar: 'موظف التحصيلات' }, perms: 6, users: 1 },
+    { id: 'r-mkt', code: 'marketing_manager',        name: { en: 'Marketing Manager', ar: 'مدير التسويق' }, perms: 8, users: 0 },
+    { id: 'r-aff', code: 'affiliate_manager',        name: { en: 'Affiliate Manager', ar: 'مدير المسوقين بالعمولة' }, perms: 5, users: 0 },
+    { id: 'r-qa',  code: 'quality_auditor',          name: { en: 'Quality Auditor', ar: 'مدير الجودة' }, perms: 10, users: 1 },
+    { id: 'r-rv',  code: 'reports_viewer',           name: { en: 'Reports Viewer', ar: 'مستخدم تقارير فقط' }, perms: 2, users: 2 },
+    { id: 'r-api', code: 'api_user',                 name: { en: 'API User', ar: 'مستخدم واجهات برمجية' }, perms: 3, users: 1 }
+  ];
+
+  DB.users = [
+    { id: 'u1', name: { en: 'Ahmed Hassan', ar: 'أحمد حسن' }, email: 'ahmed.hassan@delta3pl.eg', phone: '+20 100 118 2204', job: { en: 'Operations Manager', ar: 'مدير العمليات' }, roles: ['r-om'], status: 'active', lastLogin: '11 Aug 2026, 09:04', dept: 'd1', team: 'tm1', code: 'EMP-001' },
+    { id: 'u2', name: { en: 'Mona Ibrahim', ar: 'منى إبراهيم' }, email: 'mona.ibrahim@delta3pl.eg', phone: '+20 122 907 6631', job: { en: 'Company Administrator', ar: 'مدير الشركة' }, roles: ['r-ca'], status: 'active', lastLogin: '11 Aug 2026, 08:47', dept: 'd1', team: null, code: 'EMP-002' },
+    { id: 'u3', name: { en: 'Youssef Mahmoud', ar: 'يوسف محمود' }, email: 'youssef.m@delta3pl.eg', phone: '+20 111 442 8890', job: { en: 'Confirmation Team Leader', ar: 'مدير فريق التأكيد' }, roles: ['r-ctl'], status: 'active', lastLogin: '11 Aug 2026, 09:12', dept: 'd2', team: 'tm2', code: 'EMP-014' },
+    { id: 'u4', name: { en: 'Salma Fathy', ar: 'سلمى فتحي' }, email: 'salma.fathy@delta3pl.eg', phone: '+20 128 330 4417', job: { en: 'Confirmation Agent', ar: 'موظف تأكيد الطلبات' }, roles: ['r-ca2'], status: 'active', lastLogin: '11 Aug 2026, 09:20', dept: 'd2', team: 'tm2', code: 'EMP-021' },
+    { id: 'u5', name: { en: 'Omar Saleh', ar: 'عمر صالح' }, email: 'omar.saleh@delta3pl.eg', phone: '+20 106 771 2038', job: { en: 'Warehouse Manager', ar: 'مدير المخزن' }, roles: ['r-wm'], status: 'active', lastLogin: '11 Aug 2026, 07:31', dept: 'd3', team: 'tm3', code: 'EMP-008' },
+    { id: 'u6', name: { en: 'Nour Abdel Aziz', ar: 'نور عبد العزيز' }, email: 'nour.aziz@delta3pl.eg', phone: '+20 115 220 9954', job: { en: 'Accountant', ar: 'موظف الحسابات' }, roles: ['r-acc'], status: 'active', lastLogin: '10 Aug 2026, 17:55', dept: 'd5', team: null, code: 'EMP-011' },
+    { id: 'u7', name: { en: 'Karim Rashad', ar: 'كريم رشاد' }, email: 'karim.rashad@delta3pl.eg', phone: '+20 100 664 3312', job: { en: 'Shipping Manager', ar: 'مدير الشحن' }, roles: ['r-ship'], status: 'active', lastLogin: '11 Aug 2026, 08:02', dept: 'd4', team: 'tm4', code: 'EMP-009' },
+    { id: 'u8', name: { en: 'Hana Adel', ar: 'هنا عادل' }, email: 'hana.adel@delta3pl.eg', phone: '+20 122 118 7745', job: { en: 'Customer Service Agent', ar: 'موظف خدمة العملاء' }, roles: ['r-cs'], status: 'on_leave', lastLogin: '04 Aug 2026, 14:22', dept: 'd2', team: 'tm2', code: 'EMP-027' },
+    { id: 'u9', name: { en: 'Tarek Nabil', ar: 'طارق نبيل' }, email: 'tarek.nabil@delta3pl.eg', phone: '+20 111 909 3320', job: { en: 'Picker', ar: 'موظف تجهيز' }, roles: ['r-pick'], status: 'active', lastLogin: '11 Aug 2026, 06:45', dept: 'd3', team: 'tm3', code: 'EMP-033' },
+    { id: 'u10', name: { en: 'Dina Samir', ar: 'دينا سمير' }, email: 'dina.samir@delta3pl.eg', phone: '+20 128 554 0087', job: { en: 'Collection Officer', ar: 'موظف التحصيلات' }, roles: ['r-col'], status: 'active', lastLogin: '10 Aug 2026, 18:40', dept: 'd5', team: null, code: 'EMP-018' },
+    { id: 'u11', name: { en: 'Rania Fouad', ar: 'رانيا فؤاد' }, email: 'rania@nilethreads.eg', phone: '+20 100 220 4417', job: { en: 'Merchant Admin — Nile Threads', ar: 'مدير التاجر — نايل ثريدز' }, roles: ['r-ma'], status: 'active', lastLogin: '11 Aug 2026, 08:15', dept: null, team: null, code: '—' },
+    { id: 'u12', name: { en: 'Sync Service', ar: 'خدمة المزامنة' }, email: 'integration@delta3pl.eg', phone: null, job: { en: 'API integration account', ar: 'حساب تكامل برمجي' }, roles: ['r-api'], status: 'active', lastLogin: '11 Aug 2026, 09:42', dept: null, team: null, code: 'SVC-01' }
+  ];
+
+  DB.departments = [
+    { id: 'd1', code: 'OPS', name: { en: 'Operations', ar: 'العمليات' }, manager: 'u1', teams: 1, active: true },
+    { id: 'd2', code: 'CNF', name: { en: 'Confirmation & Customer Service', ar: 'التأكيد وخدمة العملاء' }, manager: 'u3', teams: 1, active: true },
+    { id: 'd3', code: 'WHS', name: { en: 'Warehouse', ar: 'المخازن' }, manager: 'u5', teams: 1, active: true },
+    { id: 'd4', code: 'SHP', name: { en: 'Shipping & Follow-up', ar: 'الشحن والمتابعة' }, manager: 'u7', teams: 1, active: true },
+    { id: 'd5', code: 'FIN', name: { en: 'Finance & Collections', ar: 'المالية والتحصيلات' }, manager: 'u6', teams: 0, active: true },
+    { id: 'd6', code: 'QLT', name: { en: 'Quality', ar: 'الجودة' }, manager: null, teams: 0, active: true },
+    { id: 'd7', code: 'IT',  name: { en: 'Information Technology', ar: 'تكنولوجيا المعلومات' }, manager: null, teams: 0, active: false }
+  ];
+
+  DB.teams = [
+    { id: 'tm1', code: 'OPS-CORE', name: { en: 'Operations Core', ar: 'فريق العمليات' }, dept: 'd1', leader: 'u1', members: 3, shift: 'sh1', regions: ['Cairo', 'Giza'] },
+    { id: 'tm2', code: 'CNF-CAI', name: { en: 'Confirmation — Cairo', ar: 'التأكيد — القاهرة' }, dept: 'd2', leader: 'u3', members: 6, shift: 'sh1', regions: ['Cairo', 'Giza', 'Qalyubia'] },
+    { id: 'tm3', code: 'WHS-CAI', name: { en: 'Warehouse — Cairo Main', ar: 'المخزن — القاهرة الرئيسي' }, dept: 'd3', leader: 'u5', members: 8, shift: 'sh2', regions: [] },
+    { id: 'tm4', code: 'SHP-FU', name: { en: 'Shipment Follow-up', ar: 'متابعة الشحنات' }, dept: 'd4', leader: 'u7', members: 4, shift: 'sh1', regions: ['Cairo', 'Alexandria', 'Dakahlia'] }
+  ];
+
+  DB.shifts = [
+    { id: 'sh1', name: { en: 'Morning', ar: 'الوردية الصباحية' }, start: '09:00', end: '17:00', days: [0, 1, 2, 3, 4], dept: 'd2', members: 11, capacity: 220, active: true },
+    { id: 'sh2', name: { en: 'Warehouse early', ar: 'وردية المخزن المبكرة' }, start: '06:00', end: '14:00', days: [0, 1, 2, 3, 4, 5], dept: 'd3', members: 8, capacity: 400, active: true },
+    { id: 'sh3', name: { en: 'Evening', ar: 'الوردية المسائية' }, start: '14:00', end: '22:00', days: [0, 1, 2, 3, 4], dept: 'd2', members: 5, capacity: 140, active: true }
+  ];
+
+  DB.sync = [
+    { id: 1, store: 's1', entity: 'orders',    trigger: 'webhook',   status: 'success', inn: 37, ok: 37, fail: 0, ms: '412 ms',  at: '11 Aug 2026, 09:42', by: 'u12' },
+    { id: 2, store: 's2', entity: 'products',  trigger: 'scheduled', status: 'success', inn: 8,  ok: 8,  fail: 0, ms: '268 ms',  at: '11 Aug 2026, 09:38', by: null },
+    { id: 3, store: 's3', entity: 'inventory', trigger: 'manual',    status: 'partial', inn: 64, ok: 61, fail: 3, ms: '1.9 s',   at: '11 Aug 2026, 08:55', by: 'u5' },
+    { id: 4, store: 's4', entity: 'orders',    trigger: 'retry',     status: 'failed',  inn: 0,  ok: 0,  fail: 0, ms: '30.0 s',  at: '10 Aug 2026, 23:10', by: null },
+    { id: 5, store: 's4', entity: 'orders',    trigger: 'scheduled', status: 'failed',  inn: 0,  ok: 0,  fail: 0, ms: '30.0 s',  at: '10 Aug 2026, 22:10', by: null },
+    { id: 6, store: 's4', entity: 'orders',    trigger: 'scheduled', status: 'failed',  inn: 0,  ok: 0,  fail: 0, ms: '30.0 s',  at: '10 Aug 2026, 21:10', by: null },
+    { id: 7, store: 's1', entity: 'orders',    trigger: 'scheduled', status: 'success', inn: 12, ok: 12, fail: 0, ms: '331 ms',  at: '11 Aug 2026, 08:00', by: null },
+    { id: 8, store: 's5', entity: 'orders',    trigger: 'scheduled', status: 'success', inn: 5,  ok: 5,  fail: 0, ms: '540 ms',  at: '11 Aug 2026, 07:20', by: null },
+    { id: 9, store: 's8', entity: 'products',  trigger: 'manual',    status: 'running', inn: 0,  ok: 0,  fail: 0, ms: '—',       at: '11 Aug 2026, 09:44', by: 'u1' },
+    { id: 10,store: 's2', entity: 'inventory', trigger: 'scheduled', status: 'success', inn: 26, ok: 26, fail: 0, ms: '702 ms',  at: '11 Aug 2026, 06:00', by: null }
+  ];
+
+  DB.audit = [
+    { id: 318, actor: 'u2', action: 'permission_change', module: 'user_roles', changed: 'role_id', ip: '197.44.12.8',  at: '11 Aug 2026, 09:30' },
+    { id: 317, actor: 'u1', action: 'status_change',     module: 'merchants',  changed: 'status', ip: '197.44.12.8',  at: '11 Aug 2026, 09:18' },
+    { id: 316, actor: 'u1', action: 'create',            module: 'stores',     changed: '—',      ip: '197.44.12.8',  at: '11 Aug 2026, 09:05' },
+    { id: 315, actor: 'u6', action: 'export',            module: 'app_users',  changed: '—',      ip: '156.203.4.91', at: '10 Aug 2026, 18:02' },
+    { id: 314, actor: null,action: 'login_failed',       module: 'auth',       changed: '—',      ip: '41.238.77.10', at: '10 Aug 2026, 17:44' },
+    { id: 313, actor: 'u5', action: 'update',            module: 'warehouses', changed: 'address, phone', ip: '197.44.12.8', at: '10 Aug 2026, 16:20' },
+    { id: 312, actor: 'u2', action: 'archive',           module: 'app_users',  changed: 'archived_at', ip: '197.44.12.8', at: '10 Aug 2026, 15:11' },
+    { id: 311, actor: 'u3', action: 'sensitive_view',    module: 'customers',  changed: '—',      ip: '197.44.12.8',  at: '10 Aug 2026, 14:38' },
+    { id: 310, actor: 'u1', action: 'store_connect',     module: 'stores',     changed: 'status, connected_at', ip: '197.44.12.8', at: '10 Aug 2026, 12:02' },
+    { id: 309, actor: 'u2', action: 'update',            module: 'companies',  changed: 'settings', ip: '197.44.12.8', at: '09 Aug 2026, 19:47' }
+  ];
+
+  DB.actionTone = {
+    create: 'ok', update: 'info', status_change: 'info', archive: 'warn',
+    permission_change: 'warn', export: 'warn', sensitive_view: 'warn',
+    login_failed: 'crit', store_connect: 'ok', financial_change: 'warn'
+  };
+
+  DB.approvals = [
+    { id: 'a1', type: { en: 'Stock adjustment', ar: 'تسوية مخزون' }, entity: 'inventory_ledger', by: 'u9', reason: { en: 'Cycle count variance — 3 units short, aisle B-04', ar: 'فرق جرد — نقص ٣ قطع، ممر B-04' }, status: 'pending', at: '11 Aug 2026, 08:12' },
+    { id: 'a2', type: { en: 'Merchant settlement', ar: 'تسوية تاجر' }, entity: 'settlements', by: 'u6', reason: { en: 'July statement — Nile Threads', ar: 'كشف حساب يوليو — نايل ثريدز' }, status: 'pending', at: '10 Aug 2026, 16:55' }
+  ];
+
+  /* Permission catalogue slice used by the matrix. */
+  DB.modules = [
+    { name: 'companies', perms: [
+      { code: 'companies.view',   label: { en: 'View companies', ar: 'عرض الشركات' } },
+      { code: 'companies.edit',   label: { en: 'Edit company', ar: 'تعديل شركة' } },
+      { code: 'companies.settings', label: { en: 'Manage company settings', ar: 'إدارة إعدادات الشركة' } }
+    ]},
+    { name: 'merchants', perms: [
+      { code: 'merchants.view',   label: { en: 'View merchants', ar: 'عرض التجار' } },
+      { code: 'merchants.create', label: { en: 'Create merchant', ar: 'إنشاء تاجر' } },
+      { code: 'merchants.edit',   label: { en: 'Edit merchant', ar: 'تعديل تاجر' } },
+      { code: 'merchants.pricing.view', label: { en: 'View service pricing', ar: 'عرض أسعار الخدمات' }, sensitive: true },
+      { code: 'merchants.pricing.edit', label: { en: 'Edit service pricing', ar: 'تعديل أسعار الخدمات' }, sensitive: true, approval: true }
+    ]},
+    { name: 'stores', perms: [
+      { code: 'stores.view',    label: { en: 'View stores', ar: 'عرض المتاجر' } },
+      { code: 'stores.create',  label: { en: 'Create store', ar: 'إنشاء متجر' } },
+      { code: 'stores.connect', label: { en: 'Connect store to channel', ar: 'ربط متجر بقناة بيع' } },
+      { code: 'stores.sync.trigger', label: { en: 'Trigger manual sync', ar: 'تشغيل مزامنة يدوية' } },
+      { code: 'stores.credentials.manage', label: { en: 'Manage channel credentials', ar: 'إدارة بيانات الربط' }, sensitive: true }
+    ]},
+    { name: 'users', perms: [
+      { code: 'users.view',   label: { en: 'View users', ar: 'عرض المستخدمين' } },
+      { code: 'users.create', label: { en: 'Create user', ar: 'إنشاء مستخدم' } },
+      { code: 'users.assign_roles', label: { en: 'Assign roles and data scopes', ar: 'تعيين الأدوار والصلاحيات' }, sensitive: true }
+    ]},
+    { name: 'roles', perms: [
+      { code: 'roles.view',   label: { en: 'View roles', ar: 'عرض الأدوار' } },
+      { code: 'roles.manage', label: { en: 'Create and edit roles', ar: 'إدارة الأدوار والصلاحيات' }, sensitive: true }
+    ]},
+    { name: 'audit', perms: [
+      { code: 'audit.view',   label: { en: 'View activity log', ar: 'عرض سجل النشاط' }, sensitive: true },
+      { code: 'audit.export', label: { en: 'Export audit log', ar: 'تصدير سجل النشاط' }, sensitive: true }
+    ]},
+    { name: 'approvals', perms: [
+      { code: 'approvals.view',   label: { en: 'View approval requests', ar: 'عرض طلبات الاعتماد' } },
+      { code: 'approvals.decide', label: { en: 'Approve or reject requests', ar: 'اعتماد أو رفض الطلبات' }, sensitive: true }
+    ]},
+    { name: 'finance', perms: [
+      { code: 'finance.view_product_cost',  label: { en: 'View product cost', ar: 'عرض تكلفة المنتج' }, sensitive: true },
+      { code: 'finance.view_profit_margin', label: { en: 'View profit margin', ar: 'عرض هامش الربح' }, sensitive: true },
+      { code: 'finance.view_collections',   label: { en: 'View collections', ar: 'عرض التحصيلات' }, sensitive: true },
+      { code: 'finance.edit_entries',       label: { en: 'Edit financial entries', ar: 'تعديل القيود المالية' }, sensitive: true, approval: true },
+      { code: 'finance.approve_settlements',label: { en: 'Approve settlements', ar: 'اعتماد التسويات' }, sensitive: true, approval: true },
+      { code: 'finance.export',             label: { en: 'Export financial data', ar: 'تصدير البيانات المالية' }, sensitive: true }
+    ]},
+    { name: 'customers', perms: [
+      { code: 'customers.view_phone',   label: { en: 'View customer phone', ar: 'عرض رقم هاتف العميل' }, sensitive: true },
+      { code: 'customers.view_address', label: { en: 'View customer address', ar: 'عرض عنوان العميل' }, sensitive: true },
+      { code: 'customers.view_risk_score', label: { en: 'View customer risk score', ar: 'عرض تقييم مخاطر العميل' }, sensitive: true }
+    ]},
+    { name: 'warehouses', perms: [
+      { code: 'warehouses.view', label: { en: 'View warehouses', ar: 'عرض المخازن' } },
+      { code: 'warehouses.edit', label: { en: 'Edit warehouse', ar: 'تعديل مخزن' } }
+    ]}
+  ];
+
+  /* Roles shown as matrix columns, and what each holds. */
+  DB.matrixRoles = ['r-ca', 'r-om', 'r-ctl', 'r-ca2', 'r-wm', 'r-acc', 'r-pick', 'r-rv'];
+
+  DB.grants = {
+    'r-ca':  ['companies.view','companies.edit','companies.settings','merchants.view','merchants.create','merchants.edit','merchants.pricing.view','merchants.pricing.edit','stores.view','stores.create','stores.connect','stores.sync.trigger','stores.credentials.manage','users.view','users.create','users.assign_roles','roles.view','roles.manage','audit.view','audit.export','approvals.view','approvals.decide','finance.view_product_cost','finance.view_profit_margin','finance.view_collections','finance.edit_entries','finance.approve_settlements','finance.export','customers.view_phone','customers.view_address','customers.view_risk_score','warehouses.view','warehouses.edit'],
+    'r-om':  ['merchants.view','stores.view','stores.sync.trigger','users.view','audit.view','approvals.view','approvals.decide','customers.view_phone','customers.view_address','customers.view_risk_score','warehouses.view','warehouses.edit'],
+    'r-ctl': ['merchants.view','stores.view','users.view','customers.view_phone','customers.view_address','customers.view_risk_score'],
+    'r-ca2': ['stores.view','customers.view_phone','customers.view_address'],
+    'r-wm':  ['merchants.view','stores.view','users.view','warehouses.view','warehouses.edit','approvals.view'],
+    'r-acc': ['merchants.view','merchants.pricing.view','stores.view','finance.view_product_cost','finance.view_profit_margin','finance.view_collections','finance.edit_entries','finance.export'],
+    'r-pick':['warehouses.view'],
+    'r-rv':  []
+  };
+
+  /* §2.7.1 field-level policies — the fourth permission level. */
+  DB.fieldPolicies = {
+    'r-acc':  [{ entity: 'customers', field: 'phone', visibility: 'masked' }],
+    'r-rv':   [{ entity: 'customers', field: 'phone', visibility: 'masked' }],
+    'r-pick': [{ entity: 'customers', field: 'phone', visibility: 'hidden' }],
+    'r-fu':   [{ entity: 'customers', field: 'phone', visibility: 'masked' }]
+  };
+
+  DB.phases = [
+    { n: 0, name: { en: 'Foundations & scaffold', ar: 'الأساسات والتهيئة' }, spec: 'Next.js · Supabase · migrations', state: 'shipped' },
+    { n: 1, name: { en: 'Tenancy, identity & access', ar: 'الكيانات والهوية والصلاحيات' }, spec: '§1 · §2 — 22 tables · RLS · 78 permissions · 24 roles', state: 'shipped' },
+    { n: 2, name: { en: 'Catalog & pricing', ar: 'الكتالوج والأسعار' }, spec: '§3 — variants · bundles · channel mapping', state: 'next' },
+    { n: 3, name: { en: 'Orders & Confirmation Center', ar: 'الطلبات ومركز التأكيد' }, spec: '§4 — includes Shopify sync', state: 'adapter' },
+    { n: 4, name: { en: 'Warehouse, inventory & fulfillment', ar: 'المخازن والمخزون والتجهيز' }, spec: '§5', state: 'planned' },
+    { n: 5, name: { en: 'Shipping, returns & COD collections', ar: 'الشحن والمرتجعات والتحصيلات' }, spec: '§6', state: 'planned' },
+    { n: 6, name: { en: 'Finance, settlements & profitability', ar: 'المالية والتسويات والربحية' }, spec: '§7', state: 'planned' },
+    { n: 7, name: { en: 'Reports & BI', ar: 'التقارير ولوحات التحكم' }, spec: '§9 — 14 dashboards · custom report builder', state: 'planned' },
+    { n: 8, name: { en: 'Marketing, affiliate & customer service', ar: 'التسويق والمسوقين وخدمة العملاء' }, spec: '§8 — section not yet supplied', state: 'awaiting' }
+  ];
+
+  /* ====================================================================== *
+   * Lookups                                                                 *
+   * ====================================================================== */
+
+  function byId(list, id) {
+    for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i];
+    return null;
+  }
+  var merchant  = function (id) { return byId(DB.merchants, id); };
+  var store     = function (id) { return byId(DB.stores, id); };
+  var user      = function (id) { return byId(DB.users, id); };
+  var role      = function (id) { return byId(DB.roles, id); };
+  var warehouse = function (id) { return byId(DB.warehouses, id); };
+  var dept      = function (id) { return byId(DB.departments, id); };
+  var shift     = function (id) { return byId(DB.shifts, id); };
+  var team      = function (id) { return byId(DB.teams, id); };
+
+  function storesOf(mid) { return DB.stores.filter(function (s) { return s.merchant === mid; }); }
+  function syncOf(sid)   { return DB.sync.filter(function (r) { return r.store === sid; }); }
+  function usersOfRole(rid) { return DB.users.filter(function (u) { return u.roles.indexOf(rid) !== -1; }); }
+
+  /* ====================================================================== *
+   * Rendering helpers                                                       *
+   * ====================================================================== */
+
+  function esc(s) {
+    return String(s === null || s === undefined ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  function statusPill(key) {
+    var s = STATUS[key];
+    if (!s) return '<span class="pill pill-mute">' + esc(key) + '</span>';
+    return '<span class="pill pill-' + s.tone + '">' + esc(L(s)) + '</span>';
+  }
+
+  function head(title, subtitle, cite) {
+    return '<div class="page-head">' +
+      '<h2>' + esc(title) + '</h2>' +
+      (cite ? '<span class="cite">' + esc(cite) + '</span>' : '') +
+      '<span class="spacer"></span>' +
+      (subtitle ? '<p>' + esc(subtitle) + '</p>' : '') +
+      '</div>';
+  }
+
+  function crumbs(trail) {
+    var parts = [];
+    for (var i = 0; i < trail.length; i++) {
+      if (trail[i].route) {
+        parts.push('<button type="button" data-go="' + esc(trail[i].route) + '">' + esc(trail[i].label) + '</button>');
+      } else {
+        parts.push('<span>' + esc(trail[i].label) + '</span>');
+      }
+    }
+    return '<div class="crumbs">' + parts.join('<span>›</span>') + '</div>';
+  }
+
+  function card(title, cite, inner, footer) {
+    return '<section class="card">' +
+      '<div class="card-head"><h3>' + esc(title) + '</h3><span class="spacer"></span>' +
+      (cite ? '<span class="cite">' + esc(cite) + '</span>' : '') + '</div>' +
+      inner +
+      (footer ? '<div class="legend">' + footer + '</div>' : '') +
+      '</section>';
+  }
+
+  function table(headers, rows) {
+    if (!rows.length) return '<div class="empty">' + esc(t('noResults')) + '</div>';
+    var th = headers.map(function (h) {
+      return '<th' + (h.num ? ' class="num"' : '') + '>' + esc(h.label) + '</th>';
+    }).join('');
+    return '<div class="scroll"><table><thead><tr>' + th + '</tr></thead><tbody>' +
+      rows.join('') + '</tbody></table></div>';
+  }
+
+  function row(cells, route) {
+    var tds = cells.map(function (c) {
+      var cls = c.cls ? ' class="' + c.cls + '"' : '';
+      return '<td' + cls + '>' + (c.html !== undefined ? c.html : esc(c.text)) + '</td>';
+    }).join('');
+    return '<tr' + (route ? ' class="row-link" data-go="' + esc(route) + '"' : '') + '>' + tds + '</tr>';
+  }
+
+  function dl(pairs) {
+    var items = pairs.map(function (p) {
+      return '<div><dt>' + esc(p.k) + '</dt><dd>' + (p.html !== undefined ? p.html : esc(p.v || '—')) + '</dd></div>';
+    }).join('');
+    return '<dl class="details">' + items + '</dl>';
+  }
+
+  function notice(tone, title, body) {
+    return '<div class="notice notice-' + tone + '">' +
+      (title ? '<b>' + esc(title) + '</b> — ' : '') + esc(body) + '</div>';
+  }
+
+  /* ====================================================================== *
+   * Screens                                                                 *
+   * ====================================================================== */
+
+  var VIEWS = {};
+
+  VIEWS.dashboard = function () {
+    var kpis = [
+      { state: 'ok',   label: t('kMerchants'), value: DB.merchants.length, note: t('kMerchantsNote'), go: 'merchants' },
+      { state: 'ok',   label: t('kStores'),    value: DB.stores.length,    note: t('kStoresNote'),    go: 'stores' },
+      { state: 'warn', label: t('kSyncFail'),  value: 3,                   note: t('kSyncFailNote'),  go: 'sync' },
+      { state: 'crit', label: t('kApprovals'), value: DB.approvals.length, note: t('kApprovalsNote'), go: 'approvals' }
+    ].map(function (k) {
+      return '<button type="button" class="kpi" data-state="' + k.state + '" data-go="' + k.go + '">' +
+        '<div class="kpi-label">' + esc(k.label) + '</div>' +
+        '<div class="kpi-value tnum">' + esc(k.value) + '</div>' +
+        '<div class="kpi-note">' + esc(k.note) + '</div></button>';
+    }).join('');
+
+    var syncRows = DB.sync.slice(0, 5).map(function (r) {
+      var s = store(r.store);
+      return row([
+        { text: s ? s.name : '—' },
+        { text: r.entity, cls: 'muted' },
+        { text: r.trigger, cls: 'muted' },
+        { html: statusPill(r.status) },
+        { text: r.inn, cls: 'num tnum' },
+        { text: r.ok,  cls: 'num tnum' },
+        { text: r.fail, cls: 'num tnum' }
+      ], 'store/' + r.store);
+    });
+
+    var auditRows = DB.audit.slice(0, 6).map(function (a) {
+      var u = a.actor ? user(a.actor) : null;
+      var tone = DB.actionTone[a.action] || 'mute';
+      return row([
+        { html: u ? esc(L(u.name)) : '<span class="muted">system</span>' },
+        { html: '<span class="pill pill-' + tone + '">' + esc(a.action.replace(/_/g, ' ')) + '</span>' },
+        { text: a.module, cls: 'code' }
+      ], a.actor ? 'user/' + a.actor : null);
+    });
+
+    var phases = DB.phases.map(function (p) {
+      var pill = { shipped: ['ok', t('shipped')], next: ['mute', t('next')], planned: ['mute', t('planned')],
+                   adapter: ['brand', t('adapterReady')], awaiting: ['warn', t('awaitingSpec')] }[p.state];
+      return '<div class="phase' + (p.state === 'shipped' ? ' is-done' : '') + '">' +
+        '<span class="phase-n">' + p.n + '</span>' +
+        '<span><span class="phase-name">' + esc(L(p.name)) + '</span>' +
+        '<span class="phase-spec">' + esc(p.spec) + '</span></span>' +
+        '<span class="pill pill-' + pill[0] + '">' + esc(pill[1]) + '</span></div>';
+    }).join('');
+
+    return head(t('dashboard'), t('subDashboard'), '§2.12') +
+      '<div class="kpis">' + kpis + '</div>' +
+      '<div class="split">' +
+        card(t('syncLog'), '§2.4.5',
+          table([{ label: t('colStore') }, { label: t('colEntity') }, { label: t('colTrigger') },
+                 { label: t('status') }, { label: t('colIn'), num: true },
+                 { label: t('colOk'), num: true }, { label: t('colFail'), num: true }], syncRows),
+          esc(t('syncNote')) + '<span class="spacer"></span><span class="cite">§2.13 · 15</span>') +
+        card(t('activityLog'), '§2.9',
+          table([{ label: t('colUser') }, { label: t('colAction') }, { label: t('colModule') }], auditRows),
+          esc(t('auditNote'))) +
+      '</div>' +
+      card(t('phases'), 'docs/ROADMAP.md', '<div>' + phases + '</div>');
+  };
+
+  VIEWS.companies = function () {
+    var c = DB.company;
+    var rows = [row([
+      { text: c.code, cls: 'tnum' },
+      { html: '<strong>' + esc(LANG === 'ar' ? c.nameAr : c.nameEn) + '</strong>' +
+              '<span class="muted" style="display:block;font-size:11px">' + esc(LANG === 'ar' ? c.nameEn : c.nameAr) + '</span>' },
+      { text: L(MODELS[c.model]), cls: 'muted' },
+      { html: statusPill(c.status) },
+      { text: c.currency, cls: 'muted tnum' },
+      { text: c.plan, cls: 'muted' },
+      { text: c.subEnd, cls: 'muted tnum' }
+    ], 'company/c1')];
+
+    return head(t('companies'), t('subCompanies'), '§2.2') +
+      card(t('companies'), null, table([
+        { label: t('code') }, { label: t('name') }, { label: t('colModel') },
+        { label: t('status') }, { label: t('currency') }, { label: t('colPlan') }, { label: t('colSubEnds') }
+      ], rows));
+  };
+
+  VIEWS.company = function () {
+    var c = DB.company;
+    return crumbs([{ label: t('companies'), route: 'companies' }, { label: LANG === 'ar' ? c.nameAr : c.nameEn }]) +
+      head(LANG === 'ar' ? c.nameAr : c.nameEn, c.tradeName, '§2.2.2') +
+      '<div class="detail-grid">' +
+        card(t('details'), null, '<div style="padding:4px 15px 12px">' + dl([
+          { k: t('code'), v: c.code },
+          { k: t('status'), html: statusPill(c.status) },
+          { k: t('colModel'), v: L(MODELS[c.model]) },
+          { k: t('currency'), v: c.currency },
+          { k: t('country'), v: c.country + ' · ' + c.region },
+          { k: t('email'), v: c.email },
+          { k: t('phone'), v: c.phone },
+          { k: 'Tax registration', v: c.tax },
+          { k: 'Commercial registration', v: c.cr },
+          { k: t('colPlan'), v: c.plan },
+          { k: t('colSubEnds'), v: c.subEnd }
+        ]) + '</div>') +
+        card('Plan limits', '§2.2.2', '<div style="padding:4px 15px 12px">' + dl([
+          { k: t('merchants'), html: '<span class="tnum">' + DB.merchants.length + '</span>' },
+          { k: t('stores'), html: '<span class="tnum">' + DB.stores.length + ' / ' + c.maxStores + '</span>' },
+          { k: t('users'), html: '<span class="tnum">' + DB.users.length + ' / ' + c.maxUsers + '</span>' },
+          { k: 'Monthly orders', html: '<span class="tnum">' + c.maxOrders.toLocaleString('en') + '</span>' }
+        ]) + '</div>') +
+      '</div>';
+  };
+
+  VIEWS.merchants = function (q) {
+    var list = DB.merchants.filter(function (m) {
+      if (!q) return true;
+      return (L(m.name) + ' ' + m.code + ' ' + m.trade).toLowerCase().indexOf(q.toLowerCase()) !== -1;
+    });
+
+    var rows = list.map(function (m) {
+      return row([
+        { text: m.code, cls: 'tnum' },
+        { html: '<strong>' + esc(L(m.name)) + '</strong>' +
+                '<span class="muted" style="display:block;font-size:11px">' + esc(m.trade) + '</span>' },
+        { html: statusPill(m.status) },
+        { text: L(MODELS[m.model]), cls: 'muted' },
+        { text: storesOf(m.id).length, cls: 'num tnum' },
+        { text: L(m.settlement), cls: 'muted' },
+        { text: m.goLive, cls: 'muted tnum' }
+      ], 'merchant/' + m.id);
+    });
+
+    return head(t('merchants'), t('subMerchants'), '§2.3') +
+      '<section class="card">' +
+        '<div class="toolbar"><input type="search" id="q" placeholder="' + esc(t('search')) + '" value="' + esc(q || '') + '"></div>' +
+        table([{ label: t('code') }, { label: t('name') }, { label: t('status') }, { label: t('colModel') },
+               { label: t('colStores'), num: true }, { label: t('colSettlement') }, { label: t('colGoLive') }], rows) +
+      '</section>';
+  };
+
+  VIEWS.merchant = function (id) {
+    var m = merchant(id);
+    if (!m) return '<div class="empty">' + esc(t('noResults')) + '</div>';
+
+    var chips = m.services.map(function (s) {
+      return '<span class="pill pill-brand">' + esc(s.replace(/_/g, ' ')) + '</span>';
+    }).join('');
+
+    var storeRows = storesOf(m.id).map(function (s) {
+      return row([
+        { text: s.code, cls: 'tnum' },
+        { html: '<strong>' + esc(s.name) + '</strong>' },
+        { text: L(PLATFORMS[s.platform]), cls: 'muted' },
+        { html: statusPill(s.status) },
+        { html: '<span class="pill pill-' + (s.provider === 'mock' ? 'info' : 'brand') + '">' + esc(s.provider) + '</span>' },
+        { text: s.lastSync, cls: 'muted tnum' }
+      ], 'store/' + s.id);
+    });
+
+    return crumbs([{ label: t('merchants'), route: 'merchants' }, { label: L(m.name) }]) +
+      head(L(m.name), m.trade, '§2.3.5') +
+      '<div class="detail-grid">' +
+        card(t('details'), '§2.3.2', '<div style="padding:4px 15px 12px">' + dl([
+          { k: t('code'), v: m.code },
+          { k: t('status'), html: statusPill(m.status) },
+          { k: t('colModel'), v: L(MODELS[m.model]) },
+          { k: 'Contact', v: m.contact },
+          { k: t('email'), v: m.email },
+          { k: t('phone'), v: m.phone },
+          { k: t('country'), v: m.country },
+          { k: t('colSettlement'), v: L(m.settlement) },
+          { k: 'Commission', v: m.commission + '%' },
+          { k: 'Contract date', v: m.contract },
+          { k: t('colGoLive'), v: m.goLive }
+        ]) + '</div>') +
+        card('Services', '§2.3.3', '<div style="padding:12px 15px"><div class="chips">' + chips + '</div></div>') +
+      '</div>' +
+      card(t('tabStores'), '§2.4',
+        table([{ label: t('code') }, { label: t('name') }, { label: t('colPlatform') },
+               { label: t('status') }, { label: t('colProvider') }, { label: t('colLastSync') }], storeRows));
+  };
+
+  VIEWS.stores = function (q) {
+    var list = DB.stores.filter(function (s) {
+      if (!q) return true;
+      return (s.name + ' ' + s.code + ' ' + s.platform).toLowerCase().indexOf(q.toLowerCase()) !== -1;
+    });
+
+    var rows = list.map(function (s) {
+      var m = merchant(s.merchant);
+      return row([
+        { text: s.code, cls: 'tnum' },
+        { html: '<strong>' + esc(s.name) + '</strong>' },
+        { text: m ? L(m.name) : '—', cls: 'muted' },
+        { text: L(PLATFORMS[s.platform]), cls: 'muted' },
+        { html: statusPill(s.status) },
+        { html: '<span class="pill pill-' + (s.provider === 'mock' ? 'info' : 'brand') + '">' + esc(s.provider) + '</span>' },
+        { text: s.lastSync, cls: 'muted tnum' }
+      ], 'store/' + s.id);
+    });
+
+    return head(t('stores'), t('subStores'), '§2.4') +
+      notice('info', t('mockTitle'), t('mockBody')) +
+      '<section class="card">' +
+        '<div class="toolbar"><input type="search" id="q" placeholder="' + esc(t('search')) + '" value="' + esc(q || '') + '"></div>' +
+        table([{ label: t('code') }, { label: t('name') }, { label: t('colMerchant') }, { label: t('colPlatform') },
+               { label: t('status') }, { label: t('colProvider') }, { label: t('colLastSync') }], rows) +
+      '</section>';
+  };
+
+  VIEWS.store = function (id) {
+    var s = store(id);
+    if (!s) return '<div class="empty">' + esc(t('noResults')) + '</div>';
+
+    var m = merchant(s.merchant);
+    var w = warehouse(s.warehouse);
+
+    var runs = syncOf(s.id).map(function (r) {
+      return row([
+        { text: r.entity, cls: 'muted' },
+        { text: r.trigger, cls: 'muted' },
+        { html: statusPill(r.status) },
+        { text: r.inn, cls: 'num tnum' },
+        { text: r.ok, cls: 'num tnum' },
+        { text: r.fail, cls: 'num tnum' },
+        { text: r.ms, cls: 'num tnum muted' },
+        { text: r.at, cls: 'muted tnum' }
+      ]);
+    });
+
+    var banner = s.status === 'connection_error'
+      ? notice('crit', 'Connection error', 'The last three scheduled runs failed with a 30-second timeout. The store keeps retrying with backoff; check the channel credentials.')
+      : notice('info', t('mockTitle'), t('mockBody'));
+
+    return crumbs([{ label: t('stores'), route: 'stores' }, { label: s.name }]) +
+      head(s.name, (m ? L(m.name) + ' · ' : '') + s.code, '§2.4.2') +
+      banner +
+      '<div class="detail-grid">' +
+        card(t('details'), null, '<div style="padding:4px 15px 12px">' + dl([
+          { k: t('code'), v: s.code },
+          { k: t('colPlatform'), v: L(PLATFORMS[s.platform]) },
+          { k: t('colMerchant'), html: m ? '<a href="#" data-go="merchant/' + esc(m.id) + '">' + esc(L(m.name)) + '</a>' : '—' },
+          { k: t('status'), html: statusPill(s.status) },
+          { k: t('colProvider'), html: '<span class="pill pill-' + (s.provider === 'mock' ? 'info' : 'brand') + '">' + esc(s.provider) + '</span>' },
+          { k: 'URL', html: '<span dir="ltr" style="word-break:break-all">' + esc(s.url) + '</span>' },
+          { k: t('currency'), v: s.currency },
+          { k: 'Sync enabled', v: s.syncEnabled ? t('yes') : t('no') },
+          { k: t('colWarehouse'), v: w ? L(w.name) : '—' },
+          { k: t('colLastSync'), v: s.lastSync }
+        ]) + '</div>') +
+        card(t('webhookTitle'), '§2.4.4',
+          '<div style="padding:12px 15px">' +
+            '<p class="muted" style="margin:0 0 9px;font-size:12px">' + esc(t('webhookBody')) + '</p>' +
+            '<code class="code" dir="ltr" style="display:block;background:var(--surface-2);padding:8px 10px;border-radius:8px;word-break:break-all">' +
+            esc('/api/webhooks/' + s.provider + '/' + s.id) + '</code></div>') +
+      '</div>' +
+      card(t('tabSync'), '§2.4.5',
+        table([{ label: t('colEntity') }, { label: t('colTrigger') }, { label: t('status') },
+               { label: t('colIn'), num: true }, { label: t('colOk'), num: true },
+               { label: t('colFail'), num: true }, { label: t('colDuration'), num: true },
+               { label: t('colWhen') }], runs));
+  };
+
+  VIEWS.warehouses = function () {
+    var rows = DB.warehouses.map(function (w) {
+      var m = w.merchant ? merchant(w.merchant) : null;
+      return row([
+        { text: w.code, cls: 'tnum' },
+        { html: '<strong>' + esc(L(w.name)) + '</strong>' },
+        { text: w.type.replace(/_/g, ' '), cls: 'muted' },
+        { html: m ? esc(L(m.name)) : '<span class="muted">' + esc(t('shared')) + '</span>' },
+        { text: w.region, cls: 'muted' },
+        { html: statusPill(w.active ? 'active' : 'archived') }
+      ]);
+    });
+
+    return head(t('warehouses'), t('subWarehouses'), '§5.3') +
+      notice('info', null, t('warehouseNote')) +
+      card(t('warehouses'), null, table([
+        { label: t('code') }, { label: t('name') }, { label: t('colType') },
+        { label: t('colMerchant') }, { label: 'Region' }, { label: t('status') }
+      ], rows));
+  };
+
+  VIEWS.users = function (q) {
+    var list = DB.users.filter(function (u) {
+      if (!q) return true;
+      return (L(u.name) + ' ' + u.email + ' ' + L(u.job)).toLowerCase().indexOf(q.toLowerCase()) !== -1;
+    });
+
+    var rows = list.map(function (u) {
+      var roleChips = u.roles.map(function (rid) {
+        var r = role(rid);
+        return r ? '<span class="pill pill-mute">' + esc(L(r.name)) + '</span>' : '';
+      }).join(' ');
+
+      return row([
+        { html: '<strong>' + esc(L(u.name)) + '</strong>' +
+                '<span class="code" style="display:block" dir="ltr">' + esc(u.code) + '</span>' },
+        { html: '<span dir="ltr">' + esc(u.email) + '</span>', cls: 'muted' },
+        { text: L(u.job), cls: 'muted' },
+        { html: '<div class="chips">' + roleChips + '</div>' },
+        { html: statusPill(u.status) },
+        { text: u.lastLogin, cls: 'muted tnum' }
+      ], 'user/' + u.id);
+    });
+
+    return head(t('users'), t('subUsers'), '§2.5') +
+      '<section class="card">' +
+        '<div class="toolbar"><input type="search" id="q" placeholder="' + esc(t('search')) + '" value="' + esc(q || '') + '"></div>' +
+        table([{ label: t('name') }, { label: t('email') }, { label: t('colJobTitle') },
+               { label: t('colRoles') }, { label: t('status') }, { label: t('colLastLogin') }], rows) +
+      '</section>';
+  };
+
+  VIEWS.user = function (id) {
+    var u = user(id);
+    if (!u) return '<div class="empty">' + esc(t('noResults')) + '</div>';
+
+    var d = u.dept ? dept(u.dept) : null;
+    var tm = u.team ? team(u.team) : null;
+
+    /* §2.7.1 — the effective permission set is the union across the user's roles. */
+    var codes = {};
+    u.roles.forEach(function (rid) {
+      (DB.grants[rid] || []).forEach(function (c) { codes[c] = true; });
+    });
+    var permList = Object.keys(codes);
+
+    var permRows = [];
+    DB.modules.forEach(function (mod) {
+      mod.perms.forEach(function (p) {
+        if (!codes[p.code]) return;
+        permRows.push(row([
+          { text: mod.name, cls: 'muted' },
+          { html: esc(L(p.label)) + (p.sensitive ? ' <span class="pill pill-warn">' + esc(t('sensitive')) + '</span>' : '') },
+          { text: p.code, cls: 'code' }
+        ]));
+      });
+    });
+
+    /* Field policies resolve to the most restrictive across the user's roles. */
+    var fps = [];
+    u.roles.forEach(function (rid) {
+      (DB.fieldPolicies[rid] || []).forEach(function (fp) { fps.push(fp); });
+    });
+
+    var fieldRows = fps.map(function (fp) {
+      return row([
+        { text: fp.entity, cls: 'code' },
+        { text: fp.field, cls: 'code' },
+        { html: '<span class="pill pill-mute">' + esc(t(fp.visibility)) + '</span>' }
+      ]);
+    });
+
+    var phoneShown = fps.some(function (f) { return f.field === 'phone' && f.visibility === 'hidden'; })
+      ? '<span class="muted">' + esc(t('hidden')) + '</span>'
+      : fps.some(function (f) { return f.field === 'phone' && f.visibility === 'masked'; })
+        ? '<span dir="ltr">' + esc(maskPhone(u.phone)) + '</span>'
+        : (u.phone ? '<span dir="ltr">' + esc(u.phone) + '</span>' : '—');
+
+    var roleChips = u.roles.map(function (rid) {
+      var r = role(rid);
+      return r ? '<a href="#" data-go="role/' + esc(r.id) + '" class="pill pill-brand">' + esc(L(r.name)) + '</a>' : '';
+    }).join(' ');
+
+    return crumbs([{ label: t('users'), route: 'users' }, { label: L(u.name) }]) +
+      head(L(u.name), L(u.job), '§2.5.2') +
+      '<div class="detail-grid">' +
+        card(t('details'), null, '<div style="padding:4px 15px 12px">' + dl([
+          { k: 'Employee code', v: u.code },
+          { k: t('status'), html: statusPill(u.status) },
+          { k: t('email'), html: '<span dir="ltr">' + esc(u.email) + '</span>' },
+          { k: t('phone'), html: phoneShown },
+          { k: t('colDepartment'), v: d ? L(d.name) : '—' },
+          { k: 'Team', v: tm ? L(tm.name) : '—' },
+          { k: t('colLastLogin'), v: u.lastLogin },
+          { k: t('colRoles'), html: '<div class="chips" style="margin-top:2px">' + roleChips + '</div>' }
+        ]) + '</div>') +
+        card(t('tabFields'), '§2.7.3',
+          fieldRows.length
+            ? table([{ label: 'Entity' }, { label: 'Field' }, { label: 'Visibility' }], fieldRows)
+            : '<div class="empty">No masking applies — this user sees full values.</div>') +
+      '</div>' +
+      card(t('tabPerms') + ' · ' + permList.length, '§2.7.1',
+        table([{ label: t('module') }, { label: t('permission') }, { label: 'Code' }], permRows));
+  };
+
+  VIEWS.roles = function (q) {
+    var list = DB.roles.filter(function (r) {
+      if (!q) return true;
+      return (L(r.name) + ' ' + r.code).toLowerCase().indexOf(q.toLowerCase()) !== -1;
+    });
+
+    var rows = list.map(function (r) {
+      return row([
+        { text: r.code, cls: 'code' },
+        { html: '<strong>' + esc(L(r.name)) + '</strong>' },
+        { text: r.perms, cls: 'num tnum' },
+        { text: r.users, cls: 'num tnum' },
+        { html: statusPill('active') }
+      ], 'role/' + r.id);
+    });
+
+    return head(t('roles'), t('subRoles'), '§2.6') +
+      '<section class="card">' +
+        '<div class="toolbar"><input type="search" id="q" placeholder="' + esc(t('search')) + '" value="' + esc(q || '') + '"></div>' +
+        table([{ label: t('code') }, { label: t('name') }, { label: t('colPerms'), num: true },
+               { label: t('colUsers'), num: true }, { label: t('status') }], rows) +
+      '</section>';
+  };
+
+  VIEWS.role = function (id) {
+    var r = role(id);
+    if (!r) return '<div class="empty">' + esc(t('noResults')) + '</div>';
+
+    var granted = DB.grants[r.id];
+    var permRows = [];
+
+    if (granted) {
+      DB.modules.forEach(function (mod) {
+        mod.perms.forEach(function (p) {
+          if (granted.indexOf(p.code) === -1) return;
+          permRows.push(row([
+            { text: mod.name, cls: 'muted' },
+            { html: esc(L(p.label)) +
+                    (p.sensitive ? ' <span class="pill pill-warn">' + esc(t('sensitive')) + '</span>' : '') +
+                    (p.approval ? ' <span class="pill pill-crit">' + esc(t('dualControl')) + '</span>' : '') },
+            { text: p.code, cls: 'code' }
+          ]));
+        });
+      });
+    }
+
+    var holderRows = usersOfRole(r.id).map(function (u) {
+      return row([
+        { html: '<strong>' + esc(L(u.name)) + '</strong>' },
+        { text: L(u.job), cls: 'muted' },
+        { html: statusPill(u.status) }
+      ], 'user/' + u.id);
+    });
+
+    var sodNote = r.id === 'r-acc'
+      ? notice('warn', 'Segregation of duties', t('sodNote'))
+      : '';
+
+    return crumbs([{ label: t('roles'), route: 'roles' }, { label: L(r.name) }]) +
+      head(L(r.name), r.code, '§2.6.2') +
+      sodNote +
+      card(t('tabPerms') + (granted ? ' · ' + granted.length : ''), '§2.7.1',
+        permRows.length
+          ? table([{ label: t('module') }, { label: t('permission') }, { label: 'Code' }], permRows)
+          : '<div class="empty">' + esc(t('noResults')) + '</div>') +
+      card(t('colUsers'), null,
+        table([{ label: t('name') }, { label: t('colJobTitle') }, { label: t('status') }], holderRows));
+  };
+
+  VIEWS.matrix = function (q) {
+    var roles = DB.matrixRoles.map(role);
+
+    var headCells = roles.map(function (r) {
+      return '<th class="role">' + esc(L(r.name)) + '</th>';
+    }).join('');
+
+    var body = '';
+    DB.modules.forEach(function (mod) {
+      var perms = mod.perms.filter(function (p) {
+        if (!q) return true;
+        var hay = (p.code + ' ' + L(p.label) + ' ' + mod.name).toLowerCase();
+        return hay.indexOf(q.toLowerCase()) !== -1;
+      });
+      if (!perms.length) return;
+
+      body += '<tr class="module-row"><td colspan="' + (roles.length + 1) + '">' + esc(mod.name) + '</td></tr>';
+
+      perms.forEach(function (p) {
+        var cells = roles.map(function (r) {
+          var has = (DB.grants[r.id] || []).indexOf(p.code) !== -1;
+          var fp = (DB.fieldPolicies[r.id] || []).filter(function (f) {
+            return p.code === 'customers.view_phone' && f.field === 'phone';
+          })[0];
+
+          if (fp && !has) {
+            return '<td class="cell"><span class="pill pill-mute">' + esc(t(fp.visibility)) + '</span></td>';
+          }
+          if (has && fp) {
+            return '<td class="cell"><span class="pill pill-mute">' + esc(t(fp.visibility)) + '</span></td>';
+          }
+          return '<td class="cell"><span class="mark ' + (has ? (p.sensitive ? 'mark-sens' : 'mark-yes') : 'mark-no') + '">' +
+                 (has ? '✓' : '–') + '</span></td>';
+        }).join('');
+
+        body += '<tr><td class="perm"><span class="perm-label">' + esc(L(p.label)) +
+          (p.sensitive ? '<span class="pill pill-warn">' + esc(t('sensitive')) + '</span>' : '') +
+          (p.approval ? '<span class="pill pill-crit">' + esc(t('dualControl')) + '</span>' : '') +
+          '</span><code class="perm-code">' + esc(p.code) + '</code></td>' + cells + '</tr>';
+      });
+    });
+
+    return head(t('matrix'), t('subMatrix'), '§2.7.1') +
+      notice('info', null, t('matrixNote')) +
+      '<section class="card">' +
+        '<div class="toolbar"><input type="search" id="q" placeholder="' + esc(t('search')) + '" value="' + esc(q || '') + '"></div>' +
+        '<div class="scroll"><table class="matrix"><thead><tr>' +
+          '<th class="perm">' + esc(t('colPermission')) + '</th>' + headCells +
+        '</tr></thead><tbody>' + (body || '') + '</tbody></table></div>' +
+        (body ? '' : '<div class="empty">' + esc(t('noResults')) + '</div>') +
+        '<div class="legend">' +
+          '<span><span class="mark mark-yes">✓</span> ' + esc(t('granted')) + '</span>' +
+          '<span><span class="mark mark-sens">✓</span> ' + esc(t('grantedSens')) + '</span>' +
+          '<span>' + esc(t('sodNote')) + '</span>' +
+          '<span class="spacer"></span><span class="cite">§2.7.4</span>' +
+        '</div>' +
+      '</section>';
+  };
+
+  VIEWS.departments = function () {
+    var rows = DB.departments.map(function (d) {
+      var m = d.manager ? user(d.manager) : null;
+      return row([
+        { text: d.code, cls: 'tnum' },
+        { html: '<strong>' + esc(L(d.name)) + '</strong>' },
+        { html: m ? '<a href="#" data-go="user/' + esc(m.id) + '">' + esc(L(m.name)) + '</a>' : '<span class="muted">—</span>' },
+        { text: d.teams, cls: 'num tnum' },
+        { html: statusPill(d.active ? 'active' : 'archived') }
+      ]);
+    });
+
+    return head(t('departments'), t('subDepartments'), '§2.8.1') +
+      card(t('departments'), null, table([
+        { label: t('code') }, { label: t('name') }, { label: t('colManager') },
+        { label: t('colTeams'), num: true }, { label: t('status') }
+      ], rows));
+  };
+
+  VIEWS.teams = function () {
+    var rows = DB.teams.map(function (tm) {
+      var d = tm.dept ? dept(tm.dept) : null;
+      var l = tm.leader ? user(tm.leader) : null;
+      var sh = tm.shift ? shift(tm.shift) : null;
+      return row([
+        { text: tm.code, cls: 'tnum' },
+        { html: '<strong>' + esc(L(tm.name)) + '</strong>' },
+        { text: d ? L(d.name) : '—', cls: 'muted' },
+        { html: l ? '<a href="#" data-go="user/' + esc(l.id) + '">' + esc(L(l.name)) + '</a>' : '—' },
+        { text: tm.members, cls: 'num tnum' },
+        { text: sh ? L(sh.name) : '—', cls: 'muted' },
+        { html: tm.regions.length ? esc(tm.regions.join(', ')) : '<span class="muted">' + esc(t('all')) + '</span>' }
+      ]);
+    });
+
+    return head(t('teams'), t('subTeams'), '§2.8.2') +
+      card(t('teams'), null, table([
+        { label: t('code') }, { label: t('name') }, { label: t('colDepartment') },
+        { label: t('colLeader') }, { label: t('colMembers'), num: true },
+        { label: t('shifts') }, { label: t('colRegions') }
+      ], rows));
+  };
+
+  VIEWS.shifts = function () {
+    var DAYS = { en: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'], ar: ['أحد','إثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'] };
+    var rows = DB.shifts.map(function (sh) {
+      var d = sh.dept ? dept(sh.dept) : null;
+      return row([
+        { html: '<strong>' + esc(L(sh.name)) + '</strong>' },
+        { html: '<span dir="ltr" class="tnum">' + esc(sh.start + ' – ' + sh.end) + '</span>', cls: 'muted' },
+        { text: sh.days.map(function (i) { return DAYS[LANG][i]; }).join(' '), cls: 'muted' },
+        { text: d ? L(d.name) : '—', cls: 'muted' },
+        { text: sh.members, cls: 'num tnum' },
+        { text: sh.capacity, cls: 'num tnum muted' },
+        { html: statusPill(sh.active ? 'active' : 'archived') }
+      ]);
+    });
+
+    return head(t('shifts'), t('subShifts'), '§2.8.3') +
+      card(t('shifts'), null, table([
+        { label: t('name') }, { label: t('colHours') }, { label: t('colDays') },
+        { label: t('colDepartment') }, { label: t('colMembers'), num: true },
+        { label: t('colCapacity'), num: true }, { label: t('status') }
+      ], rows));
+  };
+
+  VIEWS.sync = function () {
+    var rows = DB.sync.map(function (r) {
+      var s = store(r.store);
+      var u = r.by ? user(r.by) : null;
+      return row([
+        { text: r.at, cls: 'muted tnum' },
+        { html: s ? '<strong>' + esc(s.name) + '</strong>' : '—' },
+        { text: r.entity, cls: 'muted' },
+        { text: r.trigger, cls: 'muted' },
+        { html: statusPill(r.status) },
+        { text: r.inn, cls: 'num tnum' },
+        { html: '<span style="color:var(--ok)">' + r.ok + '</span>', cls: 'num tnum' },
+        { html: r.fail ? '<span style="color:var(--crit)">' + r.fail + '</span>' : String(r.fail), cls: 'num tnum' },
+        { text: r.ms, cls: 'num tnum muted' },
+        { text: u ? L(u.name) : '—', cls: 'muted' }
+      ], 'store/' + r.store);
+    });
+
+    return head(t('syncLog'), t('subSync'), '§2.4.5') +
+      card(t('syncLog'), null, table([
+        { label: t('colWhen') }, { label: t('colStore') }, { label: t('colEntity') },
+        { label: t('colTrigger') }, { label: t('status') }, { label: t('colIn'), num: true },
+        { label: t('colOk'), num: true }, { label: t('colFail'), num: true },
+        { label: t('colDuration'), num: true }, { label: 'By' }
+      ], rows), esc(t('syncNote')));
+  };
+
+  VIEWS.audit = function () {
+    var rows = DB.audit.map(function (a) {
+      var u = a.actor ? user(a.actor) : null;
+      var tone = DB.actionTone[a.action] || 'mute';
+      return row([
+        { text: a.at, cls: 'muted tnum' },
+        { html: u ? '<strong>' + esc(L(u.name)) + '</strong>' : '<span class="muted">system</span>' },
+        { html: '<span class="pill pill-' + tone + '">' + esc(a.action.replace(/_/g, ' ')) + '</span>' },
+        { text: a.module, cls: 'code' },
+        { text: a.changed, cls: 'muted code' },
+        { html: '<span dir="ltr" class="tnum">' + esc(a.ip) + '</span>', cls: 'muted' }
+      ], a.actor ? 'user/' + a.actor : null);
+    });
+
+    return head(t('activityLog'), t('subAudit'), '§2.9') +
+      card(t('activityLog'), '§2.9.2', table([
+        { label: t('colWhen') }, { label: t('colUser') }, { label: t('colAction') },
+        { label: t('colModule') }, { label: t('colChanged') }, { label: t('colIp') }
+      ], rows), esc(t('auditNote')));
+  };
+
+  VIEWS.approvals = function () {
+    var rows = DB.approvals.map(function (a) {
+      var u = user(a.by);
+      return row([
+        { text: a.at, cls: 'muted tnum' },
+        { html: '<strong>' + esc(L(a.type)) + '</strong>' },
+        { text: a.entity, cls: 'code' },
+        { html: u ? '<a href="#" data-go="user/' + esc(u.id) + '">' + esc(L(u.name)) + '</a>' : '—' },
+        { text: L(a.reason), cls: 'muted' },
+        { html: statusPill(a.status) }
+      ]);
+    });
+
+    return head(t('approvals'), t('subApprovals'), '§2.7.4') +
+      notice('info', null, t('approvalNote')) +
+      card(t('approvals'), null, table([
+        { label: t('colWhen') }, { label: t('colType') }, { label: 'Entity' },
+        { label: t('colRequestedBy') }, { label: t('colReason') }, { label: t('status') }
+      ], rows));
+  };
+
+  VIEWS.locked = function (which) {
+    var titles = { orders: 'orders', inventory: 'inventory', collections: 'collections', finance: 'finance' };
+    var phase  = { orders: 3, inventory: 4, collections: 5, finance: 6 }[which];
+    var spec   = { orders: '§4', inventory: '§5', collections: '§6', finance: '§7' }[which];
+
+    return head(t(titles[which]), spec, spec) +
+      notice('warn', t('lockedTitle'), t('lockedBody')) +
+      card(t('phases'), 'docs/ROADMAP.md',
+        '<div>' + DB.phases.filter(function (p) { return p.n === phase; }).map(function (p) {
+          return '<div class="phase"><span class="phase-n">' + p.n + '</span>' +
+            '<span><span class="phase-name">' + esc(L(p.name)) + '</span>' +
+            '<span class="phase-spec">' + esc(p.spec) + '</span></span>' +
+            '<span class="pill pill-mute">' + esc(t('planned')) + '</span></div>';
+        }).join('') + '</div>');
+  };
+
+  function maskPhone(v) {
+    if (!v) return '—';
+    var digits = v.replace(/\s/g, '');
+    if (digits.length <= 5) return '*****';
+    return digits.slice(0, 5) + '*****' + digits.slice(-2);
+  }
+
+  /* ====================================================================== *
+   * Navigation                                                              *
+   * ====================================================================== */
+
+  var NAV = [
+    { label: 'gAdmin', items: [
+      { route: 'companies',  label: 'companies',  n: 1 },
+      { route: 'merchants',  label: 'merchants',  n: DB.merchants.length },
+      { route: 'stores',     label: 'stores',     n: DB.stores.length },
+      { route: 'warehouses', label: 'warehouses', n: DB.warehouses.length }
+    ]},
+    { label: 'gAccess', items: [
+      { route: 'users',  label: 'users',  n: DB.users.length },
+      { route: 'roles',  label: 'roles',  n: DB.roles.length },
+      { route: 'matrix', label: 'matrix', n: 78 }
+    ]},
+    { label: 'gOrg', items: [
+      { route: 'departments', label: 'departments', n: DB.departments.length },
+      { route: 'teams',       label: 'teams',       n: DB.teams.length },
+      { route: 'shifts',      label: 'shifts',      n: DB.shifts.length }
+    ]},
+    { label: 'gMon', items: [
+      { route: 'sync',      label: 'syncLog',     n: DB.sync.length },
+      { route: 'audit',     label: 'activityLog', n: 318 },
+      { route: 'approvals', label: 'approvals',   n: DB.approvals.length }
+    ]},
+    { label: 'gLater', items: [
+      { route: 'locked/orders',      label: 'orders',      n: 'P3' },
+      { route: 'locked/inventory',   label: 'inventory',   n: 'P4' },
+      { route: 'locked/collections', label: 'collections', n: 'P5' },
+      { route: 'locked/finance',     label: 'finance',     n: 'P6' }
+    ]}
+  ];
+
+  /* Which rail entry lights up for a given route, including detail pages. */
+  var PARENT = {
+    company: 'companies', merchant: 'merchants', store: 'stores',
+    user: 'users', role: 'roles'
+  };
+
+  var route = 'dashboard';
+  var query = '';
+
+  function renderRail() {
+    var current = route.split('/')[0];
+    var active = PARENT[current] || current;
+
+    var html = '<div class="brand">' +
+      '<div class="brand-name">' + esc(t('brand')) + '</div>' +
+      '<div class="brand-sub">' + esc(t('brandSub')) + '</div></div>';
+
+    html += '<div class="rail-group"><button type="button" class="rail-item' +
+      (route === 'dashboard' ? ' is-active' : '') + '" data-go="dashboard">' +
+      '<span>' + esc(t('dashboard')) + '</span></button></div>';
+
+    NAV.forEach(function (group) {
+      html += '<div class="rail-group"><div class="rail-label">' + esc(t(group.label)) + '</div>';
+      group.items.forEach(function (item) {
+        var isLocked = item.route.indexOf('locked/') === 0;
+        var isActive = active === item.route || route === item.route;
+        html += '<button type="button" class="rail-item' +
+          (isActive ? ' is-active' : '') + (isLocked ? ' is-locked' : '') +
+          '" data-go="' + esc(item.route) + '">' +
+          '<span>' + esc(t(item.label)) + '</span>' +
+          '<span class="n">' + esc(item.n) + '</span></button>';
+      });
+      html += '</div>';
+    });
+
+    document.getElementById('rail').innerHTML = html;
+  }
+
+  function renderContent() {
+    var parts = route.split('/');
+    var view = parts[0];
+    var arg = parts[1];
+
+    var fn = VIEWS[view];
+    var html = fn ? fn(view === 'locked' ? arg : (arg !== undefined ? arg : query)) : VIEWS.dashboard();
+
+    document.getElementById('content').innerHTML = html;
+
+    var q = document.getElementById('q');
+    if (q) {
+      q.addEventListener('input', function () {
+        query = q.value;
+        renderContent();
+        var again = document.getElementById('q');
+        if (again) { again.focus(); again.setSelectionRange(again.value.length, again.value.length); }
+      });
+    }
+  }
+
+  function renderChrome() {
+    document.getElementById('who-org').textContent = t('org');
+    document.getElementById('who-role').textContent = t('role');
+    document.getElementById('banner-note').textContent = t('bannerNote');
+    document.getElementById('foot-note').textContent = t('footNote');
+  }
+
+  function go(next) {
+    if (next === route) return;
+    if (next.indexOf('locked/') !== 0 && next !== route.split('/')[0]) query = '';
+    route = next;
+    render();
+
+    // Scroll on navigation only. Doing it inside renderContent would also fire
+    // on every search keystroke and yank the page out from under the typist.
+    var frameEl = document.getElementById('frame');
+    if (frameEl && typeof frameEl.scrollIntoView === 'function') {
+      frameEl.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    }
+  }
+
+  function render() {
+    renderChrome();
+    renderRail();
+    renderContent();
+  }
+
+  /* One delegated listener covers the rail, KPI tiles, table rows and links. */
+  document.addEventListener('click', function (event) {
+    var target = event.target.closest ? event.target.closest('[data-go]') : null;
+    if (!target) return;
+    event.preventDefault();
+    go(target.getAttribute('data-go'));
+  });
+
+  /* Language switch also flips direction — the layout uses logical properties,
+     so nothing needs mirroring by hand. */
+  var frame = document.getElementById('frame');
+  var btnEn = document.getElementById('btn-en');
+  var btnAr = document.getElementById('btn-ar');
+
+  function setLang(lang) {
+    LANG = lang;
+    var isAr = lang === 'ar';
+    frame.setAttribute('dir', isAr ? 'rtl' : 'ltr');
+    frame.setAttribute('lang', isAr ? 'ar' : 'en');
+    btnEn.setAttribute('aria-pressed', String(!isAr));
+    btnAr.setAttribute('aria-pressed', String(isAr));
+    render();
+  }
+
+  btnEn.addEventListener('click', function () { setLang('en'); });
+  btnAr.addEventListener('click', function () { setLang('ar'); });
+
+  render();
+})();
+
+  (function () {
+    var root = document.documentElement;
+    var btn = document.getElementById('theme-btn');
+    btn.addEventListener('click', function () {
+      var current = root.getAttribute('data-theme');
+      if (!current) {
+        // Fall back to light when matchMedia is unavailable rather than throwing.
+        var mq = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+        current = mq && mq.matches ? 'dark' : 'light';
+      }
+      root.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+    });
+  })();
+</script>
+
+</body>
+</html>

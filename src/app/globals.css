@@ -1,26 +1,104 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/*
+  Green ERP design tokens.
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  Operational software is read for hours at a time, so the palette is low
+  chroma with one saturated accent reserved for primary actions and active
+  navigation. Status colours are the only other saturated hues, which keeps
+  them scannable in dense tables.
+*/
+@theme {
+  --color-canvas: oklch(98.4% 0.003 145);
+  --color-surface: oklch(100% 0 0);
+  --color-surface-muted: oklch(96.8% 0.004 145);
+  --color-border: oklch(91% 0.006 145);
+  --color-border-strong: oklch(84% 0.008 145);
+
+  --color-ink: oklch(24% 0.012 145);
+  --color-ink-muted: oklch(48% 0.010 145);
+  --color-ink-subtle: oklch(62% 0.008 145);
+
+  --color-brand: oklch(52% 0.126 158);
+  --color-brand-hover: oklch(46% 0.130 158);
+  --color-brand-soft: oklch(95% 0.030 158);
+  --color-brand-ink: oklch(34% 0.090 158);
+
+  --color-success: oklch(58% 0.130 152);
+  --color-success-soft: oklch(95.5% 0.032 152);
+  --color-warning: oklch(70% 0.145 78);
+  --color-warning-soft: oklch(96% 0.045 82);
+  --color-danger: oklch(56% 0.180 26);
+  --color-danger-soft: oklch(95.5% 0.035 26);
+  --color-info: oklch(58% 0.125 245);
+  --color-info-soft: oklch(96% 0.030 245);
+  --color-neutral-soft: oklch(94.5% 0.004 145);
+
+  --font-sans: var(--font-app-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --radius-card: 0.75rem;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  @theme {
+    --color-canvas: oklch(19% 0.010 145);
+    --color-surface: oklch(23% 0.011 145);
+    --color-surface-muted: oklch(26.5% 0.012 145);
+    --color-border: oklch(31% 0.012 145);
+    --color-border-strong: oklch(38% 0.014 145);
+
+    --color-ink: oklch(96% 0.004 145);
+    --color-ink-muted: oklch(74% 0.008 145);
+    --color-ink-subtle: oklch(60% 0.008 145);
+
+    --color-brand: oklch(68% 0.125 158);
+    --color-brand-hover: oklch(74% 0.125 158);
+    --color-brand-soft: oklch(30% 0.045 158);
+    --color-brand-ink: oklch(85% 0.080 158);
+
+    --color-success: oklch(72% 0.130 152);
+    --color-success-soft: oklch(30% 0.045 152);
+    --color-warning: oklch(78% 0.140 82);
+    --color-warning-soft: oklch(32% 0.050 82);
+    --color-danger: oklch(70% 0.155 26);
+    --color-danger-soft: oklch(31% 0.055 26);
+    --color-info: oklch(72% 0.115 245);
+    --color-info-soft: oklch(30% 0.045 245);
+    --color-neutral-soft: oklch(28% 0.008 145);
   }
 }
 
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  height: 100%;
+}
+
+body {
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/*
+  Logical properties throughout mean the same class works in both directions;
+  these few utilities cover the cases Tailwind does not express logically.
+*/
+[dir="rtl"] .flip-icon {
+  transform: scaleX(-1);
+}
+
+::selection {
+  background-color: var(--color-brand-soft);
+  color: var(--color-brand-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+/* Tabular figures keep numeric columns aligned in dense operational tables. */
+.tnum {
+  font-variant-numeric: tabular-nums;
 }
