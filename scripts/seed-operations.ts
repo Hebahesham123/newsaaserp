@@ -20,6 +20,13 @@
  *  3. **Lifecycle is walked, not asserted.** An order is inserted early-stage,
  *     given its lines, then advanced. That is the only way the §4.15 triggers
  *     will accept it, and it leaves a real timeline behind.
+ *
+ * One PostgREST rule to keep in mind when editing this file: **every row in a
+ * bulk insert must carry the same keys.** PostgREST builds one multi-row INSERT
+ * from the array, so a key present on some rows and absent on others becomes an
+ * explicit NULL on the rows that omit it — which fails on any NOT NULL column
+ * that was relying on its default. Where a column is NOT NULL, spell it out on
+ * every row rather than letting the default cover for you.
  */
 import type { SupabaseClient } from '@supabase/supabase-js';
 
@@ -63,6 +70,40 @@ function fail(label: string, error: { message: string } | null): void {
     console.error(`\n✗ ${label}: ${error.message}`);
     process.exit(1);
   }
+}
+
+/**
+ * Find-then-write, for tables guarded by a BEFORE INSERT trigger.
+ *
+ * `products` and `product_variants` carry the §3.13 rule 5 barcode check. On
+ * `INSERT ... ON CONFLICT DO UPDATE` that trigger fires before the conflict is
+ * resolved, so it sees a freshly generated `new.id`, mistakes the row for a
+ * different item, and rejects a product for clashing with itself. Migration
+ * 0022 fixes the trigger; this avoids the upsert path entirely so the seed
+ * works whether or not that migration has been applied yet.
+ */
+async function writeByNaturalKey(
+  db: Db,
+  table: string,
+  match: Record<string, string>,
+  row: Row,
+  label: string,
+): Promise<string> {
+  let query = db.from(table).select('id');
+  for (const [column, value] of Object.entries(match)) query = query.eq(column, value);
+
+  const { data: existing } = await query.maybeSingle();
+
+  if (existing) {
+    const id = String((existing as Row).id);
+    const { error } = await db.from(table).update(row).eq('id', id);
+    fail(label, error);
+    return id;
+  }
+
+  const { data, error } = await db.from(table).insert({ ...row, ...match }).select('id').single();
+  fail(label, error);
+  return String((data as Row).id);
 }
 
 /** Upsert helper that returns an id map keyed by the natural code. */
@@ -175,8 +216,10 @@ async function seedCatalog(ctx: SeedContext) {
     db,
     'collections',
     [
+      // `is_seasonal` is NOT NULL, so both rows state it — see the header note
+      // on PostgREST bulk inserts.
       { company_id: companyId, merchant_id: merchants.NRA, code: 'SUMMER26', name_en: 'Summer 2026', name_ar: 'صيف ٢٠٢٦', is_seasonal: true, season_start: dateOnly(daysAgo(60)), season_end: dateOnly(daysAgo(-40)) },
-      { company_id: companyId, code: 'BESTSELLERS', name_en: 'Bestsellers', name_ar: 'الأكثر مبيعًا' },
+      { company_id: companyId, merchant_id: null, code: 'BESTSELLERS', name_en: 'Bestsellers', name_ar: 'الأكثر مبيعًا', is_seasonal: false, season_start: null, season_end: null },
     ],
     'company_id,code',
   );
@@ -285,91 +328,77 @@ async function seedCatalog(ctx: SeedContext) {
     if (!merchantId) continue;
 
     // §3.13 rule 11 — a product cannot be activated without a price, so the
-    // price goes in on the same insert as the status.
-    const { data, error } = await db
-      .from('products')
-      .upsert(
-        {
-          company_id: companyId,
-          merchant_id: merchantId,
-          sku: product.sku,
-          barcode: product.barcode ?? null,
-          name_en: product.name_en,
-          name_ar: product.name_ar,
-          product_type: product.type,
-          status: product.status,
-          brand_id: product.brand ? brands[product.brand] : null,
-          category_id: product.category
-            ? (categories[product.category] ?? subCategories[product.category] ?? null)
-            : null,
-          supplier_id: product.supplier ? suppliers[product.supplier] : null,
-          uom_id: units.PCS,
-          base_price: product.price,
-          base_cost: product.cost,
-          currency: 'EGP',
-          tax_rate: 14,
-          weight_grams: 250 + Math.floor(rand() * 600),
-          country_of_origin: 'Egypt',
-          is_sellable: true,
-          is_stock_item: true,
-          is_batch_tracked: product.type === 'batch_controlled',
-          tags: [product.merchant.toLowerCase(), product.category?.toLowerCase() ?? 'general'],
-        },
-        { onConflict: 'merchant_id,sku' },
-      )
-      .select('id, sku');
+    // price goes in on the same write as the status.
+    const productId = await writeByNaturalKey(
+      db,
+      'products',
+      { merchant_id: merchantId, sku: product.sku },
+      {
+        company_id: companyId,
+        barcode: product.barcode ?? null,
+        name_en: product.name_en,
+        name_ar: product.name_ar,
+        product_type: product.type,
+        status: product.status,
+        brand_id: product.brand ? brands[product.brand] : null,
+        category_id: product.category
+          ? (categories[product.category] ?? subCategories[product.category] ?? null)
+          : null,
+        supplier_id: product.supplier ? suppliers[product.supplier] : null,
+        uom_id: units.PCS,
+        base_price: product.price,
+        base_cost: product.cost,
+        currency: 'EGP',
+        tax_rate: 14,
+        weight_grams: 250 + Math.floor(rand() * 600),
+        country_of_origin: 'Egypt',
+        is_sellable: true,
+        is_stock_item: true,
+        is_batch_tracked: product.type === 'batch_controlled',
+        tags: [product.merchant.toLowerCase(), product.category?.toLowerCase() ?? 'general'],
+      },
+      `product ${product.sku}`,
+    );
 
-    fail(`product ${product.sku}`, error);
-    const productId = String((data as Row[])[0].id);
     productIds[product.sku] = productId;
 
-    // Every product got a default variant from `createProduct`-equivalent
-    // logic in the app; the seed writes it explicitly for the same reason.
-    const defaultVariant = await db
-      .from('product_variants')
-      .upsert(
+    // Every product carries one default variant — the single sellable unit for
+    // a simple product, and the fallback listing for a variant product (§3.4).
+    variantIds[product.sku] = await writeByNaturalKey(
+      db,
+      'product_variants',
+      { merchant_id: merchantId, sku: product.sku },
+      {
+        product_id: productId,
+        company_id: companyId,
+        barcode: product.barcode ?? null,
+        price: product.price,
+        cost: product.cost,
+        is_default: true,
+        is_active: true,
+        position: 0,
+      },
+      `default variant ${product.sku}`,
+    );
+
+    for (const [index, variant] of (product.variants ?? []).entries()) {
+      variantIds[variant.sku] = await writeByNaturalKey(
+        db,
+        'product_variants',
+        { merchant_id: merchantId, sku: variant.sku },
         {
           product_id: productId,
           company_id: companyId,
-          merchant_id: merchantId,
-          sku: product.sku,
-          barcode: product.barcode ?? null,
-          price: product.price,
-          cost: product.cost,
-          is_default: true,
+          name: variant.name,
+          options: variant.options,
+          price: variant.price ?? product.price,
+          cost: variant.cost ?? product.cost,
+          is_default: false,
           is_active: true,
-          position: 0,
+          position: index + 1,
         },
-        { onConflict: 'merchant_id,sku' },
-      )
-      .select('id, sku');
-
-    fail(`default variant ${product.sku}`, defaultVariant.error);
-    variantIds[product.sku] = String((defaultVariant.data as Row[])[0].id);
-
-    for (const [index, variant] of (product.variants ?? []).entries()) {
-      const { data: vData, error: vError } = await db
-        .from('product_variants')
-        .upsert(
-          {
-            product_id: productId,
-            company_id: companyId,
-            merchant_id: merchantId,
-            sku: variant.sku,
-            name: variant.name,
-            options: variant.options,
-            price: variant.price ?? product.price,
-            cost: variant.cost ?? product.cost,
-            is_default: false,
-            is_active: true,
-            position: index + 1,
-          },
-          { onConflict: 'merchant_id,sku' },
-        )
-        .select('id, sku');
-
-      fail(`variant ${variant.sku}`, vError);
-      variantIds[variant.sku] = String((vData as Row[])[0].id);
+        `variant ${variant.sku}`,
+      );
     }
   }
 
@@ -410,21 +439,21 @@ async function seedCatalog(ctx: SeedContext) {
     priceRows.push({
       company_id: companyId, product_id: productId, price_type: 'wholesale',
       amount: Math.round(seed.price * 0.78), currency: 'EGP', min_quantity: 12, priority: 10, is_active: true,
-      note: 'Wholesale from 12 units',
+      valid_from: null, valid_to: null, note: 'Wholesale from 12 units',
     });
 
     if (seed.status === 'active' && rand() > 0.5) {
       priceRows.push({
         company_id: companyId, product_id: productId, price_type: 'promotional',
-        amount: Math.round(seed.price * 0.85), currency: 'EGP', priority: 20, is_active: true,
-        valid_from: iso(daysAgo(14)), valid_to: iso(daysAgo(-14)),
-        note: 'Mid-season promotion',
+        amount: Math.round(seed.price * 0.85), currency: 'EGP', min_quantity: null, priority: 20, is_active: true,
+        valid_from: iso(daysAgo(14)), valid_to: iso(daysAgo(-14)), note: 'Mid-season promotion',
       });
     }
 
+    // `is_percentage` is NOT NULL, so all three rows state it.
     costRows.push(
-      { company_id: companyId, product_id: productId, component: 'purchase', amount: seed.cost, currency: 'EGP', effective_from: dateOnly(daysAgo(120)) },
-      { company_id: companyId, product_id: productId, component: 'packaging', amount: 6.5, currency: 'EGP', effective_from: dateOnly(daysAgo(120)) },
+      { company_id: companyId, product_id: productId, component: 'purchase', amount: seed.cost, currency: 'EGP', is_percentage: false, effective_from: dateOnly(daysAgo(120)) },
+      { company_id: companyId, product_id: productId, component: 'packaging', amount: 6.5, currency: 'EGP', is_percentage: false, effective_from: dateOnly(daysAgo(120)) },
       { company_id: companyId, product_id: productId, component: 'payment_gateway', amount: 2.5, currency: 'EGP', is_percentage: true, effective_from: dateOnly(daysAgo(120)) },
     );
   }
@@ -762,14 +791,15 @@ async function seedWarehouseOps(
     db,
     'warehouse_locations',
     [
-      { company_id: companyId, warehouse_id: mainWh, level: 'zone', area: 'storage', code: 'A', name: 'Zone A — Fast movers', sort_order: 1 },
-      { company_id: companyId, warehouse_id: mainWh, level: 'zone', area: 'storage', code: 'B', name: 'Zone B — Bulk', sort_order: 2 },
-      { company_id: companyId, warehouse_id: mainWh, level: 'zone', area: 'receiving', code: 'RCV', name: 'Receiving dock', sort_order: 0, is_pickable: false },
-      { company_id: companyId, warehouse_id: mainWh, level: 'zone', area: 'qc', code: 'QC', name: 'QC bench', sort_order: 3, is_pickable: false },
-      { company_id: companyId, warehouse_id: mainWh, level: 'zone', area: 'packing', code: 'PACK', name: 'Packing benches', sort_order: 4, is_pickable: false },
-      { company_id: companyId, warehouse_id: mainWh, level: 'zone', area: 'dispatch', code: 'DSP', name: 'Dispatch staging', sort_order: 5, is_pickable: false },
-      { company_id: companyId, warehouse_id: mainWh, level: 'zone', area: 'damaged', code: 'DMG', name: 'Damaged goods cage', sort_order: 6, is_pickable: false },
-      { company_id: companyId, warehouse_id: gizaWh, level: 'zone', area: 'storage', code: 'G-A', name: 'Giza Zone A', sort_order: 1 },
+      // `is_pickable` is NOT NULL, so every row states it explicitly.
+      { company_id: companyId, warehouse_id: mainWh, parent_id: null, level: 'zone', area: 'storage', code: 'A', name: 'Zone A — Fast movers', sort_order: 1, is_pickable: true },
+      { company_id: companyId, warehouse_id: mainWh, parent_id: null, level: 'zone', area: 'storage', code: 'B', name: 'Zone B — Bulk', sort_order: 2, is_pickable: true },
+      { company_id: companyId, warehouse_id: mainWh, parent_id: null, level: 'zone', area: 'receiving', code: 'RCV', name: 'Receiving dock', sort_order: 0, is_pickable: false },
+      { company_id: companyId, warehouse_id: mainWh, parent_id: null, level: 'zone', area: 'qc', code: 'QC', name: 'QC bench', sort_order: 3, is_pickable: false },
+      { company_id: companyId, warehouse_id: mainWh, parent_id: null, level: 'zone', area: 'packing', code: 'PACK', name: 'Packing benches', sort_order: 4, is_pickable: false },
+      { company_id: companyId, warehouse_id: mainWh, parent_id: null, level: 'zone', area: 'dispatch', code: 'DSP', name: 'Dispatch staging', sort_order: 5, is_pickable: false },
+      { company_id: companyId, warehouse_id: mainWh, parent_id: null, level: 'zone', area: 'damaged', code: 'DMG', name: 'Damaged goods cage', sort_order: 6, is_pickable: false },
+      { company_id: companyId, warehouse_id: gizaWh, parent_id: null, level: 'zone', area: 'storage', code: 'G-A', name: 'Giza Zone A', sort_order: 1, is_pickable: true },
     ],
     'warehouse_id,code',
   );
@@ -782,7 +812,7 @@ async function seedWarehouseOps(
       aisleRows.push({
         company_id: companyId, warehouse_id: mainWh, parent_id: zones[zone],
         level: 'aisle', area: 'storage', code: `${zone}-${aisle}`,
-        name: `Aisle ${zone}${aisle}`, sort_order: aisle,
+        name: `Aisle ${zone}${aisle}`, sort_order: aisle, is_pickable: true,
       });
     }
   }
@@ -796,7 +826,7 @@ async function seedWarehouseOps(
       binRows.push({
         company_id: companyId, warehouse_id: mainWh, parent_id: aisles[aisleCode],
         level: 'bin', area: 'storage', code: `${aisleCode}-${String(bin).padStart(2, '0')}`,
-        name: `Bin ${aisleCode}-${bin}`, sort_order: binOrder, max_units: 400,
+        name: `Bin ${aisleCode}-${bin}`, sort_order: binOrder, max_units: 400, is_pickable: true,
       });
     }
   }
@@ -867,9 +897,11 @@ async function seedWarehouseOps(
     txn += 1;
     ledgerRows.push({
       company_id: companyId, merchant_id: merchants[sku.slice(0, 3)], warehouse_id: mainWh,
+      location_id: null,
       variant_id: variantIds[sku], product_id: productIds[sku.replace(/-(BM)$/, '')] ?? null,
       txn_number: `DEMO-INV-${String(txn).padStart(4, '0')}`,
       txn_type: 'damage', bucket: 'damaged', quantity: 3,
+      reference_type: null, reference_id: null,
       reason: 'Water damage found at QC', created_by: staff['EMP-010'] ?? null,
       created_at: iso(daysAgo(2)),
     });
@@ -896,14 +928,16 @@ async function seedWarehouseOps(
     const orderId = orderIds[orderNumber];
     if (!orderId) continue;
 
+    // `priority` is NOT NULL, and `due_at`/`receipt_id` appear on the overdue
+    // task below — so every row carries the full key set.
     taskNo += 1;
     taskRows.push({
       company_id: companyId, warehouse_id: mainWh,
       task_number: `DEMO-TSK-${String(taskNo).padStart(4, '0')}`,
       task_type: 'picking', status: index < 3 ? 'completed' : 'in_progress',
       priority: index === 0 ? 'high' : 'normal',
-      order_id: orderId, assigned_to: staff['EMP-008'] ?? null,
-      sla_minutes: 60,
+      order_id: orderId, receipt_id: null, assigned_to: staff['EMP-008'] ?? null,
+      sla_minutes: 60, due_at: null,
       started_at: iso(hoursAgo(30 - index * 4)),
       completed_at: index < 3 ? iso(hoursAgo(29 - index * 4)) : null,
       created_at: iso(hoursAgo(31 - index * 4)),
@@ -914,8 +948,9 @@ async function seedWarehouseOps(
       company_id: companyId, warehouse_id: mainWh,
       task_number: `DEMO-TSK-${String(taskNo).padStart(4, '0')}`,
       task_type: 'packing', status: index < 2 ? 'completed' : 'pending',
-      order_id: orderId, assigned_to: staff['EMP-009'] ?? null,
-      sla_minutes: 30,
+      priority: 'normal',
+      order_id: orderId, receipt_id: null, assigned_to: staff['EMP-009'] ?? null,
+      sla_minutes: 30, due_at: null,
       started_at: index < 2 ? iso(hoursAgo(28 - index * 4)) : null,
       completed_at: index < 2 ? iso(hoursAgo(27 - index * 4)) : null,
       created_at: iso(hoursAgo(29 - index * 4)),
@@ -928,10 +963,10 @@ async function seedWarehouseOps(
     company_id: companyId, warehouse_id: gizaWh,
     task_number: `DEMO-TSK-${String(taskNo).padStart(4, '0')}`,
     task_type: 'receiving', status: 'assigned', priority: 'urgent',
-    receipt_id: receipts['DEMO-GRN-002'] ?? null,
+    order_id: null, receipt_id: receipts['DEMO-GRN-002'] ?? null,
     assigned_to: staff['EMP-013'] ?? null,
-    sla_minutes: 120,
-    due_at: iso(hoursAgo(20)),
+    sla_minutes: 120, due_at: iso(hoursAgo(20)),
+    started_at: null, completed_at: null,
     created_at: iso(hoursAgo(26)),
   });
 
@@ -1267,6 +1302,7 @@ async function seedShipping(ctx: SeedContext, orderIds: Record<string, string>, 
     declared_amount: shipment.cod_amount,
     declared_fee: 8,
     match_status: 'unmatched',
+    note: null,
   }));
 
   statementLines.push({
@@ -1357,14 +1393,47 @@ async function seedFinance(ctx: SeedContext, orderIds: Record<string, string>) {
     }
   }
 
-  fail(
-    'marketing expenses',
-    (await db.from('marketing_expenses').upsert(marketingRows, { onConflict: 'company_id,platform,external_id' })).error,
-  );
+  // The unique index on (company_id, platform, external_id) is *partial* —
+  // `where external_id is not null` — and ON CONFLICT cannot infer a partial
+  // index from a column list. Clear the imported rows and rewrite instead.
+  await db.from('marketing_expenses').delete().eq('company_id', companyId).not('external_id', 'is', null);
+  fail('marketing expenses', (await db.from('marketing_expenses').insert(marketingRows)).error);
 
   /* ---- Operating expenses (§7.10) -------------------------------------- */
 
-  const { data: categoryRows } = await db.from('expense_categories').select('id, code').eq('company_id', companyId);
+  // §7.10 categories are normally provisioned by migration 0019. If that
+  // migration has not been applied, provision them here rather than failing —
+  // §7.12 rule 4 makes category_id NOT NULL, so there is no seeding without it.
+  let { data: categoryRows } = await db.from('expense_categories').select('id, code').eq('company_id', companyId);
+
+  if (!categoryRows || categoryRows.length === 0) {
+    console.log('  ! expense_categories was empty — provisioning it (migration 0019 has not been applied)');
+    await db.from('expense_categories').insert(
+      [
+        ['warehouse_rent', 'Warehouse rent', 'إيجار المخزن', true, 1],
+        ['salaries', 'Salaries', 'رواتب الموظفين', false, 2],
+        ['electricity', 'Electricity', 'الكهرباء', false, 3],
+        ['internet', 'Internet', 'الإنترنت', false, 4],
+        ['packaging', 'Packaging', 'مواد التغليف', true, 5],
+        ['maintenance', 'Equipment maintenance', 'صيانة المعدات', false, 6],
+        ['fuel', 'Fuel', 'الوقود', true, 7],
+        ['internal_transport', 'Internal transport', 'الشحن الداخلي', true, 8],
+        ['software', 'Software & subscriptions', 'البرامج والاشتراكات', false, 9],
+        ['other', 'Other expense', 'مصروف آخر', false, 10],
+      ].map(([code, nameEn, nameAr, isDirect, order]) => ({
+        company_id: companyId,
+        code,
+        name_en: nameEn,
+        name_ar: nameAr,
+        is_direct: isDirect,
+        sort_order: order,
+        is_active: true,
+      })),
+    );
+
+    ({ data: categoryRows } = await db.from('expense_categories').select('id, code').eq('company_id', companyId));
+  }
+
   const expenseCategories: Record<string, string> = {};
   for (const row of (categoryRows ?? []) as Row[]) expenseCategories[String(row.code)] = String(row.id);
 
