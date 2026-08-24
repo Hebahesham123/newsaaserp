@@ -1,15 +1,15 @@
-import { requirePermission } from '@/lib/auth/session';
+import { requirePermission, can } from '@/lib/auth/session';
 import { getDictionary, getLocale } from '@/i18n/server';
 import { createServerSupabase } from '@/lib/supabase/server';
-import { Card, EmptyState, Notice, PageHeader } from '@/components/ui';
+import { Breadcrumb, Card, EmptyState, Notice, PageHeader } from '@/components/ui';
 import { PermissionMatrix } from './matrix';
 
 /**
  * §2.14 "Permission matrix" — the screen where role × permission is inspected
- * as a grid rather than one role at a time.
+ * and edited as a grid rather than one role at a time.
  */
 export default async function PermissionMatrixPage() {
-  await requirePermission('roles.manage');
+  const session = await requirePermission('roles.manage');
   const t = await getDictionary();
   const locale = await getLocale();
   const supabase = await createServerSupabase();
@@ -20,12 +20,18 @@ export default async function PermissionMatrixPage() {
     supabase.from('role_permissions').select('role_id, permission_id'),
   ]);
 
+  // Company roles are the editable ones; templates are shown only when a tenant
+  // has no roles of its own yet, so the screen is never empty.
   const companyRoles = (roles ?? []).filter((role) => role.company_id !== null);
   const visibleRoles = companyRoles.length > 0 ? companyRoles : (roles ?? []);
 
   return (
     <>
-      <PageHeader title={t.roles.matrixTitle} subtitle={t.roles.matrixSubtitle} />
+      <PageHeader
+        breadcrumb={<Breadcrumb items={[{ label: t.roles.title, href: '/roles' }, { label: t.roles.matrixTitle }]} />}
+        title={t.roles.matrixTitle}
+        subtitle={t.roles.matrixSubtitle}
+      />
 
       <div className="mb-4">
         <Notice tone="info">
@@ -48,8 +54,10 @@ export default async function PermissionMatrixPage() {
               id: role.id,
               code: role.code,
               name: locale === 'ar' ? role.name_ar : role.name_en,
+              isTemplate: role.company_id === null,
             }))}
             grants={(grants ?? []).map((g) => `${g.role_id}:${g.permission_id}`)}
+            editable={can(session, 'roles.manage')}
           />
         )}
       </Card>

@@ -13,6 +13,7 @@
     "db:reset": "supabase db reset",
     "db:diff": "supabase db diff",
     "db:types": "supabase gen types typescript --linked > src/lib/supabase/database.types.generated.ts",
+    "db:seed": "tsx scripts/seed-demo.ts",
     "gen:key": "node -e \"console.log(require('crypto').randomBytes(32).toString('base64'))\""
   },
   "dependencies": {

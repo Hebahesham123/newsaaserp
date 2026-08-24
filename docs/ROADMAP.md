@@ -28,15 +28,15 @@ These are non-negotiable and shape every phase:
 
 | Phase | Name | Spec sections | Ships |
 |---|---|---|---|
-| **0** | Foundations & scaffold | — | Repo, tooling, CI, local Supabase, conventions |
-| **1** | Tenancy, identity & access | §1, §2 | Companies, merchants, stores, users, roles, 4-level permissions, audit log |
-| **2** | Catalog & pricing | §3 | Products, variants, bundles, channel mapping, prices, costs |
-| **3** | Orders & Confirmation Center | §4 | Order lifecycle, assignment, calls, Customer 360, duplicates, fraud, **Shopify sync** |
-| **4** | Warehouse, inventory & fulfillment | §5 | Locations, receiving, put-away, reservation, pick/pack, tasks, ledger |
-| **5** | Shipping, returns & COD collections | §6 | Courier integrations, AWB tracking, RTO, returns inspection, COD reconciliation |
-| **6** | Finance, settlements & profitability | §7 | Order cost structure, expenses, merchant/courier settlements, invoices, P&L |
-| **7** | Reports & BI | §9 | Report engine, 14 dashboards, scheduled exports, drill-down, global filters |
-| **8** | *(reserved)* Marketing, affiliate & customer service | §8 *(not yet supplied)* | Campaigns, affiliates/commissions, tickets, marketplace mgmt, workflow builder, AI |
+| **0** ✅ | Foundations & scaffold | — | Repo, tooling, CI, local Supabase, conventions |
+| **1** ✅ | Tenancy, identity & access | §1, §2 | Companies, merchants, stores, users, roles, 4-level permissions, audit log |
+| **2** ✅ | Catalog & pricing | §3 | Products, variants, bundles, channel mapping, prices, costs |
+| **3** ✅ | Orders & Confirmation Center | §4 | Order lifecycle, assignment, calls, Customer 360, duplicates, fraud, **Shopify sync** |
+| **4** ✅ | Warehouse, inventory & fulfillment | §5 | Locations, receiving, put-away, reservation, pick/pack, tasks, ledger |
+| **5** ✅ | Shipping, returns & COD collections | §6 | Courier integrations, AWB tracking, RTO, returns inspection, COD reconciliation |
+| **6** ✅ | Finance, settlements & profitability | §7 | Order cost structure, expenses, merchant/courier settlements, invoices, P&L |
+| **7** ✅ | Reports & BI | §9 | Report engine, 14 dashboards, scheduled exports, drill-down, global filters |
+| **8** ⛔ | *(blocked)* Marketing, affiliate & customer service | §8 *(absent from the PDF)* | Campaigns, affiliates/commissions, tickets, marketplace mgmt, workflow builder, AI |
 
 Phases 1→7 are sequential by data dependency. Phase 8 slots in once you send Section 8; extension points are reserved in Phases 1, 2, 6 and 7 for it.
 
@@ -85,7 +85,14 @@ Company list/create/detail/settings · Merchant list/create/detail/onboarding ·
 
 ---
 
-## Phase 2 — Catalog & pricing *(spec §3)*
+## Phase 2 — Catalog & pricing *(spec §3)* ✅
+
+**Delivered:** 14 tables + RLS (`0010_catalog.sql`, `0011_catalog_rls.sql`), 18 §3.12 permissions granted
+across the 24 default roles, server actions for every entity, and the screens:
+`/products` (list, status control, approve, archive) · `/products/[id]` (variants, price matrix, cost
+components, channel mapping, bundle composition, collections, price history) · `/products/unmapped`
+(§3.14 queue, reads the `unmapped_products` view) · `/catalog` (brands, categories, collections, units,
+attributes) · `/suppliers` · `/price-history`.
 
 - Product master + 11 product types (§3.3); variants with independent SKU/barcode/price/cost/stock/image (§3.4)
 - **Channel mapping** — one master product ↔ Shopify variant ID, Woo product ID, Amazon ASIN/seller SKU, Noon SKU, barcode, marketplace fulfilment SKU (§3.5). Unmapped/duplicate detection surfaced as a work queue.
@@ -100,7 +107,28 @@ Company list/create/detail/settings · Merchant list/create/detail/onboarding ·
 
 ---
 
-## Phase 3 — Orders & Confirmation Center *(spec §4)* — **includes Shopify**
+## Phase 3 — Orders & Confirmation Center *(spec §4)* — **includes Shopify** ✅
+
+**Delivered:** 9 tables + 1 view + RLS (`0012_orders.sql`, `0013_orders_rls.sql`), 21 §4 permissions
+granted across the 24 default roles, and the screens: `/orders` · `/orders/[id]` (the §4.5
+single-screen workspace: products, calls, WhatsApp, duplicates, timeline, Customer 360 panel) ·
+`/confirmation` (§4.7 queue over the `confirmation_queue` view, with my-queue / all / callbacks-due) ·
+`/customers` + `/customers/[id]` (§4.8) · `/duplicates` (§4.12) · `/blacklist` (§4.13) ·
+`/cancellation-reasons` (§4.11) · `/message-templates` (§4.9).
+
+Channel orders are now persisted for real: `src/lib/channels/orders.ts` maps a `ChannelOrder` onto
+`orders` + `order_items`, keyed on `(store_id, external_id)` so webhook redelivery is idempotent, and
+refuses to revert work an agent has already done on an order past intake.
+
+**§4.15 business rules are enforced by database triggers, not application code** — unconfirmed orders
+cannot reach the warehouse, orders cannot be deleted, only cancelled orders archive, cancellations
+require a reason, line edits after warehouse handover need `orders.edit.after_warehouse`, totals
+recalculate on every line change, and every call, message, edit and status change lands in
+`order_events`.
+
+**Not built:** no WhatsApp provider is connected, so §4.9 messages are recorded and queued rather than
+transmitted; §4.14 AI features (best call time, best agent, confirmation likelihood) are out of scope
+until there is history to train on.
 
 - 12 order sources with source/store/merchant/campaign/affiliate recorded on every order (§4.2)
 - 4-stage lifecycle: intake → verification → confirmation → ready-for-warehouse (§4.3)
@@ -123,7 +151,19 @@ Sync coverage per §2.4.4: orders, customers, products, variants, prices, invent
 
 ---
 
-## Phase 4 — Warehouse, inventory & fulfillment *(spec §5)*
+## Phase 4 — Warehouse, inventory & fulfillment *(spec §5)* ✅
+
+**Delivered:** 12 tables + 2 views (`0014_warehouse.sql`, `0015_warehouse_rls.sql`), 17 permissions,
+and the screens `/inventory`, `/inventory/ledger`, `/warehouse-tasks`.
+
+The load-bearing decision: **`inventory_ledger` is the truth and `inventory_levels` is a cache of it.**
+§5.10 makes the ledger the master record and forbids deleting an approved movement, so all eight §5.8
+buckets are maintained by trigger from signed ledger rows, and the ledger refuses UPDATE and DELETE at
+the trigger level as well as by grant. Stock moves only through `post_inventory_movement`, which writes
+a balanced pair of rows for a bucket transfer and refuses to drive a bucket negative.
+
+**Not built as UI:** receiving/put-away, pick lists and packing have complete schema and SQL functions
+(`put_away_receipt_item`, `confirm_pick`, `reserve_order_stock`) but no screens yet.
 
 - Location hierarchy Warehouse → Zone → Aisle → Rack → Shelf → Bin with unique location codes; special areas (receiving, QC, picking, packing, dispatch, returns, damaged) (§5.2)
 - 13-stage warehouse workflow with per-stage timestamps and operator (§5.4)
@@ -139,7 +179,21 @@ Sync coverage per §2.4.4: orders, customers, products, variants, prices, invent
 
 ---
 
-## Phase 5 — Shipping, returns & COD collections *(spec §6)*
+## Phase 5 — Shipping, returns & COD collections *(spec §6)* ✅
+
+**Delivered:** 12 tables + 2 views (`0016_shipping.sql`, `0017_shipping_rls.sql`), 17 permissions,
+and the screens `/shipments`, `/returns`, `/collections`.
+
+Couriers are adapters exactly like channels — `couriers.provider` mirrors `stores.provider`, with
+`manual` as a first-class provider rather than a missing one. Handing a COD shipment to a courier opens
+its collection by trigger, so a shipment booked by webhook is tracked identically to one booked by hand.
+§6.6 delay monitoring is a **view**, not a job: computed on read, so it cannot go stale.
+
+**Note:** the COD table is `cod_collections`, not `collections` — §3.6 already owns that name for
+merchandising collections.
+
+**Not built as UI:** courier CRUD, return inspection/disposition and statement reconciliation have
+schema and functions (`apply_return_disposition`, `reconcile_courier_statement`) but no forms yet.
 
 - Courier adapter interface mirroring the channel adapter design; AWB creation, label generation, status webhooks
 - Shipment workflow to Delivered / RTO with full status history (§6.3, §6.4)
@@ -151,7 +205,18 @@ Sync coverage per §2.4.4: orders, customers, products, variants, prices, invent
 
 ---
 
-## Phase 6 — Finance, settlements & profitability *(spec §7)*
+## Phase 6 — Finance, settlements & profitability *(spec §7)* ✅
+
+**Delivered:** 9 tables + 4 views (`0018_finance.sql`, `0019_finance_rls.sql`), 17 permissions, and the
+screens `/expenses`, `/settlements`, `/invoices`, `/profitability`.
+
+**Profit is derived, never stored.** §7.12 rule 6 requires profitability to recalculate whenever a cost
+component changes; a stored column would need every writer to remember, so `order_profitability` is a
+view over `order_costs` and cannot fall behind. §2.7.4 is enforced in the database: the same user cannot
+raise and approve an expense, or prepare and approve a settlement, and a settlement cannot be approved
+before it is calculated (§7.12 rule 2).
+
+**Not built as UI:** expense/invoice creation forms, marketing-spend entry and period close.
 
 > Scope note from the spec itself: this is **operational finance, not a general ledger**. Not Odoo/SAP — an e-commerce operations P&L.
 
@@ -167,7 +232,19 @@ Sync coverage per §2.4.4: orders, customers, products, variants, prices, invent
 
 ---
 
-## Phase 7 — Reports & BI *(spec §9)*
+## Phase 7 — Reports & BI *(spec §9)* ✅
+
+**Delivered:** 4 tables + 10 reporting views (`0020_reports.sql`, `0021_reports_rls.sql`), 7 permissions,
+15 seeded report templates, and `/reports` with the §9.22 executive board.
+
+§9.20 ("a new report must not require new development") is what shapes it: a report is a **row** in
+`report_definitions` naming a source view, columns, filters and grouping — not code. §9.19 ("hide costs
+and profits by role") needs no second permission system, because every `rpt_*` view is
+`security_invoker`: a report returns exactly the rows the caller could have queried directly, and a
+definition can declare a `requires_permission` so it is not even listed to someone who lacks it.
+
+**Not built:** the report *runner* (turning a definition into a query and an Excel/PDF file) and the
+scheduler worker. `report_runs` already logs every export into the §2.9 audit trail by trigger.
 
 - Report engine over **live data** with 15 categories (§9.3) and a custom report builder requiring no new development (§9.20)
 - 14 dashboards (§9.21) with clickable drill-down on every metric (§9.2)

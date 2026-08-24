@@ -106,7 +106,42 @@ mutates orders. `store_credentials` has RLS enabled and **no policy**, so no cli
 all. Values are additionally AES-256-GCM encrypted application-side, so a database compromise alone does
 not yield usable tokens.
 
-## 8. Bilingual and RTL from day one
+## 8. The order lifecycle is enforced by the database
+
+§4.15 lists nine rules an order must obey — no warehouse handover before confirmation, no deletion
+after creation, archive only when cancelled, a reason on every cancellation, no line edits after
+handover without a special permission, totals that always match the lines, and a complete record of
+every call, message and edit.
+
+All nine are triggers on `orders` and `order_items`, for the same reason the audit log is
+(§3 above): an order arrives from a webhook, a scheduled sync, a manual form and — later — a bulk
+import. Enforcing the rules in each of those paths means the newest path is the one that forgets.
+
+Two consequences worth knowing:
+
+- **The application asks, the database refuses.** `releaseOrder` simply sets the status and lets the
+  trigger reject it if the order was never confirmed. The error carries its own spec reference, and
+  `describeDbError` passes `check_violation` text through unchanged rather than replacing it with
+  something vaguer.
+- **`order_events` has no UPDATE or DELETE policy.** Agents may insert a note and nothing else; every
+  other row is written by a trigger. History that can be edited is not history.
+
+## 9. Channel order ingestion is idempotent and non-destructive
+
+Shopify redelivers webhooks, and a scheduled sync routinely overlaps a webhook that already arrived.
+`ingestChannelOrder` is keyed on `(store_id, external_id)` — a partial unique index, since manually
+created orders legitimately have neither — so a second delivery updates the existing order.
+
+The subtler rule is what it *refuses* to do. Once an order has left the intake stage, a later sync
+refreshes only what the channel still owns (payment state, the raw payload). It does not overwrite an
+address the agent corrected on the phone, and it cannot regress the status of an order someone has
+already confirmed. A channel that is authoritative about payment is not authoritative about the work
+done since.
+
+Lines whose channel variant has no §3.5 mapping are still stored, with a null `variant_id`. Refusing
+them would lose a real order because the catalog is incomplete — exactly backwards.
+
+## 10. Bilingual and RTL from day one
 
 §1.9 and §2.15 require Arabic and English. Retrofitting RTL is expensive — it touches every layout
 decision — so direction is set on `<html>` from the start and the UI is built entirely on CSS logical
@@ -148,9 +183,17 @@ docs/
 |---|---|
 | `npm run typecheck` | Passes |
 | `npm run lint` | Clean |
-| `npm run build` | Passes — 23 routes |
-| Migration SQL parse | All 9 files, 284 statements, parsed against the Postgres grammar |
+| `npm run build` | Passes — 47 routes (Phases 1–7) |
+| Migration SQL structure | All 21 files: balanced dollar-quoting, and no duplicate table, type, view, index or policy names across the schema |
 | Migrations applied to a live database | **Not yet** — no Supabase project or Docker in this environment |
+
+See `docs/MIGRATIONS.md` for the run order and what to test first.
+
+**The last row is the important one.** Phases 4–7 put a great deal of behaviour into triggers and
+`SECURITY DEFINER` functions — the inventory ledger's derived buckets, the order lifecycle rules,
+segregation of duties on expenses and settlements, the invoice lock. Static checking confirms the SQL is
+well-formed and internally consistent; it cannot confirm that a policy does not recurse, that a trigger
+fires in the order you expect, or that the ledger and its cache actually agree.
 
 The last row matters: the SQL is syntactically valid and the schema is internally consistent by
 construction, but policy behaviour, trigger firing and the RLS isolation tests have not been executed

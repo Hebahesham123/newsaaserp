@@ -7,65 +7,148 @@
   chroma with one saturated accent reserved for primary actions and active
   navigation. Status colours are the only other saturated hues, which keeps
   them scannable in dense tables.
+
+  Dark is the default: these screens are used through long shifts, often in
+  warehouses with poor overhead lighting. The palette lives on :root rather
+  than behind prefers-color-scheme so the default does not change with the
+  operating system, and `[data-theme]` (written server-side from a cookie)
+  lets a user override it without a flash of the wrong theme on first paint.
 */
-@theme {
-  --color-canvas: oklch(98.4% 0.003 145);
-  --color-surface: oklch(100% 0 0);
-  --color-surface-muted: oklch(96.8% 0.004 145);
-  --color-border: oklch(91% 0.006 145);
-  --color-border-strong: oklch(84% 0.008 145);
 
-  --color-ink: oklch(24% 0.012 145);
-  --color-ink-muted: oklch(48% 0.010 145);
-  --color-ink-subtle: oklch(62% 0.008 145);
+:root {
+  color-scheme: dark;
 
-  --color-brand: oklch(52% 0.126 158);
-  --color-brand-hover: oklch(46% 0.130 158);
-  --color-brand-soft: oklch(95% 0.030 158);
-  --color-brand-ink: oklch(34% 0.090 158);
+  --canvas: oklch(16.5% 0.012 160);
+  --surface: oklch(20.5% 0.013 160);
+  --surface-muted: oklch(24.5% 0.014 160);
+  --surface-raised: oklch(26.5% 0.015 160);
+  --border: oklch(29.5% 0.014 160);
+  --border-strong: oklch(38% 0.016 160);
 
-  --color-success: oklch(58% 0.130 152);
-  --color-success-soft: oklch(95.5% 0.032 152);
-  --color-warning: oklch(70% 0.145 78);
-  --color-warning-soft: oklch(96% 0.045 82);
-  --color-danger: oklch(56% 0.180 26);
-  --color-danger-soft: oklch(95.5% 0.035 26);
-  --color-info: oklch(58% 0.125 245);
-  --color-info-soft: oklch(96% 0.030 245);
-  --color-neutral-soft: oklch(94.5% 0.004 145);
+  --ink: oklch(97% 0.005 160);
+  --ink-muted: oklch(76.5% 0.010 160);
+  --ink-subtle: oklch(61% 0.010 160);
+
+  --brand: oklch(72% 0.145 158);
+  --brand-hover: oklch(78% 0.150 158);
+  --brand-soft: oklch(28% 0.055 158);
+  --brand-ink: oklch(88% 0.095 158);
+  --brand-contrast: oklch(17% 0.030 158);
+
+  --success: oklch(74% 0.140 152);
+  --success-soft: oklch(28% 0.050 152);
+  --warning: oklch(80% 0.140 82);
+  --warning-soft: oklch(30% 0.055 82);
+  --danger: oklch(70% 0.160 25);
+  --danger-soft: oklch(29% 0.060 25);
+  --info: oklch(73% 0.120 245);
+  --info-soft: oklch(28% 0.050 245);
+  --neutral-soft: oklch(27% 0.010 160);
+
+  --shadow-color: 0deg 0% 0%;
+  --shadow-alpha: 0.45;
+
+  /*
+    Chart marks are a separate ramp from the status text tokens above. Text
+    needs high lightness to stay readable on a dark surface; a filled mark at
+    that lightness sits outside the dark-mode band and, worse, green and amber
+    land close enough to be indistinguishable under protanopia. These steps are
+    lightness-separated on purpose and were validated for CVD separation,
+    chroma and contrast against --surface rather than chosen by eye.
+  */
+  --chart-success: oklch(51% 0.140 150);
+  --chart-warning: oklch(66% 0.145 88);
+  --chart-danger: oklch(55% 0.190 18);
+  --chart-info: oklch(60% 0.140 255);
+  --chart-brand: oklch(60% 0.145 158);
+  --chart-grid: oklch(29.5% 0.014 160);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  --canvas: oklch(98.6% 0.003 160);
+  --surface: oklch(100% 0 0);
+  --surface-muted: oklch(97% 0.004 160);
+  --surface-raised: oklch(100% 0 0);
+  --border: oklch(91.5% 0.006 160);
+  --border-strong: oklch(84% 0.009 160);
+
+  --ink: oklch(23% 0.014 160);
+  --ink-muted: oklch(47% 0.011 160);
+  --ink-subtle: oklch(61% 0.009 160);
+
+  --brand: oklch(52% 0.128 158);
+  --brand-hover: oklch(45% 0.132 158);
+  --brand-soft: oklch(95.5% 0.030 158);
+  --brand-ink: oklch(34% 0.092 158);
+  --brand-contrast: oklch(100% 0 0);
+
+  --success: oklch(56% 0.130 152);
+  --success-soft: oklch(95.5% 0.032 152);
+  --warning: oklch(64% 0.140 70);
+  --warning-soft: oklch(96% 0.045 82);
+  --danger: oklch(55% 0.185 26);
+  --danger-soft: oklch(96% 0.032 26);
+  --info: oklch(55% 0.130 245);
+  --info-soft: oklch(96% 0.030 245);
+  --neutral-soft: oklch(94.5% 0.004 160);
+
+  --shadow-color: 160deg 12% 30%;
+  --shadow-alpha: 0.10;
+
+  /* Re-stepped for a white surface, not flipped from the dark values. */
+  --chart-success: oklch(55% 0.135 150);
+  --chart-warning: oklch(68% 0.150 85);
+  --chart-danger: oklch(51% 0.195 20);
+  --chart-info: oklch(52% 0.140 255);
+  --chart-brand: oklch(48% 0.130 158);
+  --chart-grid: oklch(91.5% 0.006 160);
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-raised: var(--surface-raised);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-subtle: var(--ink-subtle);
+
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-contrast: var(--brand-contrast);
+
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --color-neutral-soft: var(--neutral-soft);
+
+  --color-chart-success: var(--chart-success);
+  --color-chart-warning: var(--chart-warning);
+  --color-chart-danger: var(--chart-danger);
+  --color-chart-info: var(--chart-info);
+  --color-chart-brand: var(--chart-brand);
+  --color-chart-grid: var(--chart-grid);
 
   --font-sans: var(--font-app-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  --radius-card: 0.75rem;
-}
+  --radius-card: 0.875rem;
 
-@media (prefers-color-scheme: dark) {
-  @theme {
-    --color-canvas: oklch(19% 0.010 145);
-    --color-surface: oklch(23% 0.011 145);
-    --color-surface-muted: oklch(26.5% 0.012 145);
-    --color-border: oklch(31% 0.012 145);
-    --color-border-strong: oklch(38% 0.014 145);
-
-    --color-ink: oklch(96% 0.004 145);
-    --color-ink-muted: oklch(74% 0.008 145);
-    --color-ink-subtle: oklch(60% 0.008 145);
-
-    --color-brand: oklch(68% 0.125 158);
-    --color-brand-hover: oklch(74% 0.125 158);
-    --color-brand-soft: oklch(30% 0.045 158);
-    --color-brand-ink: oklch(85% 0.080 158);
-
-    --color-success: oklch(72% 0.130 152);
-    --color-success-soft: oklch(30% 0.045 152);
-    --color-warning: oklch(78% 0.140 82);
-    --color-warning-soft: oklch(32% 0.050 82);
-    --color-danger: oklch(70% 0.155 26);
-    --color-danger-soft: oklch(31% 0.055 26);
-    --color-info: oklch(72% 0.115 245);
-    --color-info-soft: oklch(30% 0.045 245);
-    --color-neutral-soft: oklch(28% 0.008 145);
-  }
+  --shadow-xs: 0 1px 2px hsl(var(--shadow-color) / var(--shadow-alpha));
+  --shadow-sm: 0 1px 3px hsl(var(--shadow-color) / var(--shadow-alpha)), 0 1px 2px -1px hsl(var(--shadow-color) / var(--shadow-alpha));
+  --shadow-md: 0 4px 12px -2px hsl(var(--shadow-color) / var(--shadow-alpha));
+  --shadow-lg: 0 12px 32px -8px hsl(var(--shadow-color) / calc(var(--shadow-alpha) * 1.2));
 }
 
 html,
@@ -74,8 +157,8 @@ body {
 }
 
 body {
-  background-color: var(--color-canvas);
-  color: var(--color-ink);
+  background-color: var(--canvas);
+  color: var(--ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
@@ -89,16 +172,48 @@ body {
 }
 
 ::selection {
-  background-color: var(--color-brand-soft);
-  color: var(--color-brand-ink);
+  background-color: var(--brand-soft);
+  color: var(--brand-ink);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-brand);
+  outline: 2px solid var(--brand);
   outline-offset: 2px;
 }
 
 /* Tabular figures keep numeric columns aligned in dense operational tables. */
 .tnum {
   font-variant-numeric: tabular-nums;
+}
+
+/* A dark chrome scrollbar; the browser default is a bright gash on these pages. */
+* {
+  scrollbar-color: var(--border-strong) transparent;
+  scrollbar-width: thin;
+}
+
+/* Dialogs animate in so a form that replaces the screen does not simply blink. */
+@keyframes overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes panel-in {
+  from { opacity: 0; transform: translateY(6px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.animate-overlay-in {
+  animation: overlay-in 140ms ease-out;
+}
+
+.animate-panel-in {
+  animation: panel-in 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-overlay-in,
+  .animate-panel-in {
+    animation: none;
+  }
 }

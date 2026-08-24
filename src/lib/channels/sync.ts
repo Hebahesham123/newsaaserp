@@ -2,6 +2,7 @@ import 'server-only';
 
 import { createAdminSupabase } from '@/lib/supabase/server';
 import { resolveChannel } from './registry';
+import { ingestChannelOrder } from './orders';
 import type { SyncEntity, SyncTrigger } from '@/lib/supabase/database.types';
 
 export type SyncResult = {
@@ -22,10 +23,8 @@ export type SyncResult = {
  * orders quietly stop arriving. The log row is opened before the work starts
  * so a crashed process still leaves a 'running' record to investigate.
  *
- * Phase 1 persists orders and products into the sync log only; the order and
- * product tables arrive in Phases 2-3, at which point the marked sections below
- * write real rows. The plumbing, logging, retry and adapter resolution are all
- * exercised now.
+ * Orders are persisted for real (§4.2); products and inventory still record
+ * counts only, and write their rows when Phase 4 lands.
  */
 export async function runSync(options: {
   storeId: string;
@@ -75,8 +74,21 @@ export async function runSync(options: {
       if (entity === 'orders') {
         const page = await adapter.fetchOrders(context, { cursor, updatedSince, limit: 50 });
         received += page.items.length;
-        // Phase 3 writes these into `orders` / `order_items` here.
-        succeeded += page.items.length;
+
+        // Per order rather than per page: one malformed order must not discard
+        // the 49 valid ones alongside it, and the log has to say which failed.
+        for (const order of page.items) {
+          try {
+            await ingestChannelOrder(admin, context, adapter.id, order);
+            succeeded += 1;
+          } catch (orderError) {
+            errors.push({
+              message: orderError instanceof Error ? orderError.message : String(orderError),
+              externalId: order.externalId,
+            });
+          }
+        }
+
         cursor = page.nextCursor;
       } else if (entity === 'products' || entity === 'variants') {
         const page = await adapter.fetchProducts(context, { cursor, updatedSince, limit: 50 });

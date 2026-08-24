@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { resolveChannel } from '@/lib/channels/registry';
+import { ingestChannelOrder } from '@/lib/channels/orders';
 import { createAdminSupabase } from '@/lib/supabase/server';
 import type { SyncEntity } from '@/lib/supabase/database.types';
 
@@ -76,8 +77,10 @@ export async function POST(
       const order = adapter.parseOrderWebhook(verification.payload);
       if (!order) throw new Error(`Could not parse an order from topic '${topic}'.`);
 
-      // Phase 3 upserts into `orders` here, keyed on (store_id, external_id)
-      // so redelivered webhooks are idempotent rather than duplicating orders.
+      // Keyed on (store_id, external_id), so a redelivery updates the order
+      // instead of creating a second one — and never reverts work an agent has
+      // already done on it.
+      await ingestChannelOrder(admin, context, adapter.id, order);
     }
 
     if (logRow) {
