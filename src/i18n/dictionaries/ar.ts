@@ -1265,12 +1265,17 @@ export const ar: Dictionary = {
     approved: 'معتمد',
     rejected: 'مرفوض',
   },
+  userType: {
+    company: 'مستخدم الشركة',
+    merchant: 'مستخدم تاجر',
+    affiliate: 'مستخدم مسوّق',
+    store: 'مستخدم متجر',
+    supplier: 'مستخدم مورّد',
+  },
   operatingModel: {
-    own_store: 'متجر مملوك للشركة',
-    multi_store: 'تعدد المتاجر',
-    fulfillment_center: 'مركز تنفيذ الطلبات',
+    ecommerce_store_management: 'إدارة متاجر التجارة الإلكترونية',
+    fulfillment: 'التنفيذ والتجهيز',
     operations_only: 'إدارة العمليات فقط',
-    marketplace: 'المنصات (Marketplace)',
   },
   platform: {
     shopify: 'Shopify',

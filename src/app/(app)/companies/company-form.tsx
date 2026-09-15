@@ -39,7 +39,7 @@ const STATUSES = [
 ] as const;
 
 const MODELS = [
-  'own_store', 'multi_store', 'fulfillment_center', 'operations_only', 'marketplace',
+  'ecommerce_store_management', 'fulfillment', 'operations_only',
 ] as const;
 
 export function CompanyForm({ company }: { company?: CompanyDraft }) {
@@ -59,7 +59,7 @@ export function CompanyForm({ company }: { company?: CompanyDraft }) {
       kind: 'select',
       name: 'operating_model',
       label: t.companies.operatingModel,
-      defaultValue: company?.operating_model ?? 'own_store',
+      defaultValue: company?.operating_model ?? 'ecommerce_store_management',
       required: true,
       options: MODELS.map((model) => ({ value: model, label: t.operatingModel[model] })),
     },

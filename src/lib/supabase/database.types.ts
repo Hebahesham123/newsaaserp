@@ -26,7 +26,7 @@ export type UserStatus =
   | 'temporarily_suspended' | 'blocked' | 'resigned' | 'terminated' | 'archived';
 
 export type OperatingModel =
-  | 'own_store' | 'multi_store' | 'fulfillment_center' | 'operations_only' | 'marketplace';
+  | 'ecommerce_store_management' | 'fulfillment' | 'operations_only';
 
 export type ChannelPlatform =
   | 'shopify' | 'woocommerce' | 'amazon' | 'noon' | 'custom_store' | 'mobile_app'
@@ -253,9 +253,280 @@ type Auditable = {
 
 // --- rows -------------------------------------------------------------------
 
+
+// --- organisation hierarchy & KPIs (0025) ------------------------------------
+
+export type KpiFrequency = 'daily' | 'weekly' | 'monthly' | 'quarterly';
+export type KpiDirection = 'higher_is_better' | 'lower_is_better';
+export type KpiSubject = 'department' | 'team' | 'user' | 'role';
+
+/** Departments flattened, with depth and a readable path for the tree view. */
+export type DepartmentTreeRow = {
+  id: string;
+  company_id: string;
+  parent_id: string | null;
+  code: string;
+  name_en: string;
+  name_ar: string;
+  manager_id: string | null;
+  is_active: boolean;
+  archived_at: string | null;
+  depth: number;
+  path: string;
+  ancestry: string[];
+  root_id: string;
+  child_count: number;
+  user_count: number;
+};
+
+export type KpiDefinitionRow = {
+  id: string;
+  company_id: string;
+  department_id: string;
+  code: string;
+  name_en: string;
+  name_ar: string;
+  description: string | null;
+  unit: string | null;
+  frequency: KpiFrequency;
+  direction: KpiDirection;
+  default_target: number | null;
+  is_active: boolean;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+  created_by: string | null;
+  updated_by: string | null;
+};
+
+export type KpiEntryRow = {
+  id: string;
+  kpi_id: string;
+  company_id: string;
+  subject: KpiSubject;
+  department_id: string | null;
+  team_id: string | null;
+  user_id: string | null;
+  role_id: string | null;
+  period_start: string;
+  period_end: string;
+  target_value: number | null;
+  actual_value: number | null;
+  note: string | null;
+  created_at: string;
+  updated_at: string;
+  created_by: string | null;
+  updated_by: string | null;
+};
+
+/** Achievement and status are derived from the definition direction, never stored. */
+export type KpiPerformanceRow = {
+  entry_id: string;
+  company_id: string;
+  kpi_id: string;
+  code: string;
+  name_en: string;
+  name_ar: string;
+  unit: string | null;
+  frequency: KpiFrequency;
+  direction: KpiDirection;
+  owner_department_id: string;
+  subject: KpiSubject;
+  department_id: string | null;
+  team_id: string | null;
+  user_id: string | null;
+  role_id: string | null;
+  period_start: string;
+  period_end: string;
+  target_value: number | null;
+  actual_value: number | null;
+  achievement_pct: number | null;
+  status: 'pending' | 'untargeted' | 'achieved' | 'at_risk' | 'missed';
+};
+
+// --- users, customers & affiliates (0026) ------------------------------------
+
+/** Warehouse is deliberately absent: warehouse access is a data scope. */
+export type UserType = 'company' | 'merchant' | 'affiliate' | 'store' | 'supplier';
+
+export type AffiliateStatus = 'pending' | 'active' | 'suspended' | 'terminated';
+export type CommissionModel = 'percentage' | 'fixed_per_order' | 'tiered';
+
+export type AffiliateRow = Auditable & {
+  id: string;
+  company_id: string;
+  merchant_id: string | null;
+  code: string;
+  name: string;
+  email: string | null;
+  phone: string | null;
+  referral_code: string;
+  status: AffiliateStatus;
+  commission_model: CommissionModel;
+  commission_rate: number | null;
+  pays_on_delivery: boolean;
+  payout_details: string | null;
+  notes: string | null;
+};
+
+export type AffiliateCommissionRow = {
+  id: string;
+  company_id: string;
+  affiliate_id: string;
+  order_id: string;
+  order_total: number;
+  commission_amount: number;
+  currency: string;
+  status: 'pending' | 'payable' | 'paid' | 'cancelled';
+  earned_on: string;
+  paid_at: string | null;
+  payout_reference: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type AffiliatePerformanceRow = {
+  affiliate_id: string;
+  company_id: string;
+  merchant_id: string | null;
+  name: string;
+  referral_code: string;
+  status: AffiliateStatus;
+  referred_orders: number;
+  confirmed_orders: number;
+  cancelled_orders: number;
+  referred_revenue: number;
+  confirmation_rate: number | null;
+  commission_total: number;
+  commission_paid: number;
+  commission_outstanding: number;
+};
+
+export type CustomerLinkRow = {
+  id: string;
+  customer_id: string;
+  company_id: string;
+  merchant_id: string | null;
+  store_id: string | null;
+  first_order_at: string | null;
+  last_order_at: string | null;
+  orders_count: number;
+  total_spent: number;
+  created_at: string;
+  updated_at: string;
+};
+
+/** One row per customer identity, with the breadth of their relationships. */
+export type CustomerDirectoryRow = {
+  customer_id: string;
+  company_id: string;
+  name: string;
+  phone: string;
+  email: string | null;
+  governorate: string | null;
+  city: string | null;
+  orders_count: number;
+  total_spent: number;
+  risk_score: number;
+  is_blacklisted: boolean;
+  last_order_at: string | null;
+  store_count: number;
+  merchant_count: number;
+  store_names: string | null;
+};
+
+// --- plans, modules & entitlements (0023/0024) -------------------------------
+
+/** A module gates an area of the product; a feature sits inside one; a limit is a number. */
+export type FeatureKind = 'module' | 'feature' | 'limit';
+export type FeatureTier = 'basic' | 'standard' | 'advanced';
+
+export type FeatureRow = {
+  id: string;
+  code: string;
+  kind: FeatureKind;
+  module_code: string | null;
+  name_en: string;
+  name_ar: string;
+  description: string | null;
+  unit: string | null;
+  is_active: boolean;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type PlanRow = {
+  id: string;
+  code: string;
+  name_en: string;
+  name_ar: string;
+  description: string | null;
+  operating_model: OperatingModel | null;
+  monthly_price: number | null;
+  currency: string;
+  is_active: boolean;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+  created_by: string | null;
+  updated_by: string | null;
+};
+
+export type PlanEntitlementRow = {
+  id: string;
+  plan_id: string;
+  feature_id: string;
+  is_included: boolean;
+  /** Not in the plan, but purchasable — activated per company. */
+  is_addon: boolean;
+  tier: FeatureTier | null;
+  /** Null on an included limit means unlimited. */
+  limit_value: number | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type CompanyEntitlementRow = {
+  id: string;
+  company_id: string;
+  feature_id: string;
+  is_included: boolean;
+  tier: FeatureTier | null;
+  limit_value: number | null;
+  starts_on: string | null;
+  ends_on: string | null;
+  note: string | null;
+  created_at: string;
+  updated_at: string;
+  created_by: string | null;
+  updated_by: string | null;
+};
+
+/**
+ * Resolved entitlements per company — override, then plan, then nothing.
+ * This is what the dashboard and navigation read to decide what exists.
+ */
+export type CompanyFeatureRow = {
+  company_id: string;
+  feature_code: string;
+  kind: FeatureKind;
+  module_code: string | null;
+  name_en: string;
+  name_ar: string;
+  unit: string | null;
+  sort_order: number;
+  is_active: boolean;
+  limit_value: number | null;
+  tier: FeatureTier | null;
+  is_addon: boolean;
+};
+
 export type CompanyRow = Auditable & {
   id: string;
   code: string;
+  /** §Plans — null means the legacy max_* columns still govern this company. */
+  plan_id: string | null;
   name_ar: string;
   name_en: string;
   trade_name: string | null;
@@ -387,7 +658,11 @@ export type AppUserRow = Auditable & {
   timezone: string;
   hire_date: string | null;
   system_access_start_date: string | null;
-  user_type: string | null;
+  /** Typed and anchored by 0026; the entity columns below must agree with it. */
+  user_type: UserType;
+  affiliate_id: string | null;
+  store_id: string | null;
+  supplier_id: string | null;
   status: UserStatus;
   working_hours: Json;
   working_days: number[];
@@ -1914,6 +2189,21 @@ export type Database = {
   public: {
     Tables: {
       companies: Table<CompanyRow, 'code' | 'name_ar' | 'name_en'>;
+
+      // plans & entitlements — 0023/0024
+      features: Table<FeatureRow, 'code' | 'kind' | 'name_en' | 'name_ar'>;
+      plans: Table<PlanRow, 'code' | 'name_en' | 'name_ar'>;
+      plan_entitlements: Table<PlanEntitlementRow, 'plan_id' | 'feature_id'>;
+      company_entitlements: Table<CompanyEntitlementRow, 'company_id' | 'feature_id'>;
+
+      // organisation & KPIs — 0025
+      kpi_definitions: Table<KpiDefinitionRow, 'company_id' | 'department_id' | 'code' | 'name_en' | 'name_ar'>;
+      kpi_entries: Table<KpiEntryRow, 'kpi_id' | 'company_id' | 'subject' | 'period_start' | 'period_end'>;
+
+      // users, customers & affiliates — 0026
+      affiliates: Table<AffiliateRow, 'company_id' | 'code' | 'name' | 'referral_code'>;
+      affiliate_commissions: Table<AffiliateCommissionRow, 'company_id' | 'affiliate_id' | 'order_id'>;
+      customer_links: Table<CustomerLinkRow, 'customer_id' | 'company_id'>;
       merchants: Table<MerchantRow, 'company_id' | 'code' | 'name'>;
       warehouses: Table<WarehouseRow, 'company_id' | 'code' | 'name'>;
       stores: Table<StoreRow, 'company_id' | 'merchant_id' | 'code' | 'name' | 'platform'>;
@@ -2080,6 +2370,11 @@ export type Database = {
       unmapped_products: { Row: UnmappedProductRow; Relationships: [] };
       mapped_variants: { Row: MappedVariantRow; Relationships: [] };
       confirmation_queue: { Row: ConfirmationQueueRow; Relationships: [] };
+      company_features: { Row: CompanyFeatureRow; Relationships: [] };
+      department_tree: { Row: DepartmentTreeRow; Relationships: [] };
+      kpi_performance: { Row: KpiPerformanceRow; Relationships: [] };
+      affiliate_performance: { Row: AffiliatePerformanceRow; Relationships: [] };
+      customer_directory: { Row: CustomerDirectoryRow; Relationships: [] };
       stock_on_hand: { Row: StockOnHandRow; Relationships: [] };
       courier_scorecard: { Row: CourierScorecardRow; Relationships: [] };
       delayed_shipments: { Row: DelayedShipmentRow; Relationships: [] };
@@ -2110,6 +2405,10 @@ export type Database = {
       };
       /** §3.13 rule 7 — may this variant be sold right now? */
       variant_sellable: { Args: { p_variant_id: string }; Returns: boolean };
+      /** Is this capability active for the company? Override wins over plan. */
+      company_has_feature: { Args: { p_company_id: string; p_feature_code: string }; Returns: boolean };
+      /** Numeric limit for a company, or null for unlimited. */
+      company_limit: { Args: { p_company_id: string; p_feature_code: string }; Returns: number | null };
       /** §4.12 duplicate candidates for one order. */
       find_duplicate_orders: { Args: { p_order_id: string }; Returns: DuplicateOrderRow[] };
       /** §4.6 round-robin target for the next assignment. */

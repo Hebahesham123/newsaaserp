@@ -1265,12 +1265,17 @@ export const en = {
     approved: 'Approved',
     rejected: 'Rejected',
   },
+  userType: {
+    company: 'Company user',
+    merchant: 'Merchant user',
+    affiliate: 'Affiliate user',
+    store: 'Store user',
+    supplier: 'Supplier user',
+  },
   operatingModel: {
-    own_store: 'Company-owned store',
-    multi_store: 'Multi-store',
-    fulfillment_center: 'Fulfillment centre',
-    operations_only: 'Operations management only',
-    marketplace: 'Marketplace',
+    ecommerce_store_management: 'E-Commerce Store Management',
+    fulfillment: 'Fulfillment',
+    operations_only: 'Operations Management Only',
   },
   platform: {
     shopify: 'Shopify',

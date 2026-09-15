@@ -20,7 +20,7 @@ const MERCHANT_STATUS = [
 ] as const;
 
 const OPERATING_MODEL = [
-  'own_store', 'multi_store', 'fulfillment_center', 'operations_only', 'marketplace',
+  'ecommerce_store_management', 'fulfillment', 'operations_only',
 ] as const;
 
 // Not exported: a 'use server' module may only export async functions.

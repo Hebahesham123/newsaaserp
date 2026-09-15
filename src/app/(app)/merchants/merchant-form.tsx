@@ -37,7 +37,7 @@ const STATUSES = [
 ] as const;
 
 const MODELS = [
-  'own_store', 'multi_store', 'fulfillment_center', 'operations_only', 'marketplace',
+  'ecommerce_store_management', 'fulfillment', 'operations_only',
 ] as const;
 
 const SERVICES = [
@@ -86,7 +86,7 @@ export function MerchantForm({
       kind: 'select',
       name: 'operating_model',
       label: t.companies.operatingModel,
-      defaultValue: merchant?.operating_model ?? 'own_store',
+      defaultValue: merchant?.operating_model ?? 'ecommerce_store_management',
       required: true,
       options: MODELS.map((model) => ({ value: model, label: t.operatingModel[model] })),
     },

@@ -12,7 +12,7 @@ export type UserDraft = {
   phone: string | null;
   employee_code: string | null;
   job_title: string | null;
-  user_type: string | null;
+  user_type: string;
   department_id: string | null;
   team_id: string | null;
   manager_id: string | null;
@@ -35,7 +35,9 @@ const STATUSES = [
   'temporarily_suspended', 'blocked', 'resigned', 'terminated', 'archived',
 ] as const;
 
-const USER_TYPES = ['employee', 'merchant', 'contractor', 'integration'] as const;
+// The five parties the brief names. Warehouse is deliberately absent:
+// warehouse access is a data scope, not a kind of user.
+const USER_TYPES = ['company', 'merchant', 'affiliate', 'store', 'supplier'] as const;
 
 function commonFields(
   t: ReturnType<typeof useI18n>['t'],
@@ -70,8 +72,9 @@ function commonFields(
       kind: 'select',
       name: 'user_type',
       label: t.users.userType,
-      defaultValue: user?.user_type ?? 'employee',
-      options: USER_TYPES.map((type) => ({ value: type, label: type })),
+      defaultValue: user?.user_type ?? 'company',
+      required: true,
+      options: USER_TYPES.map((type) => ({ value: type, label: t.userType[type] })),
     },
 
     { kind: 'section', label: t.users.employment },
