@@ -131,6 +131,7 @@ export default async function DepartmentsPage({
                 <Tr key={row.id}>
                   <Td>
                     <TreeRow
+                      id={row.id}
                       depth={row.depth}
                       name={localeName(row)}
                       childCount={row.child_count}

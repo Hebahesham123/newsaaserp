@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { ChevronRight, Building2, Users } from 'lucide-react';
 import { Badge } from '@/components/ui';
 
@@ -14,11 +15,13 @@ import { Badge } from '@/components/ui';
  * order and there is nothing to collapse without shipping client state for it.
  */
 export function TreeRow({
+  id,
   depth,
   name,
   childCount,
   isRoot,
 }: {
+  id: string;
   depth: number;
   name: string;
   childCount: number;
@@ -36,7 +39,12 @@ export function TreeRow({
         <Users className="size-4 shrink-0 text-ink-subtle" aria-hidden />
       )}
 
-      <span className={isRoot ? 'font-medium text-ink' : 'text-ink'}>{name}</span>
+      <Link
+        href={`/departments/${id}`}
+        className={isRoot ? 'font-medium text-ink hover:text-brand' : 'text-ink hover:text-brand'}
+      >
+        {name}
+      </Link>
 
       {childCount > 0 ? (
         <Badge tone="neutral" className="text-[10px]">
