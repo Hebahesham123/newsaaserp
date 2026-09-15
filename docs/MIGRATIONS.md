@@ -1,6 +1,6 @@
 # Running the migrations
 
-All 24 migration files, in the order they must run. They are ordinary SQL and are ordered by filename —
+All 26 migration files, in the order they must run. They are ordinary SQL and are ordered by filename —
 the timestamp prefix *is* the order, so never rename them.
 
 > **Read this first.** These files have been parsed and cross-checked (no duplicate table, type, view,
@@ -38,9 +38,11 @@ the timestamp prefix *is* the order, so never rename them.
 | 22 | `20260824090000_0022_fix_barcode_upsert.sql` | — | Fixes the rule-5 barcode trigger on upsert paths |
 | 23 | `20260915090000_0023_plans_and_modules.sql` | — | Operating models 5→3, plans, features, entitlements, limit enforcement |
 | 24 | `20260915090100_0024_plans_rls_and_seed.sql` | — | Plan RLS + 4 permissions + the feature catalogue and starting grid |
+| 25 | `20260915090200_0025_org_hierarchy_and_kpis.sql` | — | `departments.parent_id` + cycle guard, `department_tree`, KPI definitions/entries + `kpi_performance`, 3 permissions |
+| 26 | `20260915090300_0026_users_customers_affiliates.sql` | — | `affiliates`, order attribution + commissions, `user_type`, `customer_links` + `customer_directory`, 2 permissions |
 
-**Totals:** 87 tables · 67 enum types · 22 views · 223 indexes and unique constraints · 164 RLS policies
-· 114 permission codes across 24 roles.
+**Totals:** 92 tables · 76 enum types · 27 views · 194 indexes · 182 RLS policies
+· 175 permission codes across 24 roles.
 
 ---
 
@@ -51,7 +53,7 @@ Applies every file in order and records what ran, so re-running is safe.
 ```bash
 # Local Postgres in Docker
 npx supabase start
-npx supabase db reset          # drops, recreates, runs all 24 in order
+npx supabase db reset          # drops, recreates, runs all 26 in order
 
 # Or against a hosted project
 npx supabase link --project-ref <your-project-ref>
@@ -84,7 +86,12 @@ psql "$DATABASE_URL" -v ON_ERROR_STOP=1 \
   -f supabase/migrations/20260823090600_0018_finance.sql \
   -f supabase/migrations/20260823090700_0019_finance_rls.sql \
   -f supabase/migrations/20260823090800_0020_reports.sql \
-  -f supabase/migrations/20260823090900_0021_reports_rls.sql
+  -f supabase/migrations/20260823090900_0021_reports_rls.sql \
+  -f supabase/migrations/20260824090000_0022_fix_barcode_upsert.sql \
+  -f supabase/migrations/20260915090000_0023_plans_and_modules.sql \
+  -f supabase/migrations/20260915090100_0024_plans_rls_and_seed.sql \
+  -f supabase/migrations/20260915090200_0025_org_hierarchy_and_kpis.sql \
+  -f supabase/migrations/20260915090300_0026_users_customers_affiliates.sql
 ```
 
 `-v ON_ERROR_STOP=1` matters: without it psql keeps going after a failure and leaves a half-built
