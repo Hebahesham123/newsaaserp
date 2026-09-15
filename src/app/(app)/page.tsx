@@ -26,14 +26,45 @@ import {
 import { Donut, RankedBars, Sparkline, StatusBars, type DonutSlice } from '@/components/ui/charts';
 import { DateTime } from '@/components/status-badge';
 import { buildSyncMetrics, syncWindowStart } from '@/lib/metrics';
+import { loadCompanyDashboard } from '@/lib/dashboard';
+import { CompanyDashboardView } from './company-dashboard';
 
 const WINDOW_DAYS = 14;
 
+/**
+ * §Dashboard — dynamic by audience.
+ *
+ * A platform admin has no company of their own, so the system-level view below
+ * is what they need: merchants, stores, users, warehouses and sync health. A
+ * client user instead gets the operational dashboard for the modules their plan
+ * activates, which is composed in `lib/dashboard.ts`.
+ *
+ * The split is on `company_id` rather than on a permission, because it is a
+ * question of *whose* data there is to show, not of what the viewer may see.
+ */
 export default async function DashboardPage() {
   const session = await requireSession();
   const t = await getDictionary();
   const locale = await getLocale();
   const supabase = await createServerSupabase();
+
+  if (session.profile.company_id) {
+    const data = await loadCompanyDashboard(session);
+
+    return (
+      <>
+        <PageHeader
+          title={t.dashboard.overview}
+          subtitle={`${session.company?.name_en ?? t.app.tagline} · ${session.profile.full_name}`}
+        />
+        <CompanyDashboardView
+          data={data}
+          t={t}
+          currency={session.company?.base_currency ?? 'EGP'}
+        />
+      </>
+    );
+  }
 
   // Read the clock once, in a helper, and derive everything from that reading.
   const windowStart = syncWindowStart(WINDOW_DAYS);
