@@ -22,6 +22,7 @@ const departmentSchema = z.object({
   name_en: z.string().trim().min(2, 'Required').max(200),
   name_ar: z.string().trim().min(2, 'Required').max(200),
   manager_id: z.string().trim().optional(),
+  parent_id: z.string().trim().optional(),
   description: z.string().trim().max(1000).optional(),
 });
 
@@ -41,6 +42,7 @@ export async function createDepartment(_prev: ActionState, formData: FormData): 
     name_en: parsed.data.name_en,
     name_ar: parsed.data.name_ar,
     manager_id: nullIfBlank(parsed.data.manager_id),
+    parent_id: nullIfBlank(parsed.data.parent_id),
     description: nullIfBlank(parsed.data.description),
     is_active: checkbox(formData, 'is_active'),
     created_by: session.profile.id,
@@ -63,6 +65,10 @@ export async function updateDepartment(_prev: ActionState, formData: FormData): 
   const parsed = departmentSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { fieldErrors: fieldErrorsFrom(parsed.error) };
 
+  if (nullIfBlank(parsed.data.parent_id) === id) {
+    return { fieldErrors: { parent_id: 'A department cannot be its own parent.' } };
+  }
+
   const supabase = await createServerSupabase();
   const { error } = await supabase
     .from('departments')
@@ -71,6 +77,10 @@ export async function updateDepartment(_prev: ActionState, formData: FormData): 
       name_en: parsed.data.name_en,
       name_ar: parsed.data.name_ar,
       manager_id: nullIfBlank(parsed.data.manager_id),
+      // A department cannot be its own parent or a descendant of itself; the
+      // 0025 trigger walks the chain and refuses either. Blocking the obvious
+      // case here keeps the message on the field the user has to fix.
+      parent_id: nullIfBlank(parsed.data.parent_id),
       description: nullIfBlank(parsed.data.description),
       is_active: checkbox(formData, 'is_active'),
       updated_by: session.profile.id,

@@ -529,6 +529,7 @@ export const en = {
     customerNotes: 'Customer notes',
   },
   customers: {
+    relationships: 'Stores & merchants',
     title: 'Customers',
     subtitle: 'One record per phone number, with the full order history behind it (§4.8)',
     editTitle: 'Edit customer',
@@ -1129,6 +1130,9 @@ export const en = {
     scopeTemplate: 'Template',
   },
   org: {
+    parentDepartment: 'Parent department',
+    mainDepartment: 'Main department (no parent)',
+    parentHint: 'Leave empty to make this a main department. Any depth is allowed.',
     departmentsSubtitle: 'Operational departments within the company (§2.8.1)',
     teamsSubtitle: 'Working teams, their routing dimensions and capacity (§2.8.2)',
     shiftsSubtitle: 'Working patterns, breaks and handover rules (§2.8.3)',

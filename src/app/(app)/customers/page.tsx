@@ -19,10 +19,12 @@ export default async function CustomersPage({
   const locale = await getLocale();
   const supabase = await createServerSupabase();
 
+  // `customer_directory` is the same identity with the breadth of its
+  // relationships attached — how many stores and merchants it has ordered from.
+  // §Customers asks for that breadth on the list, not just in the profile.
   let query = supabase
-    .from('customers')
+    .from('customer_directory')
     .select('*')
-    .is('archived_at', null)
     .order('last_order_at', { ascending: false, nullsFirst: false })
     .limit(200);
 
@@ -73,6 +75,7 @@ export default async function CustomersPage({
                 <Th>{t.orders.customerName}</Th>
                 <Th>{t.orders.phone}</Th>
                 <Th>{t.orders.governorate}</Th>
+                <Th>{t.customers.relationships}</Th>
                 <Th className="text-end">{t.customers.ordersCount}</Th>
                 <Th className="text-end">{t.customers.cancelledCount}</Th>
                 <Th className="text-end">{t.customers.lifetimeValue}</Th>
@@ -87,9 +90,9 @@ export default async function CustomersPage({
                 const phone = applyFieldPolicy(session, 'customers', 'phone', customer.phone);
 
                 return (
-                  <Tr key={customer.id}>
+                  <Tr key={customer.customer_id}>
                     <Td className="font-medium">
-                      <Link href={`/customers/${customer.id}`} className="text-brand hover:underline">
+                      <Link href={`/customers/${customer.customer_id}`} className="text-brand hover:underline">
                         {customer.name}
                       </Link>
                       {customer.is_blacklisted ? (
@@ -101,11 +104,22 @@ export default async function CustomersPage({
                     <Td className="tnum text-ink-muted" dir="ltr">
                       {phone ?? '—'}
                     </Td>
-                    <Td className="text-ink-muted">{customer.governorate ?? '—'}</Td>
+                    <Td className="text-ink-muted">
+                      {customer.store_count > 0 ? (
+                        <span title={customer.store_names ?? undefined}>
+                          {customer.store_count} {t.nav.stores}
+                          {customer.merchant_count > 1
+                            ? ` · ${customer.merchant_count} ${t.nav.merchants}`
+                            : ''}
+                        </span>
+                      ) : (
+                        '—'
+                      )}
+                    </Td>
                     <Td className="tnum text-end">{customer.orders_count}</Td>
                     <Td className="tnum text-end text-ink-muted">{customer.cancelled_count}</Td>
                     <Td className="text-end">
-                      <Money amount={customer.lifetime_value} />
+                      <Money amount={customer.total_spent} />
                     </Td>
                     <Td className="text-end">
                       <RiskBadge score={customer.risk_score} />
@@ -118,7 +132,7 @@ export default async function CustomersPage({
                         <div className="flex items-center justify-end gap-1">
                           <CustomerForm
                             customer={{
-                              id: customer.id,
+                              id: customer.customer_id,
                               name: customer.name,
                               phone: customer.phone,
                               alt_phone: customer.alt_phone,

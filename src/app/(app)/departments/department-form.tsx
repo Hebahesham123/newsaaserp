@@ -10,6 +10,7 @@ export type DepartmentDraft = {
   name_en: string;
   name_ar: string;
   manager_id: string | null;
+  parent_id: string | null;
   description: string | null;
   is_active: boolean;
 };
@@ -17,10 +18,13 @@ export type DepartmentDraft = {
 export function DepartmentForm({
   department,
   managers,
+  parents,
   companies,
 }: {
   department?: DepartmentDraft;
   managers: { id: string; name: string }[];
+  /** Candidate parents, already indented by depth and excluding descendants. */
+  parents: { id: string; name: string }[];
   companies?: { id: string; name: string }[];
 }) {
   const { t } = useI18n();
@@ -49,6 +53,16 @@ export function DepartmentForm({
       label: t.users.manager,
       defaultValue: department?.manager_id,
       options: managers.map((manager) => ({ value: manager.id, label: manager.name })),
+    },
+    {
+      kind: 'select',
+      name: 'parent_id',
+      label: t.org.parentDepartment,
+      defaultValue: department?.parent_id,
+      placeholder: t.org.mainDepartment,
+      hint: t.org.parentHint,
+      full: true,
+      options: parents.map((parent) => ({ value: parent.id, label: parent.name })),
     },
     { kind: 'text', name: 'name_ar', label: t.companies.nameAr, defaultValue: department?.name_ar, required: true },
     { kind: 'text', name: 'name_en', label: t.companies.nameEn, defaultValue: department?.name_en, required: true, dir: 'ltr' },

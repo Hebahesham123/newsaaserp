@@ -8,6 +8,7 @@ import {
   EmptyState,
   PageHeader,
   Table,
+  Tabs,
   Td,
   Th,
   Tr,
@@ -25,13 +26,26 @@ const STATUSES = [
   'temporarily_suspended', 'blocked', 'resigned', 'terminated', 'archived',
 ] as const;
 
+/**
+ * The five parties the brief names, in tab order.
+ *
+ * Warehouse is deliberately absent: warehouse access is a data scope held in
+ * `user_data_scopes`, not a kind of user, so it is controlled by permissions
+ * rather than by which list a person appears in.
+ */
+const USER_TYPES = ['company', 'merchant', 'affiliate', 'store', 'supplier'] as const;
+type UserTypeTab = (typeof USER_TYPES)[number];
+
 export default async function UsersPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; status?: string; archived?: string }>;
+  searchParams: Promise<{ q?: string; status?: string; archived?: string; tab?: string }>;
 }) {
   const session = await requirePermission('users.view');
-  const { q, status, archived } = await searchParams;
+  const { q, status, archived, tab } = await searchParams;
+  const activeTab: UserTypeTab = (USER_TYPES as readonly string[]).includes(tab ?? '')
+    ? (tab as UserTypeTab)
+    : 'company';
   const t = await getDictionary();
   const locale = await getLocale();
   const supabase = await createServerSupabase();
@@ -50,6 +64,7 @@ export default async function UsersPage({
 
   const statusFilter = pickFilter(status, STATUSES);
   if (statusFilter) query = query.eq('status', statusFilter);
+  query = query.eq('user_type', activeTab);
   query = archived ? query.not('archived_at', 'is', null) : query.is('archived_at', null);
 
   const [{ data: users }, { data: departments }, { data: teams }, { data: merchants }, { data: roles }, companiesResult] =
@@ -70,6 +85,21 @@ export default async function UsersPage({
         ? Promise.resolve({ data: null })
         : supabase.from('companies').select('id, name_en, name_ar').is('archived_at', null).order('name_en'),
     ]);
+
+  // One count per tab. Head-only queries, and RLS already restricts them to what
+  // this user may see, so a chip never advertises rows they cannot open.
+  const counts = Object.fromEntries(
+    await Promise.all(
+      USER_TYPES.map(async (type) => {
+        const { count } = await supabase
+          .from('app_users')
+          .select('id', { count: 'exact', head: true })
+          .eq('user_type', type)
+          .is('archived_at', null);
+        return [type, count ?? 0] as const;
+      }),
+    ),
+  ) as Record<UserTypeTab, number>;
 
   const departmentOptions = (departments ?? []).map((d) => ({
     id: d.id,
@@ -110,6 +140,15 @@ export default async function UsersPage({
             />
           ) : null
         }
+      />
+
+      <Tabs
+        active={`/users?tab=${activeTab}`}
+        items={USER_TYPES.map((type) => ({
+          href: `/users?tab=${type}`,
+          label: t.userType[type],
+          count: counts[type],
+        }))}
       />
 
       <Toolbar

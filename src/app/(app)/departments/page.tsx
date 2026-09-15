@@ -2,12 +2,21 @@ import { requirePermission, can } from '@/lib/auth/session';
 import { getDictionary, getLocale } from '@/i18n/server';
 import { createServerSupabase } from '@/lib/supabase/server';
 import { Badge, Card, EmptyState, PageHeader, Table, Td, Th, Tr } from '@/components/ui';
-import { Toolbar } from '@/components/form/toolbar';
 import { ActionButton } from '@/components/form/action-button';
+import { Toolbar } from '@/components/form/toolbar';
 import { searchTerm } from '@/lib/filters';
 import { DepartmentForm } from './department-form';
 import { archiveDepartment } from './actions';
+import { TreeRow } from './tree-row';
 
+/**
+ * §Departments — the organisational tree.
+ *
+ * Reads `department_tree`, which already carries depth, a readable path and the
+ * child/user counts. Doing the recursion in the database means this page is one
+ * query regardless of how deep the hierarchy goes, and the same shape backs the
+ * KPI screen's department picker.
+ */
 export default async function DepartmentsPage({
   searchParams,
 }: {
@@ -19,30 +28,65 @@ export default async function DepartmentsPage({
   const locale = await getLocale();
   const supabase = await createServerSupabase();
 
-  let query = supabase
-    .from('departments')
-    .select('*, app_users!departments_manager_id_fkey(full_name), teams(count)')
-    .order('name_en');
-
-  const term = searchTerm(q);
-  if (term) query = query.or(`name_en.ilike.%${term}%,name_ar.ilike.%${term}%,code.ilike.%${term}%`);
-  query = archived ? query.not('archived_at', 'is', null) : query.is('archived_at', null);
-
-  const [{ data: departments }, { data: staff }, companiesResult] = await Promise.all([
-    query,
-    supabase.from('app_users').select('id, full_name').is('archived_at', null).order('full_name'),
+  const [{ data: tree }, { data: managers }, companiesResult] = await Promise.all([
+    supabase.from('department_tree').select('*').order('path'),
+    supabase
+      .from('app_users')
+      .select('id, full_name')
+      .eq('status', 'active')
+      .is('archived_at', null)
+      .order('full_name'),
     session.profile.company_id
       ? Promise.resolve({ data: null })
       : supabase.from('companies').select('id, name_en, name_ar').is('archived_at', null).order('name_en'),
   ]);
 
-  const managerOptions = (staff ?? []).map((u) => ({ id: u.id, name: u.full_name }));
-  const companyOptions = (companiesResult.data ?? []).map((c) => ({
-    id: c.id,
-    name: locale === 'ar' ? c.name_ar : c.name_en,
-  }));
+  const term = searchTerm(q);
+  const showArchived = Boolean(archived);
+
+  // Filtering happens here rather than in the query: hiding a parent would
+  // orphan its children visually, so a match keeps its whole ancestor chain.
+  const all = tree ?? [];
+  const matches = all.filter((row) => {
+    if (showArchived !== (row.archived_at != null)) return false;
+    if (!term) return true;
+    const haystack = `${row.code} ${row.name_en} ${row.name_ar}`.toLowerCase();
+    return haystack.includes(term.toLowerCase());
+  });
+
+  const keepIds = new Set<string>();
+  for (const row of matches) for (const id of row.ancestry) keepIds.add(id);
+
+  const visible = all.filter(
+    (row) => keepIds.has(row.id) && showArchived === (row.archived_at != null),
+  );
+
+  const localeName = (row: { name_en: string; name_ar: string }) =>
+    locale === 'ar' ? row.name_ar : row.name_en;
+
+  const managerOptions = (managers ?? []).map((m) => ({ id: m.id, name: m.full_name }));
+  const managerName = (id: string | null) =>
+    id ? (managerOptions.find((m) => m.id === id)?.name ?? '—') : '—';
+
+  const companyOptions = session.profile.company_id
+    ? undefined
+    : (companiesResult.data ?? []).map((c) => ({
+        id: c.id,
+        name: locale === 'ar' ? c.name_ar : c.name_en,
+      }));
 
   const canManage = can(session, 'departments.manage');
+
+  /** A department may not be re-parented under itself or any of its own descendants. */
+  const parentOptionsFor = (departmentId?: string) =>
+    all
+      .filter((row) => row.archived_at == null)
+      .filter((row) => !departmentId || !row.ancestry.includes(departmentId))
+      .map((row) => ({
+        id: row.id,
+        // Non-breaking spaces so the nesting survives inside a <select>.
+        name: `${'  '.repeat(row.depth)}${localeName(row)}`,
+      }));
 
   return (
     <>
@@ -53,79 +97,96 @@ export default async function DepartmentsPage({
           canManage ? (
             <DepartmentForm
               managers={managerOptions}
-              companies={session.profile.company_id ? undefined : companyOptions}
+              parents={parentOptionsFor()}
+              companies={companyOptions}
             />
           ) : null
         }
       />
 
-      <Toolbar placeholder={t.nav.departments} />
+      <Toolbar
+        placeholder={t.nav.departments}
+        filters={[
+          { name: 'archived', label: t.common.archived, options: [{ value: '1', label: t.common.yes }] },
+        ]}
+      />
 
       <Card>
-        {!departments || departments.length === 0 ? (
+        {visible.length === 0 ? (
           <EmptyState title={t.common.noResults} hint={t.org.departmentsSubtitle} />
         ) : (
           <Table>
             <thead>
               <tr>
-                <Th>{t.common.code}</Th>
                 <Th>{t.common.name}</Th>
+                <Th>{t.common.code}</Th>
                 <Th>{t.users.manager}</Th>
-                <Th>{t.common.description}</Th>
-                <Th className="text-end">{t.nav.teams}</Th>
+                <Th className="text-end">{t.companies.userCount}</Th>
                 <Th>{t.common.status}</Th>
                 {canManage ? <Th className="text-end">{t.common.actions}</Th> : null}
               </tr>
             </thead>
             <tbody>
-              {departments.map((department) => {
-                const manager = department.app_users as unknown as { full_name: string } | null;
-                const teamCount =
-                  (department.teams as unknown as { count: number }[] | null)?.[0]?.count ?? 0;
-
-                return (
-                  <Tr key={department.id}>
-                    <Td className="tnum font-medium">{department.code}</Td>
+              {visible.map((row) => (
+                <Tr key={row.id}>
+                  <Td>
+                    <TreeRow
+                      depth={row.depth}
+                      name={localeName(row)}
+                      childCount={row.child_count}
+                      isRoot={row.parent_id === null}
+                    />
+                  </Td>
+                  <Td className="tnum text-ink-muted" dir="ltr">
+                    {row.code}
+                  </Td>
+                  <Td className="text-ink-muted">{managerName(row.manager_id)}</Td>
+                  <Td className="tnum text-end text-ink-muted">{row.user_count}</Td>
+                  <Td>
+                    <Badge tone={row.is_active ? 'success' : 'neutral'}>
+                      {row.is_active ? t.common.active : t.common.inactive}
+                    </Badge>
+                  </Td>
+                  {canManage ? (
                     <Td>
-                      {locale === 'ar' ? department.name_ar : department.name_en}
-                      <span className="block text-xs text-ink-subtle">
-                        {locale === 'ar' ? department.name_en : department.name_ar}
-                      </span>
+                      <div className="flex items-center justify-end gap-1">
+                        <DepartmentForm
+                          department={{
+                            id: row.id,
+                            code: row.code,
+                            name_en: row.name_en,
+                            name_ar: row.name_ar,
+                            manager_id: row.manager_id,
+                            parent_id: row.parent_id,
+                            description: null,
+                            is_active: row.is_active,
+                          }}
+                          managers={managerOptions}
+                          parents={parentOptionsFor(row.id)}
+                        />
+                        <ActionButton
+                          action={archiveDepartment}
+                          fields={row.archived_at ? { id: row.id, restore: '1' } : { id: row.id }}
+                          label={row.archived_at ? t.common.unarchive : t.common.archive}
+                          icon={row.archived_at ? 'restore' : 'archive'}
+                          confirm={row.archived_at ? undefined : t.common.archiveConfirm}
+                          iconOnly
+                        />
+                      </div>
                     </Td>
-                    <Td className="text-ink-muted">{manager?.full_name ?? '—'}</Td>
-                    <Td className="max-w-72 truncate text-ink-muted">{department.description ?? '—'}</Td>
-                    <Td className="tnum text-end">{teamCount}</Td>
-                    <Td>
-                      <Badge tone={department.is_active ? 'success' : 'neutral'}>
-                        {department.is_active ? t.common.active : t.common.inactive}
-                      </Badge>
-                    </Td>
-                    {canManage ? (
-                      <Td>
-                        <div className="flex items-center justify-end gap-1">
-                          <DepartmentForm department={department} managers={managerOptions} />
-                          <ActionButton
-                            action={archiveDepartment}
-                            fields={
-                              department.archived_at
-                                ? { id: department.id, restore: '1' }
-                                : { id: department.id }
-                            }
-                            label={department.archived_at ? t.common.unarchive : t.common.archive}
-                            icon={department.archived_at ? 'restore' : 'archive'}
-                            confirm={department.archived_at ? undefined : t.common.archiveConfirm}
-                            iconOnly
-                          />
-                        </div>
-                      </Td>
-                    ) : null}
-                  </Tr>
-                );
-              })}
+                  ) : null}
+                </Tr>
+              ))}
             </tbody>
           </Table>
         )}
       </Card>
+
+      {visible.length > 0 ? (
+        <p className="mt-3 text-xs text-ink-subtle">
+          {t.common.showing} {visible.length} {t.common.results}
+        </p>
+      ) : null}
     </>
   );
 }

@@ -423,9 +423,14 @@ export type CustomerDirectoryRow = {
   name: string;
   phone: string;
   email: string | null;
+  alt_phone: string | null;
   governorate: string | null;
   city: string | null;
+  address: string | null;
+  preferred_language: string;
+  notes: string | null;
   orders_count: number;
+  cancelled_count: number;
   total_spent: number;
   risk_score: number;
   is_blacklisted: boolean;
@@ -685,6 +690,8 @@ export type DepartmentRow = Auditable & {
   name_ar: string;
   name_en: string;
   manager_id: string | null;
+  /** Null means a main department. Any depth is permitted (0025). */
+  parent_id: string | null;
   description: string | null;
   is_active: boolean;
 };

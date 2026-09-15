@@ -530,6 +530,7 @@ export const ar: Dictionary = {
     customerNotes: 'ملاحظات العميل',
   },
   customers: {
+    relationships: 'المتاجر والتجار',
     title: 'العملاء',
     subtitle: 'سجل واحد لكل رقم موبايل، وخلفه تاريخ الطلبات كاملًا (§4.8)',
     editTitle: 'تعديل العميل',
@@ -1130,6 +1131,9 @@ export const ar: Dictionary = {
     scopeTemplate: 'قالب',
   },
   org: {
+    parentDepartment: 'القسم الرئيسي التابع له',
+    mainDepartment: 'قسم رئيسي (بدون تبعية)',
+    parentHint: 'اتركه فارغًا ليكون قسمًا رئيسيًا. يمكن التداخل لأي عدد من المستويات.',
     departmentsSubtitle: 'الأقسام التشغيلية داخل الشركة (§2.8.1)',
     teamsSubtitle: 'فرق العمل وأبعاد التوزيع والطاقة الاستيعابية (§2.8.2)',
     shiftsSubtitle: 'أنماط العمل والراحات وقواعد التسليم (§2.8.3)',
