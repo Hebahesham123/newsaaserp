@@ -17,8 +17,11 @@ import { can, type Session } from '@/lib/auth/session';
  * the data behind it. Queries behind a closed gate are never issued, so an
  * unsubscribed client does not pay for numbers they will not be shown.
  *
- * Every count is a head-only query running under RLS, so a figure can never
- * include a row the viewer could not have opened directly.
+ * Every query is scoped to one company explicitly rather than left to RLS. RLS
+ * is still what *stops* a client reading another tenant, but a platform admin
+ * may legitimately read them all — so relying on it alone would sum every
+ * tenant into one set of figures the moment a super admin looked. The explicit
+ * filter is what lets "view this client's dashboard" mean one client.
  */
 
 export type ActiveModules = {
@@ -83,6 +86,15 @@ export type CompanyDashboard = {
 
 const OPEN_ORDER_STATUSES = '("confirmed","cancelled","ready_for_warehouse")';
 
+/** A platform admin who has not picked a client has no company to report on. */
+const NO_COMPANY: CompanyDashboard = {
+  modules: { fulfillment: false, ecommerce: false, operations: false },
+  fulfillment: null,
+  ecommerce: null,
+  attention: [],
+  funnel: [],
+};
+
 function startOfToday(): string {
   const now = new Date();
   return new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString();
@@ -98,7 +110,8 @@ function startOfMonth(): string {
  *
  * A company with no plan assigned falls back to both operational modules. That
  * keeps every tenant that existed before plans were introduced working exactly
- * as it did, rather than silently emptying their dashboard.
+ * as it did, rather than silently emptying their dashboard — and it is also why
+ * this screen works before the plan migrations have been applied.
  */
 export async function loadActiveModules(companyId: string | null): Promise<ActiveModules> {
   if (!companyId) return { fulfillment: false, ecommerce: false, operations: false };
@@ -123,9 +136,20 @@ export async function loadActiveModules(companyId: string | null): Promise<Activ
   };
 }
 
-export async function loadCompanyDashboard(session: Session): Promise<CompanyDashboard> {
+/**
+ * @param companyIdOverride a company to read instead of the viewer's own — the
+ *   platform admin's "view as client". RLS still decides whether that read is
+ *   permitted at all; this only narrows it.
+ */
+export async function loadCompanyDashboard(
+  session: Session,
+  companyIdOverride?: string | null,
+): Promise<CompanyDashboard> {
+  const companyId = companyIdOverride ?? session.profile.company_id;
+  if (!companyId) return NO_COMPANY;
+
   const supabase = await createServerSupabase();
-  const modules = await loadActiveModules(session.profile.company_id);
+  const modules = await loadActiveModules(companyId);
 
   const canOrders = can(session, 'orders.view');
   const canShipping = can(session, 'shipping.view');
@@ -157,21 +181,28 @@ export async function loadCompanyDashboard(session: Session): Promise<CompanyDas
       delayed,
       processing,
     ] = await Promise.all([
-      supabase.from('orders').select('*', { count: 'exact', head: true }).is('archived_at', null),
       supabase
         .from('orders')
         .select('*', { count: 'exact', head: true })
+        .eq('company_id', companyId)
+        .is('archived_at', null),
+      supabase
+        .from('orders')
+        .select('*', { count: 'exact', head: true })
+        .eq('company_id', companyId)
         .eq('status', 'ready_for_warehouse')
         .is('archived_at', null),
       supabase
         .from('orders')
         .select('*', { count: 'exact', head: true })
+        .eq('company_id', companyId)
         .eq('status', 'cancelled')
         .is('archived_at', null),
       canWarehouse
         ? supabase
             .from('warehouse_tasks')
             .select('*', { count: 'exact', head: true })
+            .eq('company_id', companyId)
             .eq('task_type', 'picking')
             .in('status', ['pending', 'assigned', 'in_progress'])
         : Promise.resolve({ count: 0 }),
@@ -179,25 +210,34 @@ export async function loadCompanyDashboard(session: Session): Promise<CompanyDas
         ? supabase
             .from('shipments')
             .select('*', { count: 'exact', head: true })
+            .eq('company_id', companyId)
             .eq('status', 'ready_to_ship')
         : Promise.resolve({ count: 0 }),
       canShipping
         ? supabase
             .from('shipments')
             .select('*', { count: 'exact', head: true })
+            .eq('company_id', companyId)
             .not('handed_over_at', 'is', null)
         : Promise.resolve({ count: 0 }),
       canShipping
         ? supabase
             .from('shipments')
             .select('*', { count: 'exact', head: true })
+            .eq('company_id', companyId)
             .eq('status', 'delivered')
         : Promise.resolve({ count: 0 }),
       canShipping
-        ? supabase.from('returns').select('*', { count: 'exact', head: true })
+        ? supabase
+            .from('returns')
+            .select('*', { count: 'exact', head: true })
+            .eq('company_id', companyId)
         : Promise.resolve({ count: 0 }),
       canShipping
-        ? supabase.from('delayed_shipments').select('*', { count: 'exact', head: true })
+        ? supabase
+            .from('delayed_shipments')
+            .select('*', { count: 'exact', head: true })
+            .eq('company_id', companyId)
         : Promise.resolve({ count: 0 }),
       // Averaging in SQL would need an aggregate the view layer does not expose,
       // so a bounded sample is fetched and averaged here. Bounded deliberately:
@@ -206,6 +246,7 @@ export async function loadCompanyDashboard(session: Session): Promise<CompanyDas
         ? supabase
             .from('shipments')
             .select('handed_over_at, orders(confirmed_at)')
+            .eq('company_id', companyId)
             .not('handed_over_at', 'is', null)
             .order('handed_over_at', { ascending: false })
             .limit(200)
@@ -267,35 +308,51 @@ export async function loadCompanyDashboard(session: Session): Promise<CompanyDas
         supabase
           .from('orders')
           .select('total, store_id')
+          .eq('company_id', companyId)
           .gte('order_date', today)
           .is('archived_at', null),
         supabase
           .from('orders')
           .select('total')
+          .eq('company_id', companyId)
           .gte('order_date', monthStart)
           .neq('status', 'cancelled')
           .is('archived_at', null),
         supabase
           .from('orders')
           .select('*', { count: 'exact', head: true })
+          .eq('company_id', companyId)
           .not('status', 'in', OPEN_ORDER_STATUSES)
           .is('archived_at', null),
         supabase
           .from('orders')
           .select('*', { count: 'exact', head: true })
+          .eq('company_id', companyId)
           .eq('status', 'cancelled')
           .is('archived_at', null),
         canShipping
-          ? supabase.from('returns').select('*', { count: 'exact', head: true })
+          ? supabase
+              .from('returns')
+              .select('*', { count: 'exact', head: true })
+              .eq('company_id', companyId)
           : Promise.resolve({ count: 0 }),
-        supabase.from('stores').select('id, name, status, last_sync_status').is('archived_at', null),
+        supabase
+          .from('stores')
+          .select('id, name, status, last_sync_status')
+          .eq('company_id', companyId)
+          .is('archived_at', null),
         canInventory
-          ? supabase.from('stock_on_hand').select('available, needs_reorder').limit(1000)
+          ? supabase
+              .from('stock_on_hand')
+              .select('available, needs_reorder')
+              .eq('company_id', companyId)
+              .limit(1000)
           : Promise.resolve({ data: null }),
         canProducts
           ? supabase
               .from('order_items')
               .select('sku, quantity')
+              .eq('company_id', companyId)
               .not('sku', 'is', null)
               .limit(1000)
           : Promise.resolve({ data: null }),
@@ -370,15 +427,20 @@ export async function loadCompanyDashboard(session: Session): Promise<CompanyDas
       ? supabase
           .from('approval_requests')
           .select('*', { count: 'exact', head: true })
+          .eq('company_id', companyId)
           .eq('status', 'pending')
       : Promise.resolve({ count: 0 }),
     canProducts
-      ? supabase.from('unmapped_products').select('*', { count: 'exact', head: true })
+      ? supabase
+          .from('unmapped_products')
+          .select('*', { count: 'exact', head: true })
+          .eq('company_id', companyId)
       : Promise.resolve({ count: 0 }),
     canSync
       ? supabase
           .from('sync_log')
           .select('*', { count: 'exact', head: true })
+          .eq('company_id', companyId)
           .eq('status', 'failed')
           .gte('started_at', new Date(Date.now() - 7 * 86_400_000).toISOString())
       : Promise.resolve({ count: 0 }),
@@ -406,15 +468,21 @@ export async function loadCompanyDashboard(session: Session): Promise<CompanyDas
 
   if (canOrders) {
     const [received, confirmed, fulfilled] = await Promise.all([
-      supabase.from('orders').select('*', { count: 'exact', head: true }).is('archived_at', null),
       supabase
         .from('orders')
         .select('*', { count: 'exact', head: true })
+        .eq('company_id', companyId)
+        .is('archived_at', null),
+      supabase
+        .from('orders')
+        .select('*', { count: 'exact', head: true })
+        .eq('company_id', companyId)
         .not('confirmed_at', 'is', null)
         .is('archived_at', null),
       supabase
         .from('orders')
         .select('*', { count: 'exact', head: true })
+        .eq('company_id', companyId)
         .eq('status', 'ready_for_warehouse')
         .is('archived_at', null),
     ]);

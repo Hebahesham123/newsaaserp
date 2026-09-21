@@ -42,8 +42,13 @@ const WINDOW_DAYS = 14;
  * The split is on `company_id` rather than on a permission, because it is a
  * question of *whose* data there is to show, not of what the viewer may see.
  */
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ company?: string }>;
+}) {
   const session = await requireSession();
+  const { company: companyParam } = await searchParams;
   const t = await getDictionary();
   const locale = await getLocale();
   const supabase = await createServerSupabase();
@@ -62,6 +67,63 @@ export default async function DashboardPage() {
           t={t}
           currency={session.company?.base_currency ?? 'EGP'}
         />
+      </>
+    );
+  }
+
+  /**
+   * A platform admin has no company of their own, so there is no single client
+   * dashboard to show them by default. They pick one and then see exactly what
+   * that client's own staff would see -- same loader, same module and permission
+   * gates -- which is the only way to check a client's setup without their
+   * password. RLS still decides whether the read is allowed; picking a company
+   * narrows the query, it does not widen access.
+   */
+  const { data: companyRows } = await supabase
+    .from('companies')
+    .select('id, name_en, name_ar, base_currency')
+    .is('archived_at', null)
+    .order('name_en');
+
+  const companies = companyRows ?? [];
+  const viewing = companyParam ? companies.find((row) => row.id === companyParam) : undefined;
+  const companyName = (row: { name_en: string; name_ar: string }) =>
+    locale === 'ar' ? row.name_ar : row.name_en;
+
+  const companyPicker =
+    companies.length > 0 ? (
+      <Card className="mb-6">
+        <CardHeaderRow title={t.dashboard.pickCompany} />
+        <CardBody>
+          <div className="flex flex-wrap gap-2">
+            <Link href="/" className={!viewing ? 'rounded-lg border border-brand bg-brand/10 px-3 py-1.5 text-sm font-medium text-brand' : 'rounded-lg border border-border px-3 py-1.5 text-sm text-ink-muted transition-colors hover:border-border-strong hover:bg-surface-muted hover:text-ink'}>
+              {t.dashboard.platformView}
+            </Link>
+            {companies.map((row) => (
+              <Link
+                key={row.id}
+                href={`/?company=${row.id}` as Route}
+                className={viewing?.id === row.id ? 'rounded-lg border border-brand bg-brand/10 px-3 py-1.5 text-sm font-medium text-brand' : 'rounded-lg border border-border px-3 py-1.5 text-sm text-ink-muted transition-colors hover:border-border-strong hover:bg-surface-muted hover:text-ink'}
+              >
+                {companyName(row)}
+              </Link>
+            ))}
+          </div>
+        </CardBody>
+      </Card>
+    ) : null;
+
+  if (viewing) {
+    const data = await loadCompanyDashboard(session, viewing.id);
+
+    return (
+      <>
+        <PageHeader
+          title={t.dashboard.overview}
+          subtitle={`${t.dashboard.viewingAs} ${companyName(viewing)}`}
+        />
+        {companyPicker}
+        <CompanyDashboardView data={data} t={t} currency={viewing.base_currency ?? 'EGP'} />
       </>
     );
   }
@@ -170,6 +232,8 @@ export default async function DashboardPage() {
   return (
     <>
       <PageHeader title={t.dashboard.overview} subtitle={`${t.app.tagline} · ${session.profile.full_name}`} />
+
+      {companyPicker}
 
       {isFresh ? (
         <div className="mb-6">
