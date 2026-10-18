@@ -1,6 +1,6 @@
 # Running the migrations
 
-All 26 migration files, in the order they must run. They are ordinary SQL and are ordered by filename —
+All 29 migration files, in the order they must run. They are ordinary SQL and are ordered by filename —
 the timestamp prefix *is* the order, so never rename them.
 
 > **Read this first.** These files have been parsed and cross-checked (no duplicate table, type, view,
@@ -40,9 +40,12 @@ the timestamp prefix *is* the order, so never rename them.
 | 24 | `20260915090100_0024_plans_rls_and_seed.sql` | — | Plan RLS + 4 permissions + the feature catalogue and starting grid |
 | 25 | `20260915090200_0025_org_hierarchy_and_kpis.sql` | — | `departments.parent_id` + cycle guard, `department_tree`, KPI definitions/entries + `kpi_performance`, 3 permissions |
 | 26 | `20260915090300_0026_users_customers_affiliates.sql` | — | `affiliates`, order attribution + commissions, `user_type`, `customer_links` + `customer_directory`, 2 permissions |
+| 27 | `20261018090000_0027_affiliate_commission_engine.sql` | - | Product commission rules (fixed/percentage/markup), line commission triggers, 2 permissions |
+| 28 | `20261018090100_0028_tickets_sla_kpi.sql` | - | Tickets, ticket types, the SLA gate, KPI impact on confirmed responsibility, 6 permissions |
+| 29 | `20261018090200_0029_orders_list_and_import.sql` | - | Saved views, column preferences, governorates/cities, bulk import, 4 permissions |
 
-**Totals:** 92 tables · 76 enum types · 27 views · 194 indexes · 182 RLS policies
-· 175 permission codes across 24 roles.
+**Totals:** 102 tables · 82 enum types · 29 views · 212 indexes · 201 RLS policies
+· 186 permission codes across 24 roles.
 
 ---
 
@@ -53,7 +56,7 @@ Applies every file in order and records what ran, so re-running is safe.
 ```bash
 # Local Postgres in Docker
 npx supabase start
-npx supabase db reset          # drops, recreates, runs all 26 in order
+npx supabase db reset          # drops, recreates, runs all 29 in order
 
 # Or against a hosted project
 npx supabase link --project-ref <your-project-ref>
@@ -91,7 +94,10 @@ psql "$DATABASE_URL" -v ON_ERROR_STOP=1 \
   -f supabase/migrations/20260915090000_0023_plans_and_modules.sql \
   -f supabase/migrations/20260915090100_0024_plans_rls_and_seed.sql \
   -f supabase/migrations/20260915090200_0025_org_hierarchy_and_kpis.sql \
-  -f supabase/migrations/20260915090300_0026_users_customers_affiliates.sql
+  -f supabase/migrations/20260915090300_0026_users_customers_affiliates.sql \
+  -f supabase/migrations/20261018090000_0027_affiliate_commission_engine.sql \
+  -f supabase/migrations/20261018090100_0028_tickets_sla_kpi.sql \
+  -f supabase/migrations/20261018090200_0029_orders_list_and_import.sql
 ```
 
 `-v ON_ERROR_STOP=1` matters: without it psql keeps going after a failure and leaves a half-built

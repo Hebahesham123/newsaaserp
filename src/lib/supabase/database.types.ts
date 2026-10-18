@@ -1316,9 +1316,280 @@ export type OrderItemRow = {
   total: number;
   position: number;
   notes: string | null;
+  /** Frozen at the moment of sale: what the company keeps under a markup rule. */
+  system_price: number | null;
+  commission_model: ProductCommissionModel | null;
+  /** Always computed by a trigger. A value sent on insert is overwritten. */
+  commission_amount: number;
+  commission_rule_id: string | null;
   created_at: string;
   updated_at: string;
 };
+
+/* --- 0027 affiliate commission engine ------------------------------------ */
+
+export type ProductCommissionModel = 'fixed_amount' | 'percentage' | 'markup';
+
+export type ProductCommissionRow = {
+  id: string;
+  company_id: string;
+  product_id: string;
+  variant_id: string | null;
+  /** The bundle tier this rule prices: 1 piece, 2 pieces, 3 pieces. */
+  bundle_quantity: number;
+  model: ProductCommissionModel;
+  selling_price: number | null;
+  commission_value: number | null;
+  system_price: number | null;
+  min_selling_price: number | null;
+  max_selling_price: number | null;
+  is_active: boolean;
+  note: string | null;
+  created_at: string;
+  updated_at: string;
+  created_by: string | null;
+  updated_by: string | null;
+};
+
+export type AffiliateCommissionLineRow = {
+  order_item_id: string;
+  order_id: string;
+  order_number: string;
+  company_id: string;
+  affiliate_id: string;
+  affiliate_name: string;
+  sku: string | null;
+  product_name: string;
+  quantity: number;
+  selling_price: number;
+  system_price: number | null;
+  commission_model: ProductCommissionModel | null;
+  commission_amount: number;
+  commission_status: string | null;
+  earned_on: string | null;
+  order_date: string;
+};
+
+/* --- 0028 tickets, SLA and KPI impact ------------------------------------ */
+
+export type TicketStatus = 'open' | 'in_progress' | 'resolved' | 'closed';
+export type TicketPriority = 'low' | 'medium' | 'high' | 'urgent';
+export type SlaClock =
+  | 'none'
+  | 'confirmation'
+  | 'warehouse'
+  | 'shipping'
+  | 'delivery'
+  | 'return'
+  | 'settlement';
+export type TicketAttachmentKind = 'file' | 'screenshot' | 'document' | 'call_recording';
+
+export type TicketTypeRow = {
+  id: string;
+  company_id: string;
+  code: string;
+  name_en: string;
+  name_ar: string;
+  description: string | null;
+  sla_clock: SlaClock;
+  sla_hours: number | null;
+  /** When true the database refuses a ticket raised before the SLA is breached. */
+  requires_sla_breach: boolean;
+  assigned_department_id: string | null;
+  assigned_team_id: string | null;
+  default_priority: TicketPriority;
+  kpi_id: string | null;
+  kpi_weight: number;
+  is_active: boolean;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type TicketRow = {
+  id: string;
+  company_id: string;
+  ticket_number: string;
+  order_id: string | null;
+  ticket_type_id: string;
+  description: string;
+  status: TicketStatus;
+  priority: TicketPriority;
+  raised_by: string | null;
+  raised_from_team_id: string | null;
+  assigned_department_id: string | null;
+  assigned_team_id: string | null;
+  responsible_user_id: string | null;
+  supervisor_id: string | null;
+  sla_clock: SlaClock;
+  sla_hours: number | null;
+  sla_elapsed_hours: number | null;
+  sla_breached: boolean;
+  sla_due_at: string | null;
+  opened_at: string;
+  first_response_at: string | null;
+  resolved_at: string | null;
+  closed_at: string | null;
+  resolution: string | null;
+  responsibility_confirmed: boolean;
+  responsibility_confirmed_by: string | null;
+  responsibility_confirmed_at: string | null;
+  kpi_applied: boolean;
+  kpi_entry_id: string | null;
+  created_at: string;
+  updated_at: string;
+  created_by: string | null;
+  updated_by: string | null;
+};
+
+export type TicketBoardRow = {
+  id: string;
+  company_id: string;
+  ticket_number: string;
+  order_id: string | null;
+  order_number: string | null;
+  customer_name: string | null;
+  customer_phone: string | null;
+  type_code: string;
+  type_name_en: string;
+  type_name_ar: string;
+  description: string;
+  status: TicketStatus;
+  priority: TicketPriority;
+  sla_clock: SlaClock;
+  sla_hours: number | null;
+  sla_elapsed_hours: number | null;
+  sla_breached: boolean;
+  sla_due_at: string | null;
+  opened_at: string;
+  resolved_at: string | null;
+  closed_at: string | null;
+  raised_by: string | null;
+  raised_by_name: string | null;
+  assigned_team_id: string | null;
+  assigned_team_name: string | null;
+  assigned_department_id: string | null;
+  assigned_department_name: string | null;
+  responsible_user_id: string | null;
+  responsible_user_name: string | null;
+  supervisor_id: string | null;
+  supervisor_name: string | null;
+  responsibility_confirmed: boolean;
+  kpi_applied: boolean;
+  age_hours: number;
+};
+
+export type TicketEventRow = {
+  id: string;
+  company_id: string;
+  ticket_id: string;
+  event_type: string;
+  from_status: TicketStatus | null;
+  to_status: TicketStatus | null;
+  note: string | null;
+  payload: Record<string, unknown>;
+  actor_id: string | null;
+  occurred_at: string;
+};
+
+export type TicketAttachmentRow = {
+  id: string;
+  company_id: string;
+  ticket_id: string;
+  kind: TicketAttachmentKind;
+  file_url: string;
+  file_name: string;
+  content_type: string | null;
+  size_bytes: number | null;
+  uploaded_by: string | null;
+  created_at: string;
+};
+
+/* --- 0029 saved views, areas and bulk import ----------------------------- */
+
+export type UserTablePreferenceRow = {
+  id: string;
+  company_id: string | null;
+  user_id: string;
+  screen: string;
+  columns: string[];
+  density: 'compact' | 'comfortable';
+  page_size: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type GovernorateRow = {
+  id: string;
+  /** Null means the platform-provided shared list. */
+  company_id: string | null;
+  code: string;
+  name_en: string;
+  name_ar: string;
+  is_active: boolean;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type CityRow = {
+  id: string;
+  company_id: string | null;
+  governorate_id: string;
+  code: string;
+  name_en: string;
+  name_ar: string;
+  is_active: boolean;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ImportStatus =
+  | 'uploaded'
+  | 'validating'
+  | 'validated'
+  | 'importing'
+  | 'completed'
+  | 'completed_with_errors'
+  | 'failed'
+  | 'cancelled';
+
+export type OrderImportRow = {
+  id: string;
+  company_id: string;
+  file_name: string;
+  file_size: number | null;
+  status: ImportStatus;
+  total_rows: number;
+  valid_rows: number;
+  error_rows: number;
+  total_items: number;
+  created_orders: number;
+  uploaded_by: string | null;
+  uploaded_at: string;
+  validated_at: string | null;
+  imported_at: string | null;
+  error_summary: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ImportRowError = { field: string; message: string };
+
+export type OrderImportLineRow = {
+  id: string;
+  company_id: string;
+  import_id: string;
+  row_number: number;
+  order_reference: string | null;
+  raw: Record<string, unknown>;
+  is_valid: boolean;
+  errors: ImportRowError[];
+  order_id: string | null;
+  created_at: string;
+};
+
 
 export type OrderEventRow = {
   id: number;
