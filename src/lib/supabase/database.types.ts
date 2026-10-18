@@ -1251,6 +1251,8 @@ export type OrderRow = Auditable & {
   source: OrderSource;
   campaign_ref: string | null;
   affiliate_ref: string | null;
+  /** Resolved from affiliate_ref by app.resolve_order_affiliate() (0026). */
+  affiliate_id: string | null;
   status: OrderStatus;
   stage: OrderStage;
   customer_name: string;
@@ -2482,6 +2484,16 @@ export type Database = {
       affiliates: Table<AffiliateRow, 'company_id' | 'code' | 'name' | 'referral_code'>;
       affiliate_commissions: Table<AffiliateCommissionRow, 'company_id' | 'affiliate_id' | 'order_id'>;
       customer_links: Table<CustomerLinkRow, 'customer_id' | 'company_id'>;
+      product_commissions: Table<ProductCommissionRow, 'company_id' | 'product_id' | 'model'>;
+      ticket_types: Table<TicketTypeRow, 'company_id' | 'code' | 'name_en' | 'name_ar'>;
+      tickets: Table<TicketRow, 'company_id' | 'ticket_type_id' | 'description'>;
+      ticket_events: Table<TicketEventRow, 'company_id' | 'ticket_id' | 'event_type'>;
+      ticket_attachments: Table<TicketAttachmentRow, 'company_id' | 'ticket_id' | 'file_url' | 'file_name'>;
+      user_table_preferences: Table<UserTablePreferenceRow, 'user_id' | 'screen'>;
+      governorates: Table<GovernorateRow, 'code' | 'name_en' | 'name_ar'>;
+      cities: Table<CityRow, 'governorate_id' | 'code' | 'name_en' | 'name_ar'>;
+      order_imports: Table<OrderImportRow, 'company_id' | 'file_name'>;
+      order_import_rows: Table<OrderImportLineRow, 'company_id' | 'import_id' | 'row_number'>;
       merchants: Table<MerchantRow, 'company_id' | 'code' | 'name'>;
       warehouses: Table<WarehouseRow, 'company_id' | 'code' | 'name'>;
       stores: Table<StoreRow, 'company_id' | 'merchant_id' | 'code' | 'name' | 'platform'>;
@@ -2644,6 +2656,8 @@ export type Database = {
       report_runs: Table<ReportRunRow, 'company_id'>;
     };
     Views: {
+      affiliate_commission_lines: { Row: AffiliateCommissionLineRow; Relationships: [] };
+      ticket_board: { Row: TicketBoardRow; Relationships: [] };
       syncable_stores: { Row: StoreRow; Relationships: [] };
       unmapped_products: { Row: UnmappedProductRow; Relationships: [] };
       mapped_variants: { Row: MappedVariantRow; Relationships: [] };
